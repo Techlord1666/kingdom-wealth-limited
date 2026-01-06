@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Kingdom Wealth Limited - About Us</title>
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- TAILWIND -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1717cf",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111121",
+                        "gold": "#D4AF37",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111118] dark:text-white font-display overflow-x-hidden antialiased">
+
+    <!-- HEADER & NAVIGATION -->
+    <div class="relative w-full z-50 bg-[#111118]/95 backdrop-blur-md border-b border-[#292938] sticky top-0">
+        <div class="layout-container flex justify-center">
+            <div class="layout-content-container flex flex-col w-full max-w-[1200px]">
+                <header class="flex items-center justify-between whitespace-nowrap px-4 md:px-10 py-4">
+                    
+                    <!-- Logo -->
+                    <div class="flex items-center gap-3 text-white">
+                        <div class="size-8 text-[#D4AF37]">
+                            <span class="material-symbols-outlined !text-[32px]">diamond</span>
+                        </div>
+                        <h2 class="text-white text-lg font-bold leading-tight tracking-tight">Kingdom Wealth</h2>
+                    </div>
+
+                    <!-- Desktop Menu (Hidden on Mobile) -->
+                    <div class="flex flex-1 justify-end gap-8 hidden md:flex items-center">
+                        <div class="flex items-center gap-6 lg:gap-9">
+                            <a class="text-gray-300 hover:text-white text-sm font-medium transition-colors" href="index.html">Home</a>
+                            <a class="text-white text-sm font-bold border-b-2 border-[#D4AF37]" href="#">About Us</a>
+                            <a class="text-gray-300 hover:text-white text-sm font-medium transition-colors" href="services.html">Services</a>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="Login.html" class="flex min-w-[84px] items-center justify-center rounded-lg h-10 px-4 bg-primary hover:bg-blue-700 transition-colors text-white text-sm font-bold">
+                                Login
+                            </a>
+                            <a href="sign.html" class="flex min-w-[84px] items-center justify-center rounded-lg h-10 px-4 bg-[#292938] hover:bg-[#3a3a4b] border border-[#3c3c53] text-white text-sm font-bold">
+                                Join Now
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button (Visible on Phone) -->
+                    <div class="flex md:hidden text-white">
+                        <button onclick="toggleMobileMenu()" class="p-2">
+                            <span class="material-symbols-outlined text-3xl">menu</span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Mobile Menu Dropdown (Hidden by default) -->
+                <div id="mobileMenu" class="hidden md:hidden bg-[#16162a] border-t border-[#292938] p-4 flex flex-col gap-4 shadow-xl absolute w-full left-0 top-[72px]">
+                    <a class="text-gray-300 hover:text-white font-medium py-2" href="code.html">Home</a>
+                    <a class="text-[#D4AF37] font-bold py-2" href="#">About Us</a>
+                    <a class="text-gray-300 hover:text-white font-medium py-2" href="services.html">Services</a>
+                    <div class="flex flex-col gap-3 mt-2">
+                        <a href="login.html" class="w-full text-center py-3 bg-primary rounded-lg text-white font-bold">Login</a>
+                        <a href="sign.html" class="w-full text-center py-3 bg-[#292938] border border-[#3c3c53] rounded-lg text-white font-bold">Join Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="relative w-full flex justify-center">
+        <div class="w-full max-w-[1440px] px-0 md:px-6 py-0 md:py-5">
+            <div class="relative flex min-h-[500px] md:min-h-[600px] flex-col gap-6 bg-cover bg-center bg-no-repeat md:rounded-2xl items-center justify-center p-6 text-center overflow-hidden" 
+                 style='background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0%, rgba(17, 17, 33, 0.95) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBrhnuNQU6pnuVKowbkHt7OxAF470b7ljEWdWDWaGoM6kQ849skcigECZdiT0PsX_s6xFZegcr3C3qxcngCmlauSRny4BIhSR9t6nGGE4ZpoVAZGezU8bsl8s9Pdn9yJrvtAXyuoVFfzUNwyPG8CBfU0Z-JsaUorNoHOgtmNS3GzNrpVpQeokJNprDd37zAClZ2oCjx_sMGbv-_3ueeETbrKtC0LoCHWVnhku05wkO0cpIBhiI2MpKoi4pxGrqwoQJg7-MYHaYCX5o");'>
+                
+                <div class="relative flex flex-col gap-4 max-w-[800px] z-10">
+                    <div class="text-[#D4AF37] text-sm font-bold tracking-widest uppercase mb-2 animate-fade-in-up">Est. Excellence</div>
+                    <h1 class="text-white text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight drop-shadow-xl">
+                        Redefining Excellence <br> Across Industries
+                    </h1>
+                    <h2 class="text-gray-200 text-base sm:text-lg md:text-xl font-normal leading-relaxed mt-4 max-w-[600px] mx-auto">
+                        We bridge the gap between financial security, physical safety, and digital innovation for a sophisticated world.
+                    </h2>
+                </div>
+                
+                <button class="mt-4 relative z-10 flex cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-primary hover:bg-blue-600 transition-all text-white text-base font-bold shadow-lg shadow-blue-900/50 hover:scale-105">
+                    Explore Our Vision
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="w-full border-y border-[#292938] bg-[#0d0d14]">
+        <div class="max-w-[1200px] mx-auto px-4 md:px-10 py-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 text-center divide-x-0 md:divide-x divide-[#292938]">
+                <div class="flex flex-col gap-1">
+                    <span class="text-3xl md:text-4xl font-bold text-white">15+</span>
+                    <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Countries</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="text-3xl md:text-4xl font-bold text-white">50k+</span>
+                    <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Students</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="text-3xl md:text-4xl font-bold text-white">24/7</span>
+                    <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Support</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="text-3xl md:text-4xl font-bold text-white">100%</span>
+                    <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Secure</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHILOSOPHY SECTION -->
+    <div class="relative w-full flex justify-center py-16 md:py-24">
+        <div class="w-full max-w-[1200px] px-4 md:px-10">
+            <div class="flex flex-col lg:flex-row gap-12 lg:items-start">
+                
+                <!-- Left Text -->
+                <div class="flex-1 flex flex-col gap-6 text-center lg:text-left">
+                    <div class="flex flex-col gap-4">
+                        <span class="text-primary font-bold tracking-wider uppercase text-sm">Our Philosophy</span>
+                        <h2 class="text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight">
+                            Architecting a future where wealth, security, and technology converge.
+                        </h2>
+                        <p class="text-gray-400 text-base md:text-lg font-normal leading-relaxed">
+                            At Kingdom Wealth Limited, we don't just participate in markets; we define them. Our diverse portfolio creates a resilient ecosystem that empowers our clients to thrive in an unpredictable world.
+                        </p>
+                    </div>
+                    <button onclick="openStoryModal()" class="flex items-center justify-center lg:justify-start gap-2 text-[#D4AF37] font-bold hover:gap-3 transition-all">
+                        <span>Read our full story</span>
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                </div>
+
+                <!-- Right Cards -->
+                <div class="flex-1 w-full grid gap-4">
+                    <div class="group flex flex-col sm:flex-row gap-4 rounded-xl border border-[#292938] bg-[#1c1c26] p-6 hover:border-[#D4AF37]/50 transition-colors duration-300">
+                        <div class="size-12 shrink-0 rounded-full bg-[#292938] flex items-center justify-center group-hover:bg-[#D4AF37] transition-colors duration-300 mx-auto sm:mx-0">
+                            <span class="material-symbols-outlined text-white group-hover:text-black">visibility</span>
+                        </div>
+                        <div class="flex flex-col gap-2 text-center sm:text-left">
+                            <h3 class="text-white text-xl font-bold">Our Vision</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">To become the global standard for integrated lifestyle and security solutions, creating generational wealth for our community.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="group flex flex-col sm:flex-row gap-4 rounded-xl border border-[#292938] bg-[#1c1c26] p-6 hover:border-primary/50 transition-colors duration-300">
+                        <div class="size-12 shrink-0 rounded-full bg-[#292938] flex items-center justify-center group-hover:bg-primary transition-colors duration-300 mx-auto sm:mx-0">
+                            <span class="material-symbols-outlined text-white">rocket_launch</span>
+                        </div>
+                        <div class="flex flex-col gap-2 text-center sm:text-left">
+                            <h3 class="text-white text-xl font-bold">Our Mission</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Empowering global citizens through premier education, elite physical protection, and cutting-edge digital infrastructure.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ECOSYSTEM (PILLARS) -->
+    <div class="relative w-full flex justify-center py-16 bg-[#0d0d14]">
+        <div class="w-full max-w-[1200px] px-4 md:px-10 flex flex-col gap-10">
+            
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 text-center md:text-left">
+                <div class="max-w-[600px] mx-auto md:mx-0">
+                    <span class="text-[#D4AF37] font-bold tracking-wider uppercase text-sm mb-2 block">Our Pillars</span>
+                    <h2 class="text-white text-3xl md:text-4xl font-bold leading-tight">The KWL Ecosystem</h2>
+                </div>
+                <button onclick="openServicesModal()" class="mx-auto md:mx-0 flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 border border-[#3c3c53] text-white text-sm font-bold hover:bg-[#292938] transition-colors">
+                    View All Services
+                </button>
+            </div>
+
+            <!-- Responsive Grid: 1 col mobile, 2 col tablet, 4 col desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="group relative overflow-hidden rounded-xl h-[360px] cursor-pointer">
+                    <img alt="Trading" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvv-d5sYJe3UsFTKRDUkZDSNfj8_wNtIi-d2DRwaGWchve2EqZ_QDMSyLpkyOXeAsSx6IcfAzN-pdd7qXIlrCjsHg3eOYGJgKAECbJeZA9XTWOVjnDkgY8SfYEo0CAFEQ6zvqrgyuUQizgGU9GXqI77ZQ73fjn1AcYES3rEF0WcTe2X0ItRhBnlQEDOR8eQHAdmD0qoC7eJSM4uyI1L0hMwsv-F8X0r0DDqobw61-BJ8urtu03M4RxLFY99heDQ5MH5jWkpvfUmsk"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <div class="text-[#D4AF37] mb-2"><span class="material-symbols-outlined">candlestick_chart</span></div>
+                        <h3 class="text-white text-xl font-bold mb-1">Wealth &amp; Trading</h3>
+                        <p class="text-gray-300 text-sm line-clamp-2">Master the markets with our premier Forex academy.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="group relative overflow-hidden rounded-xl h-[360px] cursor-pointer">
+                    <img alt="Security" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzZcbPwNDVcQr9KhK0Tw36Dyph_QRuozwLYpO2-XcG4h__kehQJcjckxVYTsRZxMJaRYwNI5SRvdChUNpl8k86_vtrx3sM21jz0rSoqDlnNXgGX4pxdNfrtzAmli1bKyv_f7q_ujsvT1rQ-DQYjuIeuipD_SI5hqNZt3jpAk6oRwKhMIofcW9KXkqpC1A8jtfac419gKThOiKMe4pbetfUWoNqMRJN8UzljGE6y1VA845iCIfuPMzfqeuHb7Mtp7AHfwDL2HvQTa8"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <div class="text-[#D4AF37] mb-2"><span class="material-symbols-outlined">shield_lock</span></div>
+                        <h3 class="text-white text-xl font-bold mb-1">Elite Security</h3>
+                        <p class="text-gray-300 text-sm line-clamp-2">High-level private protection services.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="group relative overflow-hidden rounded-xl h-[360px] cursor-pointer">
+                    <img alt="Gadgets" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXaQDJRw0oqEMZvv7lz4b2WYw5fxM_YtH1DZIgb1wnw6emKT4e76nWHV8cqz7tVN7qSLftL-2yxq2SDL4Comtu2J5kNaAQ4rMXF3LbGWm5VWsyUcnoQ6s3SoPmGXotry33lEzvEe7dEMLW5fjjPJbIpWlIm9Q82Fpxua728hLHwwjNuc_K2qqy3GynYaudrvFnQdLzj0FGBwC0EzlOaK-8adZQudBIK5Ll19JNbUCjaBhVSohC7B5fshHzwfcSZMmr25DuD5XtwJo"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <div class="text-[#D4AF37] mb-2"><span class="material-symbols-outlined">devices</span></div>
+                        <h3 class="text-white text-xl font-bold mb-1">Tech Retail</h3>
+                        <p class="text-gray-300 text-sm line-clamp-2">Curated selection of high-end gadgets.</p>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="group relative overflow-hidden rounded-xl h-[360px] cursor-pointer">
+                    <img alt="Digital" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXKXTWTWZOdqT54qwLjsWD9RFkAkTk0ZvVG8aPipOtW1RhIRmefTI9NbVbaMuotk061OgnJZ9BDi3YycIU84pwsIi43JhdLnF7cUpGb2VGdtzUSr1VlTgJdyCLgm84Q-g3SHiR4ekuPDoNYWsE56FJB7BKv2AdzIKUYZ6dj1a_Z7kA8MyiGgegjSNdgFlYj9vpJR06MjKo4AFbRScSao7VFjknLakiFYADE3txrPBaO5gGzsuR-gmnsEgPBBwHOiQSN0AfKKrkKxY"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <div class="text-[#D4AF37] mb-2"><span class="material-symbols-outlined">code</span></div>
+                        <h3 class="text-white text-xl font-bold mb-1">Digital Solutions</h3>
+                        <p class="text-gray-300 text-sm line-clamp-2">Web design and online branding.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEAM SECTION -->
+    <div class="w-full flex justify-center py-20 px-4">
+        <div class="layout-content-container flex flex-col w-full max-w-[1200px]">
+            <h2 class="text-white text-[32px] md:text-4xl font-bold leading-tight mb-12 text-center">Leadership Team</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-[900px] mx-auto w-full">
+                <!-- Leader 1 -->
+                <div class="flex flex-col items-center gap-6 text-center group">
+                    <div class="w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-[#292938] group-hover:border-[#D4AF37] transition-all duration-300 relative shadow-xl">
+                        <!-- Replaced with placeholder for display safety. Put your 'ChatGPT Image...' file back here -->
+                        <img alt="IKEZUE CHIBUIKE DANIEL" class="w-full h-full object-cover transition-all duration-500 hover:scale-105" src="ChatGPT Image May 23, 2025, 07_30_04 PM.png"/>
+                    </div>
+                    <div>
+                        <h3 class="text-white text-xl md:text-2xl font-bold">IKEZUE CHIBUIKE DANIEL</h3>
+                        <p class="text-primary font-bold text-sm md:text-base mt-2 uppercase tracking-wide">PRODUCT ARCHITECT</p>
+                        <p class="text-gray-400 text-sm md:text-base mt-3 max-w-[320px] mx-auto">Chief strategy officer</p>
+                    </div>
+                </div>
+                <!-- Leader 2 -->
+                <div class="flex flex-col items-center gap-6 text-center group">
+                    <div class="w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-[#292938] group-hover:border-[#D4AF37] transition-all duration-300 relative shadow-xl">
+                        <!-- Replaced with placeholder for display safety. Put your 'IMG...jpg' file back here -->
+                        <img alt="OGWUCHE AMEH NELSON" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 hover:scale-105" src="IMG-20251218-WA0008_1-Picsart-AiImageEnhancer.jpg"/>
+                    </div>
+                    <div>
+                        <h3 class="text-white text-xl md:text-2xl font-bold">OGWUCHE AMEH NELSON</h3>
+                        <p class="text-primary font-bold text-sm md:text-base mt-2 uppercase tracking-wide">CEO</p>
+                        <p class="text-gray-400 text-sm md:text-base mt-3 max-w-[320px] mx-auto">Visionary entrepreneur spearheading the Kingdom Wealth conglomerate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA SECTION -->
+    <div class="w-full flex justify-center py-10 px-4">
+        <div class="w-full max-w-[1000px] rounded-2xl bg-gradient-to-r from-primary to-[#0a0a90] p-8 md:p-16 text-center relative overflow-hidden shadow-2xl">
+            <!-- Decorative Circles -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-[#D4AF37] opacity-10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+            
+            <h2 class="text-white text-3xl md:text-5xl font-black mb-6 relative z-10">Ready to Elevate Your Future?</h2>
+            <p class="text-blue-100 text-base md:text-lg mb-8 max-w-2xl mx-auto relative z-10">
+                Join thousands of individuals and businesses who trust Kingdom Wealth Limited.
+            </p>
+            
+            <!-- BUTTONS -->
+            <div class="w-full flex flex-col items-center justify-center relative z-10">
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <!-- Link to Store -->
+                    <a href="store.html" class="h-12 px-8 rounded-lg bg-white text-primary font-bold hover:bg-gray-100 transition-colors flex items-center justify-center cursor-pointer shadow-lg w-full sm:w-auto">
+                        Start Learning
+                    </a>
+                    <!-- Link to Email -->
+                    <a href="mailto:dben61168@gmail.com?subject=Inquiry%20Regarding%20Kingdom%20Wealth" class="h-12 px-8 rounded-lg border-2 border-white/30 hover:border-white text-white font-bold transition-colors hover:bg-white/10 flex items-center justify-center cursor-pointer w-full sm:w-auto">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="w-full border-t border-[#292938] bg-[#0d0d14] pt-16 pb-8">
+        <div class="flex justify-center w-full">
+            <div class="flex flex-col w-full max-w-[1200px] px-6 md:px-10">
+                
+                <!-- Footer Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+                    
+                    <!-- Col 1 -->
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2 text-white">
+                            <span class="material-symbols-outlined text-[#D4AF37]">diamond</span>
+                            <span class="text-lg font-bold">Kingdom Wealth Ltd</span>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Excellence in finance, security, and technology. Building a safer, wealthier tomorrow.
+                        </p>
+                    </div>
+
+                    <!-- Col 2 -->
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-white font-bold">Services</h4>
+                        <a class="text-gray-400 hover:text-white text-sm transition-colors" href="about.html">About</a>
+                        <a class="text-gray-400 hover:text-white text-sm transition-colors" href="code.html">Home</a>
+                        <a class="text-gray-400 hover:text-white text-sm transition-colors" href="store.html">Gadget Store</a>
+                    </div>
+
+                    <!-- Col 3 -->
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-white font-bold">Company</h4>
+                        <a class="text-gray-400 hover:text-white text-sm transition-colors" href="#">About Us</a>
+                        <a class="text-gray-400 hover:text-white text-sm transition-colors" href="#">Careers</a>
+                        <a class="text-gray-400 hover:text-white text-sm transition-colors" href="#">Legal</a>
+                    </div>
+
+                    <!-- Col 4 -->
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-white font-bold">Contact</h4>
+                        <div class="flex items-center gap-2 text-gray-400 text-sm">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span>
+                            <span>123 Innovation Dr, Tech City</span>
+                        </div>
+                        <a href="mailto:dben61168@gmail.com" class="flex items-center gap-2 text-gray-400 text-sm hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">mail</span>
+                            <span>dben61168@gmail.com</span>
+                        </a>
+                        <a href="tel:+2349032473005" class="flex items-center gap-2 text-gray-400 text-sm hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">call</span>
+                            <span>+234 903 247 3005</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="border-t border-[#292938] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                    <p class="text-gray-500 text-xs">© 2025 Kingdom Wealth Limited. All rights reserved.</p>
+                    <!-- Social Icons (Visual only for layout) -->
+                    <div class="flex gap-4">
+                        <div class="size-8 rounded-full bg-[#1c1c26] flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#D4AF37] transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALS (Hidden by default) -->
+    
+    <!-- 1. STORY MODAL -->
+    <div id="storyModal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity opacity-0" id="storyBackdrop" onclick="closeStoryModal()"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div id="storyCard" class="relative transform overflow-hidden rounded-2xl bg-[#111118] border border-white/10 text-left shadow-2xl transition-all scale-95 opacity-0 sm:my-8 sm:w-full sm:max-w-2xl">
+                    <div class="h-1 w-full bg-gradient-to-r from-[#1717cf] via-[#D4AF37] to-[#1717cf]"></div>
+                    <button onclick="closeStoryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"><span class="material-symbols-outlined">close</span></button>
+                    <div class="p-8 sm:p-10">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-white leading-6">The Kingdom Wealth Story</h3>
+                            <p class="text-[#D4AF37] font-medium mt-1">Empowering Your World, Securing Your Future</p>
+                        </div>
+                        <div class="space-y-4 text-gray-300 leading-relaxed text-sm sm:text-base max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                            <p>Kingdom Wealth Limited was born out of a simple realization: True success requires an ecosystem.</p>
+                            <p>We bridge the gap between Financial Freedom, Digital Innovation, and Uncompromised Security.</p>
+                            <div class="bg-white/5 border-l-4 border-[#D4AF37] p-4 my-6 rounded-r-lg">
+                                <h4 class="text-white font-bold mb-2">Our Philosophy</h4>
+                                <ul class="space-y-2 mt-3">
+                                    <li class="flex items-start gap-2"><strong class="text-white">KW Capital:</strong> Forex mastery.</li>
+                                    <li class="flex items-start gap-2"><strong class="text-white">KW Intelligence:</strong> Elite security.</li>
+                                    <li class="flex items-start gap-2"><strong class="text-white">KW Gadgets:</strong> Premium Tech.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. SERVICES MODAL -->
+    <div id="servicesModal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity opacity-0" id="servicesBackdrop" onclick="closeServicesModal()"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div id="servicesCard" class="relative transform overflow-hidden rounded-2xl bg-[#111118] border border-white/10 text-left shadow-2xl transition-all scale-95 opacity-0 sm:my-8 sm:w-full sm:max-w-4xl">
+                    <div class="bg-[#1a1a2e] px-4 py-5 flex justify-between items-center border-b border-white/5">
+                        <h3 class="text-xl font-bold text-white">Our Ecosystem</h3>
+                        <button onclick="closeServicesModal()" class="text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Capital</h4><p class="text-gray-400 text-sm">Forex & Investment</p></div>
+                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Intelligence</h4><p class="text-gray-400 text-sm">Private Security</p></div>
+                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Gadgets</h4><p class="text-gray-400 text-sm">Tech Retail</p></div>
+                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Digital</h4><p class="text-gray-400 text-sm">Web & Branding</p></div>
+                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Academy</h4><p class="text-gray-400 text-sm">Courses</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // MOBILE MENU TOGGLE
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // STORY MODAL
+        function openStoryModal() {
+            const modal = document.getElementById('storyModal');
+            const backdrop = document.getElementById('storyBackdrop');
+            const card = document.getElementById('storyCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                card.classList.remove('scale-95', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+        function closeStoryModal() {
+            const modal = document.getElementById('storyModal');
+            const backdrop = document.getElementById('storyBackdrop');
+            const card = document.getElementById('storyCard');
+            backdrop.classList.add('opacity-0');
+            card.classList.remove('scale-100', 'opacity-100');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        // SERVICES MODAL
+        function openServicesModal() {
+            const modal = document.getElementById('servicesModal');
+            const backdrop = document.getElementById('servicesBackdrop');
+            const card = document.getElementById('servicesCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                card.classList.remove('scale-95', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+        function closeServicesModal() {
+            const modal = document.getElementById('servicesModal');
+            const backdrop = document.getElementById('servicesBackdrop');
+            const card = document.getElementById('servicesCard');
+            backdrop.classList.add('opacity-0');
+            card.classList.remove('scale-100', 'opacity-100');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+    </script>
+</body>
+</html>

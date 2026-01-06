@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KWL Sign Up - Create Account</title>
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+    <!-- TAILWIND -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- 1. SUPABASE LIBRARY -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CONFIG -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1717cf",
+                        "primary-hover": "#1010b0",
+                        "accent-gold": "#d4af37",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0f12",
+                        "surface-dark": "#18181b",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'glass-gradient': 'linear-gradient(145deg, rgba(23, 23, 207, 0.05) 0%, rgba(17, 17, 24, 0.4) 100%)',
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        .glass-panel {
+            background: rgba(17, 17, 24, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .input-glass {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            color: white;
+        }
+        .input-glass:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #1717cf;
+            box-shadow: 0 0 0 2px rgba(23, 23, 207, 0.2);
+            outline: none;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(circle at 50% 50%, rgba(23, 23, 207, 0.08) 0%, transparent 50%),
+                              radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 30%);
+        }
+    </style>
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-x-hidden">
+    
+    <!-- NAVBAR -->
+    <header class="fixed top-0 z-50 w-full glass-panel transition-all duration-300">
+        <div class="max-w-[1200px] mx-auto px-4 md:px-10 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="code.html" class="flex items-center gap-3">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-primary/20 text-accent-gold">
+                    <span class="material-symbols-outlined text-2xl">diamond</span>
+                </div>
+                <h2 class="text-lg font-bold leading-tight tracking-tight text-white">Kingdom Wealth</h2>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <nav class="flex items-center gap-6">
+                    <a class="text-sm font-medium hover:text-accent-gold transition-colors text-white" href="index.html">Home</a>
+                    <a class="text-sm font-medium hover:text-accent-gold transition-colors text-gray-300" href="about.html">About</a>
+                    <a class="text-sm font-medium hover:text-accent-gold transition-colors text-gray-300" href="services.html">Services</a>
+                </nav>
+                
+                <div class="flex gap-3">
+                    <a href="Login.html" class="flex items-center justify-center rounded-lg h-10 px-6 bg-primary hover:bg-blue-700 transition-colors text-white text-sm font-bold">
+                        Login
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-white p-2">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-[#111118] border-t border-white/10 p-4 flex flex-col gap-4 shadow-xl absolute w-full left-0">
+            <a class="text-accent-gold font-bold py-2" href="code.html">Home</a>
+            <a class="text-gray-300 hover:text-white py-2" href="about.html">About</a>
+            <a class="text-gray-300 hover:text-white py-2" href="services.html">Services</a>
+            <div class="flex flex-col gap-3 mt-2">
+                <a href="Login.html" class="w-full text-center py-3 bg-primary rounded-lg text-white font-bold">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="relative flex min-h-screen w-full pt-20">
+        
+        <!-- LEFT SECTION (Visuals - Hidden on Mobile) -->
+        <div class="relative hidden lg:flex lg:w-1/2 flex-col justify-between p-12 overflow-hidden bg-surface-dark">
+            <div class="absolute inset-0 z-0">
+                <img alt="Abstract" class="h-full w-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIFDe0MI08zyh9JlYcebr3Y6cRAyV9LcADkGGMAfm3yNpBqJhy9seYOFLRWBX1r-Cjsd52Lxt1CyxN9qU3NYcn7rlxnWjxdvZViTrMmxPsUKFqYihLw006SsGn3hmAsL6l2guKTWjfKHYxmkHzOQRMqlPaEVSmxCaIcBfDuKvEMv858dBS2B3qtfXbk7cOlA8mlAq-lAvTT384R6yR9wRQrTzbFfrHHtY8tg5c_R6_K5RIZmLqth7lbXSnZQg4G4S6NFZn7hQhwBg"/>
+                <div class="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/40 to-primary/30 mix-blend-multiply"></div>
+            </div>
+            
+            <div class="relative z-10 flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 border border-primary/30 backdrop-blur-sm text-white">
+                    <span class="material-symbols-outlined text-2xl text-accent-gold">diamond</span>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight text-white">Kingdom Wealth Ltd.</h2>
+            </div>
+
+            <div class="relative z-10 max-w-lg">
+                <div class="mb-6 h-1 w-12 bg-accent-gold rounded-full"></div>
+                <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-tight text-white">
+                    Premium Trading. <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Elite Security.</span> <br/>
+                    Digital Excellence.
+                </h1>
+            </div>
+
+            <div class="relative z-10 flex gap-6 text-sm text-slate-400">
+                <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+            </div>
+        </div>
+
+        <!-- RIGHT SECTION (Sign Up Form) -->
+        <div class="relative flex w-full lg:w-1/2 flex-col justify-center items-center p-6 sm:p-12 bg-pattern bg-background-dark">
+            
+            <!-- Mobile Logo -->
+            <div class="lg:hidden absolute top-6 left-6 flex items-center gap-2 mb-8">
+                <span class="material-symbols-outlined text-accent-gold">diamond</span>
+                <span class="font-bold text-white">KWL</span>
+            </div>
+
+            <div class="w-full max-w-[480px]">
+                <h2 class="text-3xl font-bold mb-6 text-white text-center">Create Account</h2>
+
+                <!-- FORM START -->
+                <form onsubmit="handleSignUp(event)" class="flex flex-col gap-4">
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <label class="flex flex-col flex-1 gap-1.5">
+                            <span class="text-sm font-medium text-slate-300">First Name</span>
+                            <input id="firstName" required class="input-glass w-full rounded-lg px-4 py-3" placeholder="John" type="text"/>
+                        </label>
+                        <label class="flex flex-col flex-1 gap-1.5">
+                            <span class="text-sm font-medium text-slate-300">Last Name</span>
+                            <input id="lastName" required class="input-glass w-full rounded-lg px-4 py-3" placeholder="Doe" type="text"/>
+                        </label>
+                    </div>
+
+                    <label class="flex flex-col gap-1.5">
+                        <span class="text-sm font-medium text-slate-300">Email Address</span>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-3.5 text-slate-500 text-[20px]">mail</span>
+                            <input id="email" required class="input-glass w-full rounded-lg pl-10 pr-4 py-3" placeholder="name@company.com" type="email"/>
+                        </div>
+                    </label>
+
+                    <label class="flex flex-col gap-1.5">
+                        <span class="text-sm font-medium text-slate-300">Password</span>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-3 top-3.5 text-slate-500 text-[20px]">lock</span>
+                            <input id="password" required minlength="8" class="input-glass w-full rounded-lg pl-10 pr-10 py-3" placeholder="••••••••" type="password"/>
+                            <button class="absolute right-3 top-3.5 text-slate-500 hover:text-white transition-colors" type="button" onclick="toggleSignUpPassword()">
+                                <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                            </button>
+                        </div>
+                    </label>
+
+                    <label class="flex items-start gap-3 mt-1 cursor-pointer">
+                        <input required class="mt-1 h-4 w-4 rounded border-slate-600 bg-transparent text-primary focus:ring-primary" type="checkbox"/>
+                        <span class="text-sm text-slate-400">I agree to the Terms & Policy.</span>
+                    </label>
+
+                    <button class="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-700 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-blue-600 transition-all active:scale-95" type="submit">
+                        Create Account
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </button>
+
+                </form>
+
+                <div class="relative my-8">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-700/50"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase">
+                        <span class="bg-background-dark/80 px-2 text-slate-500 backdrop-blur-sm">Or continue with</span>
+                    </div>
+                </div>
+
+                <button class="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-700 bg-white/5 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:border-slate-500" type="button">
+                    <svg class="h-5 w-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.766 12.2764C23.766 11.4607 23.6999 10.6406 23.5588 9.83807H12.24V14.4591H18.7217C18.4528 15.9494 17.5885 17.2678 16.323 18.1056V21.1039H20.19C22.4608 19.0139 23.766 15.9274 23.766 12.2764Z" fill="#4285F4"></path>
+                        <path d="M12.24 24.0008C15.4766 24.0008 18.2059 22.9382 20.19 21.1039L16.323 18.1056C15.2425 18.8286 13.8587 19.252 12.24 19.252C9.11388 19.252 6.45946 17.1399 5.50705 14.3003H1.5166V17.3912C3.55371 21.4434 7.7029 24.0008 12.24 24.0008Z" fill="#34A853"></path>
+                        <path d="M5.50705 14.3003C5.02796 12.8711 5.02796 11.3297 5.50705 9.90054V6.80963H1.5166C-0.185629 10.185 -0.185629 14.0158 1.5166 17.3912L5.50705 14.3003Z" fill="#FBBC05"></path>
+                        <path d="M12.24 4.74966C13.9509 4.7232 15.6044 5.36697 16.8434 6.54867L20.2695 3.12262C18.1001 1.0855 15.2208 -0.034466 12.24 0.000808666C7.7029 0.000808666 3.55371 2.55822 1.5166 6.61043L5.50705 9.70134C6.45266 6.86175 9.10954 4.74966 12.24 4.74966Z" fill="#EA4335"></path>
+                    </svg>
+                    Google
+                </button>
+
+                <p class="mt-8 text-center text-sm text-slate-400">
+                    Already have an account? 
+                    <a class="font-semibold text-primary hover:text-blue-400 transition-colors" href="Login.html">Log In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT -->
+    <script>
+        // 1. Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        // 2. Supabase Setup
+        let _supabase;
+        
+        function initSupabase() {
+            if (typeof supabase === 'undefined') {
+                console.error("Supabase library not found.");
+                return false;
+            }
+            const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+            const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+
+            try {
+                _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+                console.log("Supabase initialized.");
+                return true;
+            } catch (e) {
+                console.error("Init Error:", e);
+                return false;
+            }
+        }
+
+        initSupabase();
+
+        // 3. Sign Up Logic
+        async function handleSignUp(event) {
+            event.preventDefault();
+
+            if (!_supabase) {
+                const success = initSupabase();
+                if (!success) {
+                    alert("System Error: Could not connect to database. Check internet.");
+                    return;
+                }
+            }
+
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const fullName = firstName + " " + lastName;
+
+            const btn = document.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerText = "Creating Account...";
+            btn.disabled = true;
+
+            try {
+                const { data, error } = await _supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: { full_name: fullName }
+                    }
+                });
+
+                if (error) {
+                    alert("Registration Failed: " + error.message);
+                } else {
+                    alert("Success! Account created.\nPlease Login.");
+                    window.location.href = "login.html";
+                }
+            } catch (err) {
+                alert("System Error: " + err.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // 4. Password Toggle
+        function toggleSignUpPassword() {
+            const passInput = document.getElementById('password');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+            } else {
+                passInput.type = 'password';
+            }
+        }
+    </script>
+</body>
+</html>

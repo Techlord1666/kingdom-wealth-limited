@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Kingdom Wealth - Dashboard</title>
+    
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <!-- TAILWIND -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- SUPABASE & PAYSTACK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9f506",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#0a192f",
+                        "text-main": "#181811",
+                    },
+                    fontFamily: { "display": ["Spline Sans", "sans-serif"] }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white antialiased min-h-screen flex flex-col transition-colors duration-300">
+    
+    <!-- NAVIGATION -->
+    <nav class="sticky top-0 z-50 w-full px-4 py-3 md:px-8 bg-white/90 dark:bg-[#0a192f]/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="flex w-full md:w-auto items-center justify-between">
+                <a class="flex items-center gap-3" href="#">
+                    <div class="size-10 bg-black dark:bg-white rounded-lg flex items-center justify-center text-primary dark:text-black">
+                        <span class="material-symbols-outlined text-2xl">diamond</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">Kingdom Wealth</span>
+                </a>
+                <button onclick="toggleMenu()" class="md:hidden p-2"><span class="material-symbols-outlined text-3xl">menu</span></button>
+            </div>
+            <div id="navLinks" class="hidden md:flex flex-col md:flex-row items-center gap-6 w-full md:w-auto mt-4 md:mt-0">
+                <a class="text-sm font-medium hover:text-primary transition-colors" href="index.html">Home</a>
+                <a class="text-sm font-medium hover:text-primary transition-colors" href="store.html">Store</a>
+                <div class="flex items-center gap-4">
+                    <div id="dashboardProfileImg" class="size-10 rounded-full bg-gray-200 bg-cover bg-center cursor-pointer border-2 hover:border-primary"
+                         style="background-image: url('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');"
+                         onclick="window.location.href='setting.html'"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-8">
+        
+        <!-- Welcome -->
+        <div class="mb-8">
+            <h1 class="text-2xl md:text-4xl font-bold tracking-tight mb-2">
+                Welcome back, <span id="welcomeName" class="text-primary">Investor</span>
+            </h1>
+            <p class="text-sm md:text-base text-gray-500">Track your courses, orders, and finances.</p>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Wallet -->
+            <div class="col-span-1 sm:col-span-2 lg:col-span-1 bg-white dark:bg-[#112240] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-lg relative overflow-hidden">
+                <div class="relative z-10">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Wallet Balance</p>
+                    <h2 id="liveBalance" class="text-4xl font-black mb-4">$0.00</h2>
+                    <div class="flex gap-3">
+                        <button onclick="handleTopUp()" class="flex-1 bg-primary text-black text-xs font-bold py-2.5 rounded-lg shadow-md hover:brightness-90">+ Top Up</button>
+                        <button onclick="handleWithdraw()" class="flex-1 border border-gray-400 text-xs font-bold py-2.5 rounded-lg hover:bg-white/5">Withdraw</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Stats -->
+            <div class="bg-white dark:bg-[#112240] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full text-blue-600"><span class="material-symbols-outlined">school</span></div>
+                    <p class="text-sm font-bold text-gray-500">My Courses</p>
+                </div>
+                <p id="liveCourseCount" class="text-3xl font-bold">0</p>
+            </div>
+            <div class="bg-white dark:bg-[#112240] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-full text-purple-600"><span class="material-symbols-outlined">shopping_bag</span></div>
+                    <p class="text-sm font-bold text-gray-500">Gadget Orders</p>
+                </div>
+                <p id="liveOrderCount" class="text-3xl font-bold">0</p>
+            </div>
+        </div>
+
+        <!-- TWO COLUMNS: Courses (Left) & Orders (Right) -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
+            
+            <!-- SECTION 1: Active Courses -->
+            <div class="xl:col-span-2 flex flex-col gap-6">
+                <h3 class="font-bold text-xl flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">menu_book</span> Learning Progress
+                </h3>
+                
+                <!-- Dynamic Course Container -->
+                <div id="courseContainer" class="flex flex-col gap-4">
+                    <!-- Loading State -->
+                    <div class="p-8 text-center text-gray-500 bg-white dark:bg-[#112240] rounded-xl border border-dashed border-gray-300 dark:border-gray-700">
+                        <span class="material-symbols-outlined animate-spin text-2xl">sync</span>
+                        <p class="text-sm mt-2">Checking your library...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Recent Orders -->
+            <div class="flex flex-col gap-6">
+                <h3 class="font-bold text-xl flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">local_shipping</span> Order Tracking
+                </h3>
+                
+                <div id="orderContainer" class="bg-white dark:bg-[#112240] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden min-h-[200px]">
+                    <!-- Loading State -->
+                    <div class="p-8 text-center text-gray-500">
+                        <span class="material-symbols-outlined animate-spin text-2xl">sync</span>
+                        <p class="text-sm mt-2">Loading orders...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Financial History Table -->
+        <div class="bg-white dark:bg-[#112240] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-800">
+                <h3 class="font-bold text-lg">Financial History</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                    <thead class="bg-gray-50 dark:bg-[#0a192f] text-xs uppercase">
+                        <tr>
+                            <th class="px-6 py-4">Type</th>
+                            <th class="px-6 py-4">Amount</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTable" class="divide-y divide-gray-100 dark:divide-gray-800">
+                        <!-- Filled via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- LOGIC -->
+    <script>
+        // 1. SETUP
+        const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+        const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+        const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+        
+        // PAYSTACK KEY (TEST MODE)
+        const PAYSTACK_PUBLIC_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
+
+        let currentUser = null;
+        let currentBalance = 0;
+
+        // 2. INIT
+        window.onload = async function() {
+            // Profile Pic
+            const savedImg = localStorage.getItem('kw_profile_pic');
+            if(savedImg) document.getElementById('dashboardProfileImg').style.backgroundImage = `url('${savedImg}')`;
+
+            // Auth Check
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) { window.location.href = "login.html"; return; }
+            currentUser = user;
+
+            // Name
+            const dbName = user.user_metadata.full_name || user.email.split('@')[0];
+            document.getElementById('welcomeName').innerText = dbName;
+
+            // Load All Data
+            fetchWallet();
+            fetchHistoryAndOrders();
+        };
+
+        // 3. FETCH WALLET
+        async function fetchWallet() {
+            let { data: profile } = await _supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+            if (profile) {
+                currentBalance = profile.wallet_balance;
+                document.getElementById('liveBalance').innerText = "₦" + currentBalance.toLocaleString();
+            } else {
+                await _supabase.from('profiles').insert([{ id: currentUser.id, email: currentUser.email }]);
+                fetchWallet();
+            }
+        }
+
+        // 4. FETCH HISTORY & SORT (Courses vs Gadgets vs Money)
+        async function fetchHistoryAndOrders() {
+            const { data: transactions } = await _supabase
+                .from('transactions')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+            const courseContainer = document.getElementById('courseContainer');
+            const orderContainer = document.getElementById('orderContainer');
+            const historyTable = document.getElementById('transactionTable');
+
+            // Reset HTML
+            courseContainer.innerHTML = '';
+            orderContainer.innerHTML = '';
+            historyTable.innerHTML = '';
+
+            let courseCount = 0;
+            let orderCount = 0;
+
+            if (!transactions || transactions.length === 0) {
+                // EMPTY STATES
+                courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">You haven't enrolled in any courses yet.</p><a href="store.html" class="text-primary text-sm font-bold mt-2 inline-block">Browse Academy</a></div>`;
+                orderContainer.innerHTML = `<div class="p-6 text-center"><p class="text-gray-500 text-sm">No recent orders.</p></div>`;
+                historyTable.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No financial history found.</td></tr>`;
+                return;
+            }
+
+            // LOOP THROUGH DATA
+            transactions.forEach(tx => {
+                
+                // A. COURSES (If category is Course)
+                if (tx.category === 'Course' && tx.type === 'purchase') {
+                    courseCount++;
+                    const courseHtml = `
+                        <div class="bg-white dark:bg-[#112240] p-4 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col sm:flex-row gap-4 items-center">
+                            <div class="size-12 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0">
+                                <span class="material-symbols-outlined">school</span>
+                            </div>
+                            <div class="flex-1 text-center sm:text-left">
+                                <h4 class="font-bold text-gray-900 dark:text-white">${tx.product_name}</h4>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full mt-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 10%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">10% Complete</p>
+                            </div>
+                            <button class="bg-primary text-black px-4 py-2 rounded-lg text-xs font-bold">Resume Reading</button>
+                        </div>
+                    `;
+                    courseContainer.innerHTML += courseHtml;
+                }
+
+                // B. GADGET ORDERS (If category is Gadget)
+                else if (tx.category === 'Gadget' && tx.type === 'purchase') {
+                    orderCount++;
+                    
+                    let statusColor = 'bg-yellow-100 text-yellow-700';
+                    if(tx.delivery_status === 'Delivered') statusColor = 'bg-green-100 text-green-700';
+
+                    const orderHtml = `
+                        <div class="p-4 border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500">
+                                    <span class="material-symbols-outlined">devices</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">${tx.product_name}</h4>
+                                    <p class="text-xs text-gray-500">ID: ${tx.account_number.substring(0,8)}...</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-xs font-bold px-2 py-1 rounded ${statusColor}">${tx.delivery_status || 'Processing'}</span>
+                                    <p class="text-xs font-mono mt-1">₦${Number(tx.amount).toLocaleString()}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    orderContainer.innerHTML += orderHtml;
+                }
+
+                // C. FINANCIAL TABLE (Deposits, Withdrawals)
+                else {
+                    const date = new Date(tx.created_at).toLocaleDateString();
+                    const statusClass = tx.status === 'success' ? 'text-green-500' : 'text-yellow-500';
+                    const row = `
+                        <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                            <td class="px-6 py-4 font-medium capitalize">${tx.type}</td>
+                            <td class="px-6 py-4 font-bold">₦${Number(tx.amount).toLocaleString()}</td>
+                            <td class="px-6 py-4 ${statusClass} text-xs font-bold uppercase">${tx.status}</td>
+                            <td class="px-6 py-4 text-gray-500">${date}</td>
+                        </tr>
+                    `;
+                    historyTable.innerHTML += row;
+                }
+            });
+
+            // Update Count Badges
+            document.getElementById('liveCourseCount').innerText = courseCount;
+            document.getElementById('liveOrderCount').innerText = orderCount;
+
+            // Handle Empty Specific Sections
+            if (courseCount === 0) courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">No active courses.</p></div>`;
+            if (orderCount === 0) orderContainer.innerHTML = `<div class="p-6 text-center"><p class="text-gray-500 text-sm">No gadget orders yet.</p></div>`;
+        }
+
+        // 5. TOP UP
+        function handleTopUp() {
+            let amount = prompt("Enter amount (NGN):");
+            if (!amount || isNaN(amount) || Number(amount) < 100) return alert("Min NGN 100");
+
+            let handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: currentUser.email,
+                amount: amount * 100,
+                currency: "NGN",
+                callback: function(res) { processTx(amount, res.reference, 'deposit', 'Wallet Topup'); },
+                onClose: function() { alert('Cancelled.'); }
+            });
+            handler.openIframe();
+        }
+
+        // 6. PROCESS TX
+        async function processTx(amount, ref, type, name) {
+            const newBal = Number(currentBalance) + Number(amount);
+            await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', currentUser.id);
+            await _supabase.from('transactions').insert({
+                user_id: currentUser.id, type: type, amount: amount, status: 'success', 
+                bank_name: 'Paystack', account_number: ref, product_name: name, category: 'Finance'
+            });
+            location.reload();
+        }
+
+        // 7. WITHDRAW
+        async function handleWithdraw() {
+            let amount = prompt("Amount to Withdraw:");
+            if (!amount || Number(amount) > currentBalance) return alert("Insufficient Funds");
+            
+            let bank = prompt("Bank Name & Account:");
+            if(!bank) return;
+
+            const newBal = Number(currentBalance) - Number(amount);
+            await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', currentUser.id);
+            await _supabase.from('transactions').insert({
+                user_id: currentUser.id, type: 'withdrawal', amount: amount, status: 'pending', 
+                bank_name: bank, product_name: 'Withdrawal Request', category: 'Finance'
+            });
+            alert("Withdrawal Pending Admin Approval");
+            location.reload();
+        }
+
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('hidden'); document.getElementById('navLinks').classList.toggle('flex'); }
+    </script>
+</body>
+</html>
