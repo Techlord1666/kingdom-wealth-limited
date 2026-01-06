@@ -304,6 +304,46 @@
                 btn.disabled = false;
             }
         }
+        async function handleForgotPassword() {
+    // 1. Get the email from the input box
+    const email = document.getElementById('email').value.trim();
+
+    // 2. If box is empty, ask user to fill it
+    if (!email) {
+        alert("Please enter your Email Address in the box above, then click 'Forgot Password' again.");
+        document.getElementById('email').focus();
+        return;
+    }
+
+    // 3. Confirm with user
+    if(!confirm("Send a password reset link to " + email + "?")) return;
+
+    const btn = document.querySelector('button[onclick="handleForgotPassword()"]');
+    const originalText = btn.innerText;
+    btn.innerText = "Sending...";
+    btn.disabled = true;
+
+    try {
+        // 4. Ask Supabase to send the email
+        // Note: This sends a "Magic Link" that logs them in so they can change password
+        const { data, error } = await _supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/setting.html', // Redirects to settings page to set new password
+        });
+
+        if (error) {
+            // Rate limit or invalid email
+            alert("Error: " + error.message);
+        } else {
+            alert("Check your email! \n\nWe sent a link to reset your password. Click it to log in and change your password in Settings.");
+        }
+
+    } catch (err) {
+        alert("System Error: " + err.message);
+    } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
+}
     </script>
 </body>
 </html>
