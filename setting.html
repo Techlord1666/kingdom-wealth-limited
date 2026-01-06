@@ -97,6 +97,28 @@
                            placeholder="801 234 5678">
                 </div>
             </div>
+            <!-- UPDATE PASSWORD SECTION -->
+<div class="mt-6 pt-6 border-t border-white/10">
+    <h3 class="text-sm font-bold text-white mb-3">Update Password</h3>
+    <input type="password" id="newPassword" placeholder="New Password" class="w-full bg-[#0a192f] border border-white/10 rounded-xl px-4 py-3 text-white mb-2">
+    <button type="button" onclick="updateUserPassword()" class="text-xs text-primary font-bold hover:underline">Update Password</button>
+</div>
+
+<script>
+    // Add this function to your setting.html script
+    async function updateUserPassword() {
+        const newPass = document.getElementById('newPassword').value;
+        if (newPass.length < 6) return alert("Password must be at least 6 characters");
+
+        const { error } = await _supabase.auth.updateUser({ password: newPass });
+
+        if (error) alert("Error: " + error.message);
+        else {
+            alert("Password updated successfully!");
+            document.getElementById('newPassword').value = "";
+        }
+    }
+</script>
 
             <!-- READ ONLY EMAIL -->
             <div class="space-y-2 opacity-50">
@@ -219,4 +241,5 @@
         }
     </script>
 </body>
+
 </html>
