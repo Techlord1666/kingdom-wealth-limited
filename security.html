@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KW Intelligence - Elite Security Services</title>
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- TAILWIND & SUPABASE -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9f506",
+                        "accent": "#d4af37",
+                        "dark-bg": "#050510",
+                        "card-bg": "#111118",
+                    },
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
+                    backgroundImage: {
+                        'cyber-grid': 'linear-gradient(rgba(23, 23, 207, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(23, 23, 207, 0.03) 1px, transparent 1px)',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(17, 17, 24, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-glow { text-shadow: 0 0 20px rgba(249, 245, 6, 0.3); }
+    </style>
+</head>
+
+<body class="bg-dark-bg font-display text-white overflow-x-hidden selection:bg-accent selection:text-black">
+
+    <!-- NAVIGATION -->
+    <header class="fixed top-0 z-50 w-full glass-card border-b border-white/5">
+        <div class="max-w-[1440px] mx-auto px-4 md:px-10 h-20 flex items-center justify-between">
+            <a href="code.html" class="flex items-center gap-3">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                    <span class="material-symbols-outlined text-2xl">shield_lock</span>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold leading-none tracking-tight">KW Intelligence</h2>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Security Division</p>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a class="text-sm font-medium hover:text-accent transition-colors text-gray-300" href="code.html">Home</a>
+                <a class="text-sm font-medium hover:text-accent transition-colors text-gray-300" href="store.html">Gadgets</a>
+                <button onclick="openBookingModal('General Inquiry')" class="px-6 py-2.5 bg-accent hover:bg-yellow-500 text-black font-bold text-sm rounded-lg transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                    Hire an Agent
+                </button>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-white">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden bg-dark-bg border-t border-white/10 p-4 flex flex-col gap-4">
+            <a href="code.html" class="text-gray-300 py-2">Home</a>
+            <a href="store.html" class="text-gray-300 py-2">Store</a>
+            <button onclick="openBookingModal('General Inquiry')" class="w-full py-3 bg-accent text-black font-bold rounded">Hire Agent</button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 px-4 md:px-10 min-h-[80vh] flex items-center justify-center overflow-hidden">
+        <!-- Background Video/Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzZcbPwNDVcQr9KhK0Tw36Dyph_QRuozwLYpO2-XcG4h__kehQJcjckxVYTsRZxMJaRYwNI5SRvdChUNpl8k86_vtrx3sM21jz0rSoqDlnNXgGX4pxdNfrtzAmli1bKyv_f7q_ujsvT1rQ-DQYjuIeuipD_SI5hqNZt3jpAk6oRwKhMIofcW9KXkqpC1A8jtfac419gKThOiKMe4pbetfUWoNqMRJN8UzljGE6y1VA845iCIfuPMzfqeuHb7Mtp7AHfwDL2HvQTa8" 
+                 class="w-full h-full object-cover opacity-30 grayscale mix-blend-overlay">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-bg via-dark-bg/80 to-transparent"></div>
+            <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+        </div>
+
+        <div class="relative z-10 text-center max-w-4xl">
+            <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-accent/30 bg-accent/5 text-accent mb-6 animate-pulse">
+                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                <span class="text-xs font-bold uppercase tracking-widest">Active Operations 24/7</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight text-glow">
+                ELITE PROTECTION <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">UNSEEN FORCE</span>
+            </h1>
+            
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+                Kingdom Wealth Intelligence provides high-level corporate security, private investigations, and tactical support. We see what others miss.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="openBookingModal('VIP Protection')" class="h-14 px-10 rounded-full bg-accent hover:bg-white text-black font-bold text-lg transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">security</span> Hire Security
+                </button>
+                <button onclick="scrollToServices()" class="h-14 px-10 rounded-full border border-white/20 hover:bg-white/5 text-white font-bold text-lg transition-all">
+                    View Capabilities
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES GRID -->
+    <section id="services" class="py-20 px-4 md:px-10 bg-cyber-grid bg-[length:40px_40px]">
+        <div class="max-w-[1200px] mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
+                <span class="w-1 h-8 bg-accent rounded-full"></span> Operational Capabilities
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. Background Investigation -->
+                <div class="group glass-card p-8 rounded-2xl hover:border-accent/50 transition-all duration-500 cursor-pointer" onclick="openBookingModal('Background Check')">
+                    <div class="size-14 rounded-xl bg-blue-900/20 text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">person_search</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-blue-400">Background Investigation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Comprehensive vetting of employees, business partners, or domestic staff. We uncover criminal records, past employment history, and hidden risks.
+                    </p>
+                </div>
+
+                <!-- 2. Warehouse & Asset Security -->
+                <div class="group glass-card p-8 rounded-2xl hover:border-accent/50 transition-all duration-500 cursor-pointer" onclick="openBookingModal('Warehouse Security')">
+                    <div class="size-14 rounded-xl bg-green-900/20 text-green-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">warehouse</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-green-400">Warehouse & Assets</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Armed and unarmed static guards for warehouses, factories, and construction sites. Theft prevention and inventory monitoring systems.
+                    </p>
+                </div>
+
+                <!-- 3. VIP / Private Guard -->
+                <div class="group glass-card p-8 rounded-2xl hover:border-accent/50 transition-all duration-500 cursor-pointer" onclick="openBookingModal('VIP Protection')">
+                    <div class="size-14 rounded-xl bg-accent/20 text-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">local_police</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-accent">VIP & Bodyguards</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Close protection operatives for executives, celebrities, and high-net-worth individuals. Discreet, professional, and highly trained "Spy Police" units.
+                    </p>
+                </div>
+
+                <!-- 4. Cyber Intelligence -->
+                <div class="group glass-card p-8 rounded-2xl hover:border-accent/50 transition-all duration-500 cursor-pointer" onclick="openBookingModal('Cyber Security')">
+                    <div class="size-14 rounded-xl bg-purple-900/20 text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">encrypted</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400">Digital Surveillance</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Cyber threat assessment, data leak detection, and digital footprint analysis for companies and individuals.
+                    </p>
+                </div>
+
+                <!-- 5. Recovery Operations -->
+                <div class="group glass-card p-8 rounded-2xl hover:border-accent/50 transition-all duration-500 cursor-pointer" onclick="openBookingModal('Asset Recovery')">
+                    <div class="size-14 rounded-xl bg-red-900/20 text-red-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">track_changes</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-red-400">Asset Recovery</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Specialized tracking and recovery of stolen vehicles, goods, or misappropriated company assets.
+                    </p>
+                </div>
+
+                <!-- 6. Event Security -->
+                <div class="group glass-card p-8 rounded-2xl hover:border-accent/50 transition-all duration-500 cursor-pointer" onclick="openBookingModal('Event Security')">
+                    <div class="size-14 rounded-xl bg-orange-900/20 text-orange-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-3xl">groups</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-orange-400">Event Security</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Crowd control and access management for weddings, concerts, and corporate gatherings.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS SECTION -->
+    <section class="py-20 px-4 md:px-10">
+        <div class="max-w-[1000px] mx-auto text-center">
+            <h2 class="text-3xl font-bold text-white mb-12">How Deployment Works</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                <!-- Line Connector (Desktop) -->
+                <div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-white/10 -z-10"></div>
+
+                <div class="flex flex-col items-center">
+                    <div class="size-24 rounded-full bg-card-bg border border-white/10 flex items-center justify-center text-accent text-3xl font-bold mb-6 shadow-xl">1</div>
+                    <h3 class="text-white font-bold text-lg mb-2">Request</h3>
+                    <p class="text-gray-400 text-sm">Submit your security needs via our encrypted portal or WhatsApp.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="size-24 rounded-full bg-card-bg border border-white/10 flex items-center justify-center text-accent text-3xl font-bold mb-6 shadow-xl">2</div>
+                    <h3 class="text-white font-bold text-lg mb-2">Assessment</h3>
+                    <p class="text-gray-400 text-sm">Our Tactical Lead assesses the threat level and selects the right operatives.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="size-24 rounded-full bg-card-bg border border-white/10 flex items-center justify-center text-accent text-3xl font-bold mb-6 shadow-xl">3</div>
+                    <h3 class="text-white font-bold text-lg mb-2">Deployment</h3>
+                    <p class="text-gray-400 text-sm">Operatives are deployed to your location within 24-48 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 bg-black py-12 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="flex items-center justify-center gap-2 mb-4 text-white">
+                <span class="material-symbols-outlined text-accent">shield_lock</span>
+                <span class="font-bold text-xl">KW Intelligence</span>
+            </div>
+            <p class="text-gray-500 text-xs max-w-lg mx-auto mb-6">
+                Disclaimer: Kingdom Wealth Intelligence operates as a private corporate security and investigation agency. We work in cooperation with, but are not a replacement for, government law enforcement agencies.
+            </p>
+            <p class="text-gray-600 text-xs">© 2026 Kingdom Wealth Limited.</p>
+        </div>
+    </footer>
+
+    <!-- BOOKING MODAL -->
+    <div id="bookingModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-card-bg p-8 rounded-2xl w-full max-w-md border border-white/10 shadow-2xl relative">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+            
+            <div class="mb-6">
+                <div class="text-accent text-xs font-bold uppercase tracking-widest mb-2">Secure Request</div>
+                <h3 class="text-2xl font-bold text-white">Hire Operative</h3>
+                <p class="text-gray-400 text-sm">Your request is encrypted and confidential.</p>
+            </div>
+
+            <form onsubmit="handleBooking(event)" class="space-y-4">
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Service Type</label>
+                    <input id="serviceType" readonly class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-accent outline-none">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Client Name</label>
+                    <input id="clientName" required class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-accent outline-none" placeholder="Enter Full Name">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Contact Number</label>
+                    <input id="clientPhone" type="tel" required class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-accent outline-none" placeholder="+234...">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 uppercase font-bold">Mission Details (Brief)</label>
+                    <textarea id="missionDetails" rows="3" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-accent outline-none" placeholder="Describe location or specific threat..."></textarea>
+                </div>
+                
+                <button type="submit" class="w-full bg-accent text-black font-bold py-3 rounded-lg hover:bg-white transition-colors flex items-center justify-center gap-2">
+                    Submit Request <span class="material-symbols-outlined text-sm">lock</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOGIC -->
+    <script>
+        function scrollToServices() {
+            document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openBookingModal(serviceName) {
+            document.getElementById('serviceType').value = serviceName;
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function handleBooking(e) {
+            e.preventDefault();
+            
+            const service = document.getElementById('serviceType').value;
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const details = document.getElementById('missionDetails').value;
+
+            // Construct WhatsApp Message
+            const message = `*SECURITY REQUEST*\n\nType: ${service}\nClient: ${name}\nPhone: ${phone}\nDetails: ${details}\n\nPlease contact me immediately.`;
+            
+            const whatsappUrl = `https://wa.me/2349032473005?text=${encodeURIComponent(message)}`;
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+            closeBookingModal();
+        }
+    </script>
+
+</body>
+</html>
