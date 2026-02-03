@@ -195,18 +195,30 @@
                 </div>
 
                 <!-- 2. Security -->
-                <div class="division-card group relative rounded-xl overflow-hidden bg-gray-900 text-white h-[340px]">
-                    <div class="card-bg absolute inset-0 bg-cover bg-center opacity-50" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYad0aniJpIRBlnzEZAfb80EjtawYOAPoFE3LA1q_8cscoQaGu139q3uEPZBq7zn0uHolZ0-NGHc9zmVSDQhtnR6YRZQVjPiZn2cZcbau-uupkehiCOPm5vAHmIgeGcr5IMUpW_uk42IVQEhqxyk4C7FW5I09IAngeJb7xSsgeWITF2RA1ARQDU0DpbhMvAZ-I_Z5yKOyCp5qHJvttx2w_zI8-EqHUx4r3AjpfnqysErc6lvMqxfjjjg30pT3-GrMIi65-WkANXPw");'></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-                    <div class="relative h-full flex flex-col justify-end p-6 z-10">
-                        <div class="size-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white mb-3 border border-white/20">
-                            <span class="material-symbols-outlined text-xl">shield_lock</span>
-                        </div>
-                        <h3 class="text-xl font-bold mb-1">KW Intelligence</h3>
-                        <p class="text-gray-400 text-sm">Private security & risk assessment.</p>
-                        <span class="text-xs bg-yellow-500 text-black px-2 py-1 rounded font-bold mt-2 inline-block w-fit">Coming Soon</span>
-                    </div>
-                </div>
+                <!-- 2. KW Intelligence (Linked to Security Page) -->
+<div onclick="window.location.href='security.html'" 
+     class="division-card group relative rounded-xl overflow-hidden bg-gray-900 text-white h-[340px] cursor-pointer hover:border-blue-500/50 border border-transparent transition-all">
+    
+    <!-- Updated Image: Security Personnel/Tactical -->
+    <div class="card-bg absolute inset-0 bg-cover bg-center opacity-50" 
+         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBzZcbPwNDVcQr9KhK0Tw36Dyph_QRuozwLYpO2-XcG4h__kehQJcjckxVYTsRZxMJaRYwNI5SRvdChUNpl8k86_vtrx3sM21jz0rSoqDlnNXgGX4pxdNfrtzAmli1bKyv_f7q_ujsvT1rQ-DQYjuIeuipD_SI5hqNZt3jpAk6oRwKhMIofcW9KXkqpC1A8jtfac419gKThOiKMe4pbetfUWoNqMRJN8UzljGE6y1VA845iCIfuPMzfqeuHb7Mtp7AHfwDL2HvQTa8");'>
+    </div>
+    
+    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+    
+    <div class="relative h-full flex flex-col justify-end p-6 z-10">
+        <div class="size-10 rounded-full bg-blue-600/20 backdrop-blur-sm flex items-center justify-center text-blue-500 mb-3 border border-blue-600/30">
+            <span class="material-symbols-outlined text-xl">shield_lock</span>
+        </div>
+        <h3 class="text-xl font-bold mb-1 group-hover:text-blue-400 transition-colors">KW Intelligence</h3>
+        <p class="text-gray-400 text-sm">Private security & risk assessment.</p>
+        
+        <!-- Call to Action (Appears on Hover) -->
+        <div class="mt-4 flex items-center gap-2 text-blue-400 font-bold text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            Hire Agents <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </div>
+    </div>
+</div>
 
                 <!-- 3. Gadgets -->
                 <div class="division-card group relative rounded-xl overflow-hidden bg-white dark:bg-royal-blue-light border border-gray-200 dark:border-white/5 h-[340px]">
