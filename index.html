@@ -272,6 +272,35 @@
             </div>
 
         </div>
+        <!-- CARD 5: KW DIGITAL (Digital Services) -->
+<div class="reveal group md:col-span-3 relative rounded-3xl overflow-hidden border border-white/10 hover:border-green-500/50 transition-all duration-500 bg-[#050a08] h-[300px] flex flex-col md:flex-row items-center">
+    
+    <!-- Background Effect -->
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent z-10"></div>
+    
+    <!-- Image Side (Right) -->
+    <div class="absolute right-0 top-0 w-full md:w-1/2 h-full bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity duration-700" 
+         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBXKXTWTWZOdqT54qwLjsWD9RFkAkTk0ZvVG8aPipOtW1RhIRmefTI9NbVbaMuotk061OgnJZ9BDi3YycIU84pwsIi43JhdLnF7cUpGb2VGdtzUSr1VlTgJdyCLgm84Q-g3SHiR4ekuPDoNYWsE56FJB7BKv2AdzIKUYZ6dj1a_Z7kA8MyiGgegjSNdgFlYj9vpJR06MjKo4AFbRScSao7VFjknLakiFYADE3txrPBaO5gGzsuR-gmnsEgPBBwHOiQSN0AfKKrkKxY');">
+    </div>
+
+    <!-- Content Side (Left) -->
+    <div class="relative z-20 p-8 md:p-12 w-full md:w-2/3 flex flex-col justify-center items-start">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-900/30 border border-green-500/30 text-green-400 mb-4">
+            <span class="material-symbols-outlined text-sm">code</span>
+            <span class="text-xs font-bold uppercase tracking-wider">KW Digital</span>
+        </div>
+        
+        <h3 class="text-3xl font-bold text-white mb-2">Digital Solutions</h3>
+        <p class="text-gray-400 mb-6 max-w-md">Elevate your brand with world-class Website Design, Graphic Design, and targeted Email Marketing campaigns.</p>
+        
+        <button onclick="openQuoteModal()" 
+                class="px-8 py-3 rounded-full bg-green-600 hover:bg-green-500 text-white font-bold transition-all shadow-lg shadow-green-900/50 flex items-center gap-2 group-hover:gap-3">
+            Hire Us
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+        </button>
+    </div>
+</div>
     </section>
 
     <!-- FOOTER -->
@@ -374,6 +403,63 @@
         </div>
     </div>
 
+    <!-- QUOTE MODAL (HIRE US) -->
+<div id="quoteModal" class="fixed inset-0 z-[100] hidden">
+    
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeQuoteModal()"></div>
+    
+    <!-- Modal Content -->
+    <div class="relative flex min-h-screen items-center justify-center p-4">
+        <div class="w-full max-w-md transform rounded-2xl bg-[#0f1512] p-6 shadow-2xl border border-green-500/20 text-white scale-95 opacity-0 transition-all duration-300" id="quoteCard">
+            
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white">Start Your Project</h3>
+                    <p class="text-xs text-gray-400">Select a service to get a quote.</p>
+                </div>
+                <button onclick="closeQuoteModal()" class="text-gray-400 hover:text-white bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">close</span></button>
+            </div>
+
+            <!-- Client Name Input -->
+            <div class="mb-4">
+                <label class="text-xs font-bold text-green-500 uppercase ml-1">Your Name</label>
+                <input type="text" id="quoteName" placeholder="Enter your name..." class="w-full mt-1 rounded-lg bg-black/30 border border-white/10 p-3 text-white outline-none focus:border-green-500 transition-colors">
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <!-- Option 1: Website -->
+                <button onclick="sendQuote('Website Design/Dev')" class="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-green-900/20 hover:border-green-500 transition-all text-left flex items-center gap-4 group">
+                    <div class="bg-green-500/20 text-green-400 p-3 rounded-lg"><span class="material-symbols-outlined">language</span></div>
+                    <div>
+                        <h4 class="font-bold group-hover:text-green-400 transition-colors">Website Design / Dev</h4>
+                        <p class="text-xs text-gray-400">Custom sites & apps</p>
+                    </div>
+                </button>
+
+                <!-- Option 2: Graphics -->
+                <button onclick="sendQuote('Graphic Design')" class="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-purple-900/20 hover:border-purple-500 transition-all text-left flex items-center gap-4 group">
+                    <div class="bg-purple-500/20 text-purple-400 p-3 rounded-lg"><span class="material-symbols-outlined">brush</span></div>
+                    <div>
+                        <h4 class="font-bold group-hover:text-purple-400 transition-colors">Graphic Design</h4>
+                        <p class="text-xs text-gray-400">Logos, Flyers, Branding</p>
+                    </div>
+                </button>
+
+                <!-- Option 3: Marketing -->
+                <button onclick="sendQuote('Email Marketing')" class="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-orange-900/20 hover:border-orange-500 transition-all text-left flex items-center gap-4 group">
+                    <div class="bg-orange-500/20 text-orange-400 p-3 rounded-lg"><span class="material-symbols-outlined">mark_email_read</span></div>
+                    <div>
+                        <h4 class="font-bold group-hover:text-orange-400 transition-colors">Email Marketing</h4>
+                        <p class="text-xs text-gray-400">Campaigns & Leads</p>
+                    </div>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // SCROLL ANIMATIONS
@@ -474,6 +560,47 @@
         }
         function closeLegalModal() { document.getElementById('legalModal').classList.add('hidden'); }
         function openServiceWhatsapp(s) { window.open(`https://wa.me/2349032473005?text=I'm interested in ${s}`, '_blank'); }
+
+        // --- QUOTE MODAL LOGIC ---
+    function openQuoteModal() {
+        const m = document.getElementById('quoteModal');
+        const c = document.getElementById('quoteCard');
+        m.classList.remove('hidden');
+        setTimeout(() => { 
+            c.classList.remove('scale-95', 'opacity-0'); 
+            c.classList.add('scale-100', 'opacity-100'); 
+        }, 10);
+    }
+
+    function closeQuoteModal() {
+        const m = document.getElementById('quoteModal');
+        const c = document.getElementById('quoteCard');
+        c.classList.remove('scale-100', 'opacity-100'); 
+        c.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => { m.classList.add('hidden'); }, 300);
+    }
+
+    function sendQuote(serviceType) {
+        // Get Name
+        let name = document.getElementById('quoteName').value.trim();
+        
+        if (!name) {
+            alert("Please enter your name first!");
+            document.getElementById('quoteName').focus();
+            return;
+        }
+
+        const phoneNumber = "2349032473005"; // Your Number
+        
+        // Construct Message
+        let message = `Hello Kingdom Wealth Digital Team,\n\nMy name is ${name}.\nI would like to hire you for: *${serviceType}*.\n\nPlease let me know the procedure.`;
+
+        // Open WhatsApp
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+        
+        closeQuoteModal();
+    }
     </script>
 </body>
 </html>
