@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kingdom Wealth Limited - Empowering Your World</title>
+    <title>Kingdom Wealth Limited - The Future is Here</title>
     
     <!-- FONTS -->
-    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <!-- TAILWIND -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-     <link rel="icon" type="image/png" href="favicon.png">
-    <!-- 1. SUPABASE LIBRARY -->
+
+    <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- 2. CONNECT TO DATABASE -->
+    <!-- CONFIG -->
     <script>
         const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
         const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
@@ -24,365 +24,316 @@
 
     <script>
         tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              colors: {
-                "primary": "#f9f506",
-                "primary-hover": "#d4d105",
-                "royal-blue": "#0a192f",
-                "royal-blue-light": "#112240",
-                "background-light": "#f8f8f5",
-                "background-dark": "#0a192f",
-                "surface-light": "#ffffff",
-                "surface-dark": "#112240",
-                "text-main": "#181811",
-                "text-muted": "#6b6b60",
-              },
-              fontFamily: {
-                "display": ["Spline Sans", "sans-serif"],
-                "body": ["Spline Sans", "sans-serif"],
-              },
-              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
-              boxShadow: {
-                'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
-                'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
-              }
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9f506", // Gold Yellow
+                        "royal": "#0a192f",   // Deep Blue
+                        "dark-bg": "#050508", // Almost Black
+                        "surface": "#0f0f13",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'pulse-glow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '1', boxShadow: '0 0 20px rgba(249, 245, 6, 0.2)' },
+                            '50%': { opacity: '.8', boxShadow: '0 0 40px rgba(249, 245, 6, 0.5)' },
+                        }
+                    }
+                },
             },
-          },
         }
     </script>
+
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #aaa; }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        .dark .glass-card {
-            background: rgba(17, 34, 64, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050508; }
+        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f9f506; }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .division-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .division-card:hover { transform: translateY(-5px); }
-        .division-card .card-bg { transition: transform 0.6s ease; }
-        .division-card:hover .card-bg { transform: scale(1.05); }
-        .hover-reveal { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.4s ease; }
-        .division-card:hover .hover-reveal { max-height: 100px; opacity: 1; margin-top: 12px; }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Noise Texture */
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
     </style>
-
-    <!-- SEO Meta Tags -->
-<meta name="description" content="Kingdom Wealth Limited: Nigeria's premier hub for Forex investment, Corporate Intelligence Security, and High-End Gadgets. Join the ecosystem of wealth.">
-<meta name="keywords" content="Kingdom Wealth, Forex Nigeria, Buy iPhone Nigeria, Security Company, Web Design Agency">
-<meta name="author" content="Kingdom Wealth Ltd">
-
-<!-- Social Media Tags (How it looks when shared on WhatsApp/Facebook) -->
-<meta property="og:title" content="Kingdom Wealth Limited - Empowering Your World">
-<meta property="og:description" content="Join the Kingdom ecosystem. Forex, Gadgets, Security, and Digital Services.">
-<meta property="og:image" content="https://your-website-link.com/banner-image.jpg">
-<meta property="og:url" content="https://your-website-link.com">
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white transition-colors duration-300">
 
-    <!-- RESPONSIVE NAV -->
-    <nav class="fixed top-0 left-0 right-0 z-50 w-full px-4 py-4 md:px-8">
-        <div class="glass-card max-w-7xl mx-auto rounded-2xl md:rounded-full px-6 py-3 flex flex-col md:flex-row items-center justify-between shadow-glass dark:shadow-glass-dark relative">
-            
-            <div class="flex w-full md:w-auto items-center justify-between">
-                <a class="flex items-center gap-3 group" href="#">
-                    <div class="size-10 bg-royal-blue text-primary flex items-center justify-center rounded-full transition-transform group-hover:rotate-12">
-                        <span class="material-symbols-outlined text-[28px]">diamond</span>
-                    </div>
-                    <span class="text-xl font-bold tracking-tight text-royal-blue dark:text-white">Kingdom Wealth</span>
-                </a>
-                
-                <!-- Mobile Menu Button -->
-                <button onclick="toggleMobileMenu()" class="md:hidden text-royal-blue dark:text-white p-2">
-                    <span class="material-symbols-outlined text-3xl">menu</span>
-                </button>
-            </div>
+<body class="bg-dark-bg text-white font-body overflow-x-hidden selection:bg-primary selection:text-black">
 
-            <!-- Desktop Menu -->
-            <div id="navLinks" class="hidden md:flex flex-col md:flex-row items-center gap-6 md:gap-8 w-full md:w-auto mt-4 md:mt-0">
-                <a class="text-sm font-medium text-text-main hover:text-royal-blue dark:text-white dark:hover:text-primary transition-colors" href="index.html">Home</a>
-                <a class="text-sm font-medium text-text-main hover:text-royal-blue dark:text-white dark:hover:text-primary transition-colors" href="about.html">About</a>
-                <a class="text-sm font-medium text-text-main hover:text-royal-blue dark:text-white dark:hover:text-primary transition-colors" href="services.html">Services</a>
-                <a class="text-sm font-medium text-text-main hover:text-royal-blue dark:text-white dark:hover:text-primary transition-colors" href="store.html">KW Gadget</a>
-                <a class="text-sm font-medium text-text-main hover:text-royal-blue dark:text-white dark:hover:text-primary transition-colors" href="security.html">KW Spy Police</a>
-                <a href="https://selar.com/m/TopOnlineCoursesforStudents" target="_blank" class="text-sm font-bold text-red-500 py-2 flex items-center gap-2">
-            <span class="material-symbols-outlined">school</span> KW Courses 
-                <a class="text-sm font-medium text-text-main hover:text-royal-blue dark:text-white dark:hover:text-primary transition-colors" href="Login.html">Login</a>
-                
-                <div class="flex items-center gap-3 w-full md:w-auto">
-                    <a href="sign.html" class="w-full md:w-auto bg-primary hover:bg-primary-hover text-royal-blue text-sm font-bold px-5 py-2.5 rounded-full transition-colors flex justify-center items-center gap-2">
-                        <span>Get Started</span>
-                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                    </a>
+    <!-- BACKGROUND NOISE OVERLAY -->
+    <div class="fixed inset-0 pointer-events-none bg-noise z-0"></div>
+
+    <!-- FLOATING NAVBAR -->
+    <nav class="fixed top-4 left-0 right-0 z-50 px-4 md:px-0">
+        <div class="glass max-w-6xl mx-auto rounded-full px-6 py-3 flex items-center justify-between shadow-2xl relative z-50">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="size-9 bg-primary text-black rounded-full flex items-center justify-center transition-transform group-hover:rotate-12">
+                    <span class="material-symbols-outlined">diamond</span>
                 </div>
+                <span class="font-display font-bold text-lg tracking-tight">Kingdom Wealth</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors">Home</a>
+                <a href="services.html" class="text-sm font-medium hover:text-primary transition-colors">Services</a>
+                <a href="store.html" class="text-sm font-medium hover:text-primary transition-colors">Store</a>
+                <a href="dash.html" class="text-sm font-bold text-primary">Dashboard</a>
             </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex items-center gap-3">
+                <a href="login.html" class="hidden md:flex text-sm font-bold px-4 py-2 hover:text-primary transition-colors">Login</a>
+                <a href="signup.html" class="bg-white text-black hover:bg-primary transition-colors px-5 py-2 rounded-full text-sm font-bold shadow-lg">Join Now</a>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-white p-1"><span class="material-symbols-outlined text-2xl">menu</span></button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden absolute top-16 left-4 right-4 glass rounded-2xl p-4 flex-col gap-2 shadow-2xl origin-top animate-float">
+            <a href="index.html" class="p-3 hover:bg-white/5 rounded-lg">Home</a>
+            <a href="services.html" class="p-3 hover:bg-white/5 rounded-lg">Services</a>
+            <a href="store.html" class="p-3 hover:bg-white/5 rounded-lg">Gadget Store</a>
+            <a href="dash.html" class="p-3 hover:bg-white/5 rounded-lg text-primary">Dashboard</a>
+            <a href="login.html" class="p-3 bg-white/10 rounded-lg text-center font-bold mt-2">Login</a>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <header class="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-12 overflow-hidden bg-background-light dark:bg-background-dark">
-        <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-cover bg-center opacity-10 dark:opacity-20 pointer-events-none" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZxUZ62gkrHPAbDLHRbgcpyvfSL1FGb7Fix8KQyICcGm6_exD39HNiTOkA48HESzXdDZl_yOt_6lCNW0RfubrOQo0ysjR7DOTMp3wfZDAx-1LJuQai2F6gl9Fg8aDEsVIUW9vaKpHjzhV_xJTM9m_84fgrcMn3-WYvQlW3GYp53PLJE6OoQAP3ectuuHw5JOkeWjOLYMbzqZ98VPxTSWqpc1lAu33pCZK6XthlnyFGCd0oLdQBGDTfieVloAOFcGy07dQckrRM_Gk");'></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background-light dark:to-background-dark"></div>
-        </div>
+    <header class="relative min-h-screen flex items-center justify-center px-4 pt-20 overflow-hidden">
         
-        <div class="container mx-auto px-4 z-10 relative flex flex-col items-center text-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-royal-blue dark:text-primary mb-6 animate-fade-in-up">
-                <span class="material-symbols-outlined text-[16px]">verified</span>
-                <span class="text-xs font-bold uppercase tracking-wider">Premium Conglomerate</span>
-            </div>
+        <!-- Animated Background Blobs -->
+        <div class="absolute top-20 left-10 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-float"></div>
+        <div class="absolute bottom-20 right-10 w-80 h-80 bg-blue-600/10 rounded-full blur-[120px] animate-float-delayed"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center">
             
-            <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-royal-blue dark:text-white mb-6 leading-[1.1] max-w-5xl">
-                Empowering Your World, <br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-royal-blue to-royal-blue-light dark:from-primary dark:to-white">Securing Your Future</span>
+            <!-- Badge -->
+            <div class="reveal inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6">
+                <span class="size-2 rounded-full bg-primary animate-pulse"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-300">The Future of Wealth</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="reveal font-display text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-6">
+                Dominate Your <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-200 to-primary animate-pulse-glow">Kingdom.</span>
             </h1>
-            
-            <p class="text-base sm:text-lg md:text-xl text-text-muted dark:text-gray-300 max-w-2xl mb-10 leading-relaxed px-4">
-                From capital markets to digital frontiers, we engineer excellence across industries. Kingdom Wealth Limited combines luxury, technology, and expertise.
+
+            <p class="reveal text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                A multi-functional ecosystem merging <span class="text-white font-bold">Forex Trading</span>, <span class="text-white font-bold">Elite Security</span>, and <span class="text-white font-bold">Premium Tech</span>.
             </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 w-full justify-center px-4">
-                <a class="h-12 px-8 rounded-full bg-primary text-royal-blue font-bold flex items-center justify-center gap-2 hover:bg-primary-hover transition-colors shadow-lg" href="#divisions">
-                    Explore Divisions <span class="material-symbols-outlined">expand_more</span>
-                </a>
-                <a href="mailto:dben61168@gmail.com" class="h-12 px-8 rounded-full border border-royal-blue/20 dark:border-white/20 text-royal-blue dark:text-white font-medium flex items-center justify-center gap-2 hover:bg-royal-blue/5 dark:hover:bg-white/5 transition-colors">
-                    Contact Sales
+
+            <!-- Buttons -->
+            <div class="reveal flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button onclick="openJourneyModal()" class="group h-14 px-8 rounded-full bg-primary hover:bg-white text-black font-bold text-lg transition-all flex items-center gap-2 shadow-[0_0_30px_rgba(249,245,6,0.3)]">
+                    Start Your Journey 
+                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </button>
+                <a href="#divisions" class="h-14 px-8 rounded-full border border-white/20 hover:bg-white/10 text-white font-bold text-lg flex items-center justify-center transition-all backdrop-blur-md">
+                    Explore Ecosystem
                 </a>
             </div>
-        </div>
-        
-        <div class="absolute bottom-10 left-0 right-0 flex justify-center opacity-40 animate-bounce">
-            <span class="material-symbols-outlined text-4xl text-royal-blue dark:text-white">keyboard_arrow_down</span>
+
+            <!-- Floating Icons (3D Effect) -->
+            <div class="absolute top-1/2 -translate-y-1/2 left-0 hidden lg:block animate-float">
+                <div class="glass p-4 rounded-2xl border border-white/10">
+                    <span class="material-symbols-outlined text-4xl text-primary">candlestick_chart</span>
+                </div>
+            </div>
+            <div class="absolute top-1/2 -translate-y-1/2 right-0 hidden lg:block animate-float-delayed">
+                <div class="glass p-4 rounded-2xl border border-white/10">
+                    <span class="material-symbols-outlined text-4xl text-blue-400">shield_lock</span>
+                </div>
+            </div>
+
         </div>
     </header>
 
-    <!-- DIVISIONS GRID -->
-    <section class="py-20 px-4 md:px-8 bg-white dark:bg-royal-blue relative" id="divisions">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-royal-blue dark:text-white mb-4">Our Divisions</h2>
-                    <p class="text-text-muted dark:text-gray-400 max-w-lg">Discover our ecosystem of specialized services designed to elevate every aspect of your life.</p>
-                </div>
-                
+    <!-- STATS COUNTER -->
+    <section class="border-y border-white/5 bg-black/50 backdrop-blur-sm relative z-20">
+        <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="reveal">
+                <h3 class="text-4xl font-bold text-white mb-1 counter" data-target="15">0</h3>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Countries Active</p>
             </div>
-
-            <!-- Responsive Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- 1. Capital (Large) -->
-                <div class="division-card group relative rounded-xl overflow-hidden md:col-span-2 lg:col-span-2 bg-royal-blue-light text-white h-[340px]">
-                    <div class="card-bg absolute inset-0 bg-cover bg-center opacity-60 mix-blend-overlay" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhyCiTSl49OHclbc-M7UM8AsBJ5N-u5CGFE67IA_RuGv9Ny4YHM8jxQCn0qkleTOmJezFCS2HWU8922jvcmQvM6WujU6RLmwb4SAtBqGGHk4kDbS6Nofzn6uMs9TrONjDkkT23YqlmXiUKa9P66hjZJ9QDBnFO7ybcwLp5XrHBYB5VUIV44xeDQounPdZ61z4werwa8SgearPvuZY33ZgRLwaBbvrHBPjRqsIlZoXfID3SLOYUxXFXpaJ8P3wonq8X7FAJBBF0aXM");'></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                    <div class="relative h-full flex flex-col justify-end p-8 z-10">
-                        <div class="size-12 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center text-primary mb-4 border border-primary/30">
-                            <span class="material-symbols-outlined text-2xl">candlestick_chart</span>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">KW Capital</h3>
-                        <p class="text-gray-300">Expert Forex trading education and capital management strategies.</p>
-                    </div>
-                </div>
-
-                <!-- 2. Security -->
-                <!-- 2. KW Intelligence (Linked to Security Page) -->
-<div onclick="window.location.href='security.html'" 
-     class="division-card group relative rounded-xl overflow-hidden bg-gray-900 text-white h-[340px] cursor-pointer hover:border-blue-500/50 border border-transparent transition-all">
-    
-    <!-- Updated Image: Security Personnel/Tactical -->
-    <div class="card-bg absolute inset-0 bg-cover bg-center opacity-50" 
-         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBzZcbPwNDVcQr9KhK0Tw36Dyph_QRuozwLYpO2-XcG4h__kehQJcjckxVYTsRZxMJaRYwNI5SRvdChUNpl8k86_vtrx3sM21jz0rSoqDlnNXgGX4pxdNfrtzAmli1bKyv_f7q_ujsvT1rQ-DQYjuIeuipD_SI5hqNZt3jpAk6oRwKhMIofcW9KXkqpC1A8jtfac419gKThOiKMe4pbetfUWoNqMRJN8UzljGE6y1VA845iCIfuPMzfqeuHb7Mtp7AHfwDL2HvQTa8");'>
-    </div>
-    
-    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-    
-    <div class="relative h-full flex flex-col justify-end p-6 z-10">
-        <div class="size-10 rounded-full bg-blue-600/20 backdrop-blur-sm flex items-center justify-center text-blue-500 mb-3 border border-blue-600/30">
-            <span class="material-symbols-outlined text-xl">shield_lock</span>
-        </div>
-        <h3 class="text-xl font-bold mb-1 group-hover:text-blue-400 transition-colors">KW Intelligence</h3>
-        <p class="text-gray-400 text-sm">Private security & risk assessment.</p>
-        
-        <!-- Call to Action (Appears on Hover) -->
-        <div class="mt-4 flex items-center gap-2 text-blue-400 font-bold text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-            Hire Agents <span class="material-symbols-outlined text-sm">arrow_forward</span>
-        </div>
-    </div>
-</div>
-
-                <!-- 3. Gadgets -->
-                <div class="division-card group relative rounded-xl overflow-hidden bg-white dark:bg-royal-blue-light border border-gray-200 dark:border-white/5 h-[340px]">
-                    <div class="card-bg absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-100 transition-opacity duration-500" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQassaqqcChVBYJE3YNeew2uh-TpowQE6Uvvtwp8P0POTEE3V69XDTFKB9XwlS63zDqkWCW6Znyy6IwLc89qEYK7LEj6UPkAlvDz00MSdVybBJAiHVELbGvlB8ewAeGQGpOYqjiIiQNcXF-xBIo4oJcLMsujj2pXN25wm4fdPgjJ_kPLdyNh3F-sciY2gAfGZJlpdN3ZaRE4WZUBhDpvirIf-xeKEQZt6lW33UwbyWoiS232lKsmOpcH1OvIQ_egry62cCKHpU5ZQ");'></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-royal-blue/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="relative h-full flex flex-col justify-between p-6 z-10 cursor-pointer" onclick="window.location.href='store.html'">
-                        <div class="flex justify-between items-start">
-                            <div class="size-10 rounded-full bg-royal-blue text-primary dark:bg-primary dark:text-royal-blue flex items-center justify-center">
-                                <span class="material-symbols-outlined text-xl">devices</span>
-                            </div>
-                            <span class="px-2 py-1 bg-primary text-royal-blue text-[10px] font-bold uppercase rounded-sm opacity-0 group-hover:opacity-100 transition-opacity">Shop Now</span>
-                        </div>
-                        <div class="mt-auto">
-                            <h3 class="text-xl font-bold mb-1 text-royal-blue dark:text-white group-hover:text-white transition-colors">KW Gadgets</h3>
-                            <p class="text-text-muted dark:text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Premium tech retail.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. Digital (Large) -->
-                <div class="division-card group relative rounded-xl overflow-hidden md:col-span-2 bg-royal-blue text-white h-[340px]">
-                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#f9f506 1px, transparent 1px); background-size: 24px 24px;"></div>
-                    <div class="relative h-full flex flex-col justify-end p-8 z-10">
-                        <div class="size-12 rounded-full bg-primary flex items-center justify-center text-royal-blue mb-4">
-                            <span class="material-symbols-outlined text-2xl">code</span>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">KW Digital</h3>
-                        <p class="text-gray-300">Web design, software development, and digital transformation.</p>
-                    </div>
-                </div>
-
-                <!-- 5. Academy (Large) -->
-                <div class="division-card group relative rounded-xl overflow-hidden md:col-span-2 bg-gradient-to-br from-indigo-900 to-royal-blue text-white h-[340px]">
-                    <div class="card-bg absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBIKjXNIweEXyLiymh62PYvvEfkvCmuDsD5iKfqL1Ych23r13vMecGtObZCss1tYJeiSirfk2egBUHZoPIKkqiwNJUMpKMXosNrtZoNI_i9Td3G4dp0RzOVYf0aW7PSRcdYCxmNaqgcSm_d827dFO9Xw8Wmmhsf-DiS8gVjFyxAdTGbjceA1UM2I1049SUQUXp3aBXSaXH6V07sVjpIZhbNJRqtOOAxw0mlbvvafiHgDmBarXz8JieznmfHFOsRK6kvuZzeweWrN8");'></div>
-                    <div class="relative h-full flex flex-col justify-end p-8 z-10">
-                        <div class="size-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white mb-4 border border-white/20">
-                            <span class="material-symbols-outlined text-2xl">school</span>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">KW Academy</h3>
-                        <p class="text-gray-300">Comprehensive online courses tailored for future leaders.</p>
-                    </div>
-                </div>
-
+            <div class="reveal">
+                <h3 class="text-4xl font-bold text-white mb-1 counter" data-target="5000">0</h3>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Students Trained</p>
+            </div>
+            <div class="reveal">
+                <h3 class="text-4xl font-bold text-white mb-1 counter" data-target="24">0</h3>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Hours Support</p>
+            </div>
+            <div class="reveal">
+                <h3 class="text-4xl font-bold text-white mb-1 counter" data-target="100">0</h3>
+                <p class="text-xs text-gray-500 uppercase tracking-widest">Secure</p>
             </div>
         </div>
     </section>
 
-    <!-- CALL TO ACTION -->
-    <section class="py-16 bg-primary">
-        <div class="max-w-4xl mx-auto text-center px-4">
-            <h2 class="text-3xl md:text-4xl font-black text-royal-blue mb-4">Ready to Elevate Your Future?</h2>
-            <p class="text-royal-blue/80 text-lg mb-8 font-medium">Join thousands of clients who trust Kingdom Wealth Limited.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="openJourneyModal()" class="bg-royal-blue text-white hover:bg-black px-8 py-3 rounded-full font-bold text-lg transition-transform hover:scale-105 shadow-lg">
-                    Start Your Journey
-                </button>
-                <a href="store.html" class="bg-transparent border-2 border-royal-blue text-royal-blue hover:bg-royal-blue/10 px-8 py-3 rounded-full font-bold text-lg transition-colors flex items-center justify-center">
-                    Browse Catalog
-                </a>
+    <!-- BENTO GRID SERVICES -->
+    <section id="divisions" class="py-24 px-4 md:px-10 max-w-7xl mx-auto relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4 reveal">
+            <div>
+                <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-4">The Ecosystem</h2>
+                <p class="text-gray-400 max-w-md">Our specialized divisions work in harmony to build and protect your wealth.</p>
             </div>
+            <button onclick="openServicesModal()" class="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                View All <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+            
+            <!-- CARD 1: CAPITAL (Large) -->
+            <div onclick="openServiceWhatsapp('capital')" class="reveal group md:col-span-2 relative rounded-3xl overflow-hidden cursor-pointer border border-white/10 hover:border-primary/50 transition-all duration-500">
+                <div class="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-105 transition-transform duration-700" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhyCiTSl49OHclbc-M7UM8AsBJ5N-u5CGFE67IA_RuGv9Ny4YHM8jxQCn0qkleTOmJezFCS2HWU8922jvcmQvM6WujU6RLmwb4SAtBqGGHk4kDbS6Nofzn6uMs9TrONjDkkT23YqlmXiUKa9P66hjZJ9QDBnFO7ybcwLp5XrHBYB5VUIV44xeDQounPdZ61z4werwa8SgearPvuZY33ZgRLwaBbvrHBPjRqsIlZoXfID3SLOYUxXFXpaJ8P3wonq8X7FAJBBF0aXM');"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-8">
+                    <div class="size-12 rounded-xl bg-primary text-black flex items-center justify-center mb-4">
+                        <span class="material-symbols-outlined text-2xl">candlestick_chart</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">KW Capital</h3>
+                    <p class="text-gray-300 mt-2">Master the art of Forex trading with elite mentorship.</p>
+                </div>
+            </div>
+
+            <!-- CARD 2: INTELLIGENCE -->
+            <div onclick="window.location.href='security.html'" class="reveal group relative rounded-3xl overflow-hidden cursor-pointer border border-white/10 hover:border-blue-500/50 transition-all duration-500 bg-[#0a0a12]">
+                <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzZcbPwNDVcQr9KhK0Tw36Dyph_QRuozwLYpO2-XcG4h__kehQJcjckxVYTsRZxMJaRYwNI5SRvdChUNpl8k86_vtrx3sM21jz0rSoqDlnNXgGX4pxdNfrtzAmli1bKyv_f7q_ujsvT1rQ-DQYjuIeuipD_SI5hqNZt3jpAk6oRwKhMIofcW9KXkqpC1A8jtfac419gKThOiKMe4pbetfUWoNqMRJN8UzljGE6y1VA845iCIfuPMzfqeuHb7Mtp7AHfwDL2HvQTa8');"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6">
+                    <span class="material-symbols-outlined text-3xl text-blue-500 mb-3 block">shield_lock</span>
+                    <h3 class="text-xl font-bold text-white">KW Intelligence</h3>
+                    <div class="flex items-center gap-2 mt-2 text-blue-400 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                        Hire Agents <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: GADGETS -->
+            <div onclick="window.location.href='store.html'" class="reveal group relative rounded-3xl overflow-hidden cursor-pointer border border-white/10 hover:border-purple-500/50 transition-all duration-500 bg-[#0a0a12]">
+                <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQassaqqcChVBYJE3YNeew2uh-TpowQE6Uvvtwp8P0POTEE3V69XDTFKB9XwlS63zDqkWCW6Znyy6IwLc89qEYK7LEj6UPkAlvDz00MSdVybBJAiHVELbGvlB8ewAeGQGpOYqjiIiQNcXF-xBIo4oJcLMsujj2pXN25wm4fdPgjJ_kPLdyNh3F-sciY2gAfGZJlpdN3ZaRE4WZUBhDpvirIf-xeKEQZt6lW33UwbyWoiS232lKsmOpcH1OvIQ_egry62cCKHpU5ZQ');"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6">
+                    <span class="material-symbols-outlined text-3xl text-purple-500 mb-3 block">devices</span>
+                    <h3 class="text-xl font-bold text-white">KW Gadgets</h3>
+                    <p class="text-gray-400 text-xs mt-1">Premium Retail.</p>
+                </div>
+            </div>
+
+            <!-- CARD 4: ACADEMY (Large) -->
+            <div onclick="window.open('https://selar.com/m/TopOnlineCoursesforStudents')" class="reveal group md:col-span-2 relative rounded-3xl overflow-hidden cursor-pointer border border-white/10 hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-indigo-900 to-black">
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                <div class="relative h-full flex flex-col justify-center p-10 items-start">
+                    <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-bold text-white mb-4 border border-white/20">Learning Hub</span>
+                    <h3 class="text-3xl font-bold text-white mb-2">KW Academy</h3>
+                    <p class="text-gray-300 max-w-sm">Access comprehensive courses on Forex, Web Development, and Business Growth.</p>
+                    <span class="mt-6 text-white font-bold underline decoration-primary underline-offset-4 group-hover:text-primary transition-colors">Start Learning</span>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-royal-blue text-white pt-20 pb-10 px-4 md:px-8" id="contact">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+    <footer class="border-t border-white/5 bg-black pt-20 pb-10 px-4 md:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             
-            <!-- Brand -->
-            <div class="space-y-4">
-                <div class="flex items-center gap-2 text-primary">
-                    <span class="material-symbols-outlined text-3xl">diamond</span>
-                    <span class="text-2xl font-bold tracking-tighter">Kingdom Wealth</span>
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-2 text-white mb-4">
+                    <span class="material-symbols-outlined text-3xl text-primary">diamond</span>
+                    <span class="text-2xl font-bold tracking-tight">Kingdom Wealth</span>
                 </div>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    A premium conglomerate dedicated to empowering individuals and businesses.
+                <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
+                    A premium conglomerate dedicated to empowering individuals through capital, intelligence, and innovation.
                 </p>
-                <!-- Socials -->
-                <div class="flex gap-4 pt-2">
-                    <a class="size-10 rounded-full bg-white/5 hover:bg-primary hover:text-royal-blue flex items-center justify-center transition-all" href="#"><span class="font-bold text-xs">FB</span></a>
-                    <a class="size-10 rounded-full bg-white/5 hover:bg-primary hover:text-royal-blue flex items-center justify-center transition-all" href="#"><span class="font-bold text-xs">IG</span></a>
-                </div>
             </div>
 
-            <!-- Divisions -->
             <div>
-                <h4 class="text-lg font-bold mb-6 text-primary">Divisions</h4>
-                <ul class="space-y-3 text-gray-400">
-                    <li><a class="hover:text-white hover:pl-2 transition-all" href="code.html">KW Home</a></li>
-                    <li><a class="hover:text-white hover:pl-2 transition-all" href="about.html">KW About</a></li>
-                    <li><a class="hover:text-white hover:pl-2 transition-all" href="store.html">KW Gadgets</a></li>
+                <h4 class="text-white font-bold mb-4">Divisions</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="store.html" class="hover:text-primary">Gadgets</a></li>
+                    <li><a href="security.html" class="hover:text-primary">Security</a></li>
+                    <li><a href="https://selar.com/m/TopOnlineCoursesforStudents" class="hover:text-primary">Academy</a></li>
                 </ul>
             </div>
 
-            <!-- Contact -->
             <div>
-                <h4 class="text-lg font-bold mb-6 text-primary">Contact Us</h4>
-                <ul class="space-y-4 text-gray-400">
-                    <li class="flex items-start gap-3">
-                        <span class="material-symbols-outlined text-primary mt-1">location_on</span>
-                        <span>123 Innovation Dr, Tech City</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary">mail</span>
-                        <span>dben61168@gmail.com</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary">call</span>
-                        <span>+234 903 247 3005</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Newsletter -->
-            <div>
-                <h4 class="text-lg font-bold mb-6 text-primary">Stay Updated</h4>
+                <h4 class="text-white font-bold mb-4">Newsletter</h4>
                 <div class="flex flex-col gap-2">
-                    <input id="newsletterEmail" class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary text-sm" placeholder="Your email address" type="email"/>
-                    <button onclick="handleSubscribe()" class="bg-primary text-royal-blue font-bold rounded-lg px-4 py-3 hover:bg-white transition-colors text-sm flex items-center justify-center gap-2">
-                        Subscribe <span id="subLoader" class="hidden material-symbols-outlined text-sm animate-spin">progress_activity</span>
+                    <input id="newsletterEmail" class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:border-primary focus:outline-none" placeholder="Email address">
+                    <button onclick="handleSubscribe()" class="bg-primary hover:bg-yellow-400 text-black font-bold py-3 rounded-lg text-sm transition-colors flex items-center justify-center gap-2">
+                        Subscribe <span id="subLoader" class="hidden material-symbols-outlined text-sm animate-spin">sync</span>
                     </button>
                 </div>
                 <p id="subMessage" class="text-xs mt-2 hidden"></p>
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 text-center md:text-left">
-            <p>© 2026 Kingdom Wealth Limited. All rights reserved.</p>
-            <div class="flex gap-4">
-                <button onclick="openLegalModal('privacy')" class="hover:text-primary transition-colors">Privacy Policy</button>
-                <button onclick="openLegalModal('terms')" class="hover:text-primary transition-colors">Terms of Service</button>
+        <div class="max-w-7xl mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+            <p>© 2026 Kingdom Wealth Limited.</p>
+            <div class="flex gap-6">
+                <button onclick="openLegalModal('privacy')" class="hover:text-white">Privacy</button>
+                <button onclick="openLegalModal('terms')" class="hover:text-white">Terms</button>
             </div>
         </div>
     </footer>
 
-    <!-- MODALS -->
-    
+    <!-- MODALS (Journey, Legal, Services) -->
     <!-- 1. JOURNEY MODAL -->
     <div id="journeyModal" class="fixed inset-0 z-[100] hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeJourneyModal()"></div>
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeJourneyModal()"></div>
         <div class="relative flex min-h-screen items-center justify-center p-4">
-            <div class="w-full max-w-md transform rounded-2xl bg-white dark:bg-[#1a1a2e] p-6 shadow-2xl transition-all scale-100 border border-gray-200 dark:border-gray-700">
+            <div class="w-full max-w-md transform rounded-2xl bg-[#111118] p-6 shadow-2xl border border-white/10 text-white scale-95 opacity-0 transition-all duration-300" id="journeyCard">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Choose Your Path</h3>
-                    <button onclick="closeJourneyModal()" class="text-gray-400 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
+                    <h3 class="text-xl font-bold">Choose Your Path</h3>
+                    <button onclick="closeJourneyModal()" class="text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
                 </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-500 mb-2">What is your name?</label>
-                    <input type="text" id="visitorName" placeholder="Enter your name here..." class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-black/20 p-3 text-gray-900 dark:text-white outline-none focus:border-royal-blue transition-all">
-                </div>
+                <input type="text" id="visitorName" placeholder="Enter your name..." class="w-full rounded-lg bg-black/30 border border-white/10 p-3 text-white mb-4 outline-none focus:border-primary">
                 <div class="flex flex-col gap-3">
-                    <button onclick="sendToWhatsapp('contact')" class="flex items-center gap-4 w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-royal-blue hover:bg-blue-50 dark:hover:bg-white/5 transition-all group text-left">
-                        <div class="bg-blue-100 text-royal-blue p-3 rounded-full group-hover:scale-110 transition-transform"><span class="material-symbols-outlined">support_agent</span></div>
-                        <div><h4 class="font-bold text-gray-800 dark:text-white">Contact Us</h4><p class="text-xs text-gray-500">General support</p></div>
-                        <span class="material-symbols-outlined ml-auto text-gray-400 group-hover:text-royal-blue">arrow_forward</span>
+                    <button onclick="sendToWhatsapp('contact')" class="p-4 rounded-xl border border-white/10 hover:border-primary hover:bg-white/5 transition-all text-left">
+                        <h4 class="font-bold">Contact Us</h4><p class="text-xs text-gray-400">General support</p>
                     </button>
-                    <button onclick="sendToWhatsapp('web')" class="flex items-center gap-4 w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-royal-blue hover:bg-blue-50 dark:hover:bg-white/5 transition-all group text-left">
-                        <div class="bg-purple-100 text-purple-600 p-3 rounded-full group-hover:scale-110 transition-transform"><span class="material-symbols-outlined">code</span></div>
-                        <div><h4 class="font-bold text-gray-800 dark:text-white">Get Web Agent</h4><p class="text-xs text-gray-500">Hire a developer</p></div>
-                        <span class="material-symbols-outlined ml-auto text-gray-400 group-hover:text-purple-600">arrow_forward</span>
+                    <button onclick="sendToWhatsapp('web')" class="p-4 rounded-xl border border-white/10 hover:border-primary hover:bg-white/5 transition-all text-left">
+                        <h4 class="font-bold">Get Web Agent</h4><p class="text-xs text-gray-400">Hire a developer</p>
                     </button>
-                    <button onclick="sendToWhatsapp('enquiry')" class="flex items-center gap-4 w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-royal-blue hover:bg-blue-50 dark:hover:bg-white/5 transition-all group text-left">
-                        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full group-hover:scale-110 transition-transform"><span class="material-symbols-outlined">help</span></div>
-                        <div><h4 class="font-bold text-gray-800 dark:text-white">Make Enquiries</h4><p class="text-xs text-gray-500">Ask about services</p></div>
-                        <span class="material-symbols-outlined ml-auto text-gray-400 group-hover:text-yellow-600">arrow_forward</span>
+                    <button onclick="sendToWhatsapp('enquiry')" class="p-4 rounded-xl border border-white/10 hover:border-primary hover:bg-white/5 transition-all text-left">
+                        <h4 class="font-bold">Make Enquiries</h4><p class="text-xs text-gray-400">Services info</p>
                     </button>
                 </div>
             </div>
@@ -390,154 +341,135 @@
     </div>
 
     <!-- 2. LEGAL MODAL -->
-    <div id="legalModal" class="fixed inset-0 z-[150] hidden" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-black/90 backdrop-blur-sm transition-opacity opacity-0" id="legalBackdrop" onclick="closeLegalModal()"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div id="legalCard" class="relative transform overflow-hidden rounded-2xl bg-[#0f0f12] border border-white/10 text-left shadow-2xl transition-all scale-95 opacity-0 sm:my-8 sm:w-full sm:max-w-3xl">
-                    <button onclick="closeLegalModal()" class="absolute top-4 right-4 z-20 text-gray-400 hover:text-red-500 transition-colors bg-white/5 rounded-full p-2"><span class="material-symbols-outlined">close</span></button>
-                    <div id="content-privacy" class="hidden">
-                        <div class="bg-[#1a1a2e] px-6 py-6 border-b border-white/5"><h3 class="text-xl font-bold text-white flex items-center gap-2"><span class="material-symbols-outlined text-green-500">lock</span> Privacy Policy</h3></div>
-                        <div class="p-6 sm:p-8 max-h-[60vh] overflow-y-auto text-sm text-gray-300 space-y-4"><p>At Kingdom Wealth Limited, we value your privacy...</p></div>
-                    </div>
-                    <div id="content-terms" class="hidden">
-                        <div class="bg-[#1a1a2e] px-6 py-6 border-b border-white/5"><h3 class="text-xl font-bold text-white flex items-center gap-2"><span class="material-symbols-outlined text-[#D4AF37]">gavel</span> Terms of Service</h3></div>
-                        <div class="p-6 sm:p-8 max-h-[60vh] overflow-y-auto text-sm text-gray-300 space-y-4"><p>By accessing Kingdom Wealth Limited services, you agree to be bound by these terms...</p></div>
-                    </div>
-                    <div class="bg-[#1a1a2e] px-6 py-4 flex justify-end"><button onclick="closeLegalModal()" class="bg-[#D4AF37] hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-lg text-sm">I Understand</button></div>
-                </div>
+    <div id="legalModal" class="fixed inset-0 z-[150] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeLegalModal()"></div>
+        <div class="relative flex min-h-screen items-center justify-center p-4">
+            <div class="bg-[#111118] p-8 rounded-2xl w-full max-w-2xl border border-white/10 shadow-2xl relative">
+                <button onclick="closeLegalModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+                <div id="content-privacy" class="hidden"><h3 class="text-xl font-bold text-white mb-4">Privacy Policy</h3><p class="text-gray-400 text-sm">We protect your data securely...</p></div>
+                <div id="content-terms" class="hidden"><h3 class="text-xl font-bold text-white mb-4">Terms of Service</h3><p class="text-gray-400 text-sm">By using our services...</p></div>
             </div>
         </div>
     </div>
 
     <!-- 3. SERVICES MODAL -->
-    <div id="servicesModal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity opacity-0" id="servicesBackdrop" onclick="closeServicesModal()"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div id="servicesCard" class="relative transform overflow-hidden rounded-2xl bg-[#111118] border border-white/10 text-left shadow-2xl transition-all scale-95 opacity-0 sm:my-8 sm:w-full sm:max-w-4xl">
-                    <div class="bg-[#1a1a2e] px-4 py-5 flex justify-between items-center border-b border-white/5">
-                        <h3 class="text-xl font-bold text-white">Our Ecosystem</h3>
-                        <button onclick="closeServicesModal()" class="text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
-                    </div>
-                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Capital</h4><p class="text-gray-400 text-sm">Forex</p></div>
-                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Intelligence</h4><p class="text-gray-400 text-sm">Security</p></div>
-                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Gadgets</h4><p class="text-gray-400 text-sm">Tech Retail</p></div>
-                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Digital</h4><p class="text-gray-400 text-sm">Web Design</p></div>
-                        <div class="p-5 rounded-xl border border-white/5 bg-white/5"><h4 class="text-white font-bold">KW Academy</h4><p class="text-gray-400 text-sm">Courses</p></div>
-                    </div>
+    <div id="servicesModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeServicesModal()"></div>
+        <div class="relative flex min-h-screen items-center justify-center p-4">
+            <div class="bg-[#111118] p-8 rounded-2xl w-full max-w-4xl border border-white/10 shadow-2xl relative">
+                <button onclick="closeServicesModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+                <h3 class="text-xl font-bold text-white mb-6">Our Ecosystem</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/5"><h4 class="font-bold text-white">KW Capital</h4><p class="text-xs text-gray-400">Forex</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/5"><h4 class="font-bold text-white">KW Intelligence</h4><p class="text-xs text-gray-400">Security</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/5"><h4 class="font-bold text-white">KW Gadgets</h4><p class="text-xs text-gray-400">Tech</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/5"><h4 class="font-bold text-white">KW Digital</h4><p class="text-xs text-gray-400">Web</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/5"><h4 class="font-bold text-white">KW Academy</h4><p class="text-xs text-gray-400">Courses</p></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // 1. Mobile Menu Toggle
-        function toggleMobileMenu() {
-            const nav = document.getElementById('navLinks');
-            nav.classList.toggle('hidden');
-            nav.classList.toggle('flex');
-            
-            // Add background color when open
-            const glassCard = document.querySelector('.glass-card');
-            glassCard.classList.toggle('rounded-2xl');
-            glassCard.classList.toggle('rounded-3xl');
+        // SCROLL ANIMATIONS
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Trigger counters if it's the stats section
+                    if (entry.target.querySelector('.counter')) {
+                        startCounters();
+                    }
+                }
+            });
+        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // NUMBER COUNTERS
+        function startCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const increment = target / 50;
+                const updateCount = () => {
+                    const count = +counter.innerText;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target + "+";
+                    }
+                };
+                updateCount();
+            });
         }
 
-        // 2. Journey Modal Logic
+        // MOBILE MENU
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+            document.getElementById('mobileMenu').classList.toggle('flex');
+        }
+
+        // JOURNEY MODAL
         function openJourneyModal() {
-            document.getElementById('journeyModal').classList.remove('hidden');
+            const m = document.getElementById('journeyModal');
+            const c = document.getElementById('journeyCard');
+            m.classList.remove('hidden');
+            setTimeout(() => { c.classList.remove('scale-95', 'opacity-0'); c.classList.add('scale-100', 'opacity-100'); }, 10);
         }
         function closeJourneyModal() {
-            document.getElementById('journeyModal').classList.add('hidden');
+            const m = document.getElementById('journeyModal');
+            const c = document.getElementById('journeyCard');
+            c.classList.remove('scale-100', 'opacity-100'); c.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { m.classList.add('hidden'); }, 300);
         }
-        function sendToWhatsapp(option) {
+        function sendToWhatsapp(opt) {
             let name = document.getElementById('visitorName').value.trim();
-            if (!name) { alert("Please enter your name!"); return; }
-            const phoneNumber = "2349032473005";
-            let message = "";
-            if (option === 'contact') message = `Hi, my name is ${name} and I'm here to Contact Kingdom Wealth Support.`;
-            else if (option === 'web') message = `Hi, my name is ${name} and I'm here to get a Website Design / Dev Agent.`;
-            else if (option === 'enquiry') message = `Hi, my name is ${name} and I'm here to Make Enquiries about your services.`;
-            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+            if(!name) return alert("Enter Name");
+            let msg = `Hi, I'm ${name}. I want to know about ${opt}.`;
+            window.open(`https://wa.me/2349032473005?text=${encodeURIComponent(msg)}`, '_blank');
             closeJourneyModal();
         }
 
-        // 3. Subscribe Logic
+        // SUBSCRIBE
         async function handleSubscribe() {
-            const emailInput = document.getElementById('newsletterEmail');
-            const email = emailInput.value.trim();
-            const btn = document.querySelector('button[onclick="handleSubscribe()"]');
+            const email = document.getElementById('newsletterEmail').value.trim();
             const msg = document.getElementById('subMessage');
-            const loader = document.getElementById('subLoader');
-
-            if (!email || !email.includes('@')) { alert("Please enter a valid email address."); return; }
-
+            const btn = document.querySelector('button[onclick="handleSubscribe()"]');
+            
+            if (!email.includes('@')) return alert("Invalid Email");
+            
             btn.disabled = true;
-            loader.classList.remove('hidden');
+            document.getElementById('subLoader').classList.remove('hidden');
 
             try {
-                const { error } = await _supabase.from('subscribers').insert([{ email: email }]);
-                if (error) {
-                    if (error.code === '23505') {
-                        msg.innerText = "You are already subscribed!";
-                        msg.className = "text-xs mt-2 text-yellow-500";
-                    } else {
-                        throw error;
-                    }
-                } else {
-                    msg.innerText = "Success! Added to list.";
-                    msg.className = "text-xs mt-2 text-green-500";
-                    emailInput.value = ""; 
+                const { error } = await _supabase.from('subscribers').insert([{ email }]);
+                msg.classList.remove('hidden');
+                if (error && error.code === '23505') { 
+                    msg.innerText = "Already subscribed!"; msg.className = "text-xs mt-2 text-primary"; 
+                } else { 
+                    msg.innerText = "Success!"; msg.className = "text-xs mt-2 text-green-500"; 
                 }
             } catch (err) {
-                alert("Subscription Error: " + err.message);
-                msg.innerText = "Error subscribing.";
-                msg.className = "text-xs mt-2 text-red-500";
+                msg.innerText = "Error."; msg.className = "text-xs mt-2 text-red-500";
             } finally {
                 btn.disabled = false;
-                loader.classList.add('hidden');
-                msg.classList.remove('hidden');
+                document.getElementById('subLoader').classList.add('hidden');
             }
         }
 
-        // 4. Legal Modal Logic
-        function openLegalModal(type) {
-            const modal = document.getElementById('legalModal');
-            const privacy = document.getElementById('content-privacy');
-            const terms = document.getElementById('content-terms');
-            
-            if (type === 'privacy') { privacy.classList.remove('hidden'); terms.classList.add('hidden'); }
-            else { terms.classList.remove('hidden'); privacy.classList.add('hidden'); }
-
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('legalBackdrop').classList.remove('opacity-0');
-                document.getElementById('legalCard').classList.remove('scale-95', 'opacity-0');
-                document.getElementById('legalCard').classList.add('scale-100', 'opacity-100');
-            }, 10);
+        // OTHER MODALS (Simple toggle for now)
+        function openServicesModal() { document.getElementById('servicesModal').classList.remove('hidden'); }
+        function closeServicesModal() { document.getElementById('servicesModal').classList.add('hidden'); }
+        function openLegalModal(t) { 
+            document.getElementById('legalModal').classList.remove('hidden'); 
+            document.getElementById('content-privacy').classList.add('hidden');
+            document.getElementById('content-terms').classList.add('hidden');
+            document.getElementById('content-'+t).classList.remove('hidden');
         }
-        function closeLegalModal() {
-            const modal = document.getElementById('legalModal');
-            document.getElementById('legalBackdrop').classList.add('opacity-0');
-            document.getElementById('legalCard').classList.add('scale-95', 'opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-
-        // 5. Services Modal Logic
-        function openServicesModal() {
-            document.getElementById('servicesModal').classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('servicesBackdrop').classList.remove('opacity-0');
-                document.getElementById('servicesCard').classList.remove('scale-95', 'opacity-0');
-                document.getElementById('servicesCard').classList.add('scale-100', 'opacity-100');
-            }, 10);
-        }
-        function closeServicesModal() {
-            document.getElementById('servicesModal').classList.add('hidden');
-        }
+        function closeLegalModal() { document.getElementById('legalModal').classList.add('hidden'); }
+        function openServiceWhatsapp(s) { window.open(`https://wa.me/2349032473005?text=I'm interested in ${s}`, '_blank'); }
     </script>
 </body>
 </html>
