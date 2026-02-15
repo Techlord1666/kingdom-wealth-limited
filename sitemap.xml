@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <!-- Home Page -->
+   <url>
+      <loc>https://kingdomwealthltd.com/</loc>
+      <lastmod>2026-02-15</lastmod>
+      <priority>1.00</priority>
+   </url>
+   
+   <!-- Services Page -->
+   <url>
+      <loc>https://kingdomwealthltd.com/services.html</loc>
+      <lastmod>2026-02-15</lastmod>
+      <priority>0.80</priority>
+   </url>
+
+   <!-- About Us Page -->
+   <url>
+      <loc>https://kingdomwealthltd.com/about.html</loc>
+      <lastmod>2026-02-15</lastmod>
+      <priority>0.80</priority>
+   </url>
+
+   <!-- Store (Gadgets) -->
+   <url>
+      <loc>https://kingdomwealthltd.com/store.html</loc>
+      <lastmod>2026-02-15</lastmod>
+      <priority>0.90</priority>
+   </url>
+
+   <!-- Security Services (Spy Police) -->
+   <url>
+      <loc>https://kingdomwealthltd.com/security.html</loc>
+      <lastmod>2026-02-15</lastmod>
+      <priority>0.85</priority>
+   </url>
+
+   <!-- Sign Up Page -->
+   <url>
+      <loc>https://kingdomwealthltd.com/signup.html</loc>
+      <lastmod>2026-02-15</lastmod>
+      <priority>0.60</priority>
+   </url>
+
+   <!-- Login Page -->
+   <url>
+      <loc>https://kingdomwealthltd.com/login.html</loc>
+      <lastmod>2026-02-15</lastmod>
+      <priority>0.60</priority>
+   </url>
+</urlset>
