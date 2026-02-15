@@ -293,16 +293,17 @@
                     btn.innerHTML = originalText;
                 } else {
                     alert("Success! Account created.\nPlease Login.");
-                    // FIXED: Redirects to lowercase login.html
-                    window.location.href = "login.html";
-                }
-            } catch (err) {
-                alert("System Error: " + err.message);
-                btn.innerHTML = originalText;
-            } finally {
-                btn.disabled = false;
-            }
-        }
+                   // Find this part inside handleSignUp and replace it:
+
+const { data, error } = await _supabase.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+        data: { full_name: fullName },
+        // THIS LINE FIXES THE 404 ERROR 👇
+        emailRedirectTo: 'https://kingdomwealthltd.com/login.html' 
+    }
+});
 
         // 4. Password Toggle
         function toggleSignUpPassword() {
