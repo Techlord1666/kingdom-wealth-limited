@@ -224,96 +224,77 @@
         </div>
     </div>
 
-    <!-- MAIN JAVASCRIPT -->
     <script>
-        // 1. Mobile Menu Toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-        }
-
-        // 2. Supabase Setup
-        let _supabase;
-        
-        function initSupabase() {
-            if (typeof supabase === 'undefined') {
-                console.error("Supabase library not found.");
-                return false;
-            }
-            const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
-            const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
-
-            try {
-                _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
-                console.log("Supabase initialized.");
-                return true;
-            } catch (e) {
-                console.error("Init Error:", e);
-                return false;
-            }
-        }
-
-        initSupabase();
-
-        // 3. Handle Sign Up Logic
-        async function handleSignUp(event) {
-            event.preventDefault();
-
-            if (!_supabase) {
-                const success = initSupabase();
-                if (!success) {
-                    alert("System Error: Could not connect to database. Check internet.");
-                    return;
-                }
-            }
-
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const fullName = firstName + " " + lastName;
-
-            const btn = document.querySelector('button[type="submit"]');
-            const originalText = btn.innerHTML;
-            btn.innerText = "Creating Account...";
-            btn.disabled = true;
-
-            try {
-                const { data, error } = await _supabase.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        data: { full_name: fullName }
-                    }
-                });
-
-                if (error) {
-                    alert("Registration Failed: " + error.message);
-                    btn.innerHTML = originalText;
-                } else {
-                    alert("Success! Account created.\nPlease Login.");
-                   // Find this part inside handleSignUp and replace it:
-
-const { data, error } = await _supabase.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-        data: { full_name: fullName },
-        // THIS LINE FIXES THE 404 ERROR 👇
-        emailRedirectTo: 'https://kingdomwealthltd.com/login.html' 
+    // 1. Mobile Menu
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('flex');
     }
-});
 
-        // 4. Password Toggle
-        function toggleSignUpPassword() {
-            const passInput = document.getElementById('password');
-            if (passInput.type === 'password') {
-                passInput.type = 'text';
-            } else {
-                passInput.type = 'password';
-            }
+    // 2. Supabase Setup
+    const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+    const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+    const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+
+    // 3. Password Toggle
+    function toggleSignUpPassword() {
+        const passInput = document.getElementById('password');
+        passInput.type = passInput.type === 'password' ? 'text' : 'password';
+    }
+
+    // 4. SIGN UP LOGIC
+    async function handleSignUp(event) {
+        // STOP PAGE RELOAD
+        event.preventDefault();
+        
+        // VISUAL FEEDBACK
+        const btn = document.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        // GET DATA
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        // VALIDATION
+        if (!email || !password || !firstName) {
+            alert("Please fill in all fields.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
         }
-    </script>
+
+        try {
+            const { data, error } = await _supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: { full_name: firstName + " " + lastName },
+                    // IMPORTANT: Redirect to your live login page
+                    emailRedirectTo: 'https://kingdomwealthltd.com/login.html'
+                }
+            });
+
+            if (error) {
+                alert("Error: " + error.message);
+            } else {
+                // SUCCESS MESSAGE
+                alert("Registration Successful! \n\nPlease check your email (Inbox or Spam) to confirm your account.");
+                // Optional: Send them to login page immediately
+                window.location.href = "login.html";
+            }
+
+        } catch (err) {
+            alert("System Error: " + err.message);
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
 </body>
 </html>
