@@ -2,11 +2,11 @@
 <html class="light" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>KW Digital - Courses & E-Books</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KW Academy - Digital Store</title>
     
     <!-- FONTS & ICONS -->
-    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <!-- LIBRARIES -->
@@ -19,49 +19,87 @@
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: { "primary": "#f9f506", "dark-bg": "#050510", "card-bg": "#111118" },
-                    fontFamily: { "display": ["Spline Sans", "sans-serif"] }
+                    colors: {
+                        "primary": "#f9f506",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#050510",
+                        "card-bg": "#111118",
+                        "luxury-black": "#000000",
+                    },
+                    fontFamily: { "display": ["Spline Sans", "sans-serif"] },
                 },
             },
         }
     </script>
     <style>
-        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
-        .dark .glass-panel { background: rgba(26, 26, 26, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass-panel { background: rgba(17, 17, 24, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
-<body class="bg-dark-bg font-display text-white">
 
-<!-- HEADER -->
-<nav class="sticky top-0 z-50 w-full glass-panel">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+<body class="bg-background-dark font-display text-white overflow-x-hidden antialiased">
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-50 w-full glass-panel">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
         <a href="code.html" class="flex items-center gap-3">
             <div class="size-10 bg-white/10 rounded-lg flex items-center justify-center text-primary">
                 <span class="material-symbols-outlined text-2xl">school</span>
             </div>
-            <h1 class="text-xl font-bold tracking-tight">KW Academy Store</h1>
+            <h1 class="text-lg font-bold tracking-tight hidden sm:block">KW Academy</h1>
         </a>
-        <a href="index.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Back Home</a>
-    </div>
-</nav>
 
-<!-- HERO -->
-<section class="py-20 px-4 text-center relative overflow-hidden">
-    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10"></div>
-    <div class="relative z-10">
-        <h1 class="text-4xl md:text-6xl font-black mb-4">Master New <span class="text-primary">Skills</span></h1>
-        <p class="text-gray-400 max-w-xl mx-auto text-lg">Instant access to premium courses, PDFs, and video trainings.</p>
-        <p class="text-xs text-green-400 mt-4 font-bold uppercase tracking-widest">⚡ Instant Digital Delivery</p>
+        <div class="hidden md:flex items-center gap-6">
+            <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors text-gray-300">Home</a>
+            <a href="store.html" class="text-sm font-medium hover:text-primary transition-colors text-gray-300">Gadget Store</a>
+            <a href="affiliate-dash.html" class="px-4 py-2 bg-green-900/30 text-green-400 border border-green-900 rounded-full text-sm font-bold hover:bg-green-600 hover:text-white transition-colors">Affiliate Dashboard</a>
+        </div>
+
+        <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-white p-2">
+            <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobileMenu" class="hidden bg-card-bg border-t border-white/10 p-4 flex flex-col gap-4 md:hidden">
+        <a href="index.html" class="text-gray-300 py-2 border-b border-white/5">Home</a>
+        <a href="store.html" class="text-gray-300 py-2 border-b border-white/5">Gadget Store</a>
+        <a href="affiliate-dash.html" class="text-green-400 font-bold py-2">Affiliate Portal</a>
+    </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="relative pt-32 pb-16 px-4 md:px-10 overflow-hidden text-center">
+    <div class="absolute inset-0 z-0">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBIKjXNIweEXyLiymh62PYvvEfkvCmuDsD5iKfqL1Ych23r13vMecGtObZCss1tYJeiSirfk2egBUHZoPIKkqiwNJUMpKMXosNrtZoNI_i9Td3G4dp0RzOVYf0aW7PSRcdYCxmNaqgcSm_d827dFO9Xw8Wmmhsf-DiS8gVjFyxAdTGbjceA1UM2I1049SUQUXp3aBXSaXH6V07sVjpIZhbNJRqtOOAxw0mlbvvafiHgDmBarXz8JieznmfHFOsRK6kvuZzeweWrN8" 
+             class="w-full h-full object-cover opacity-20 mix-blend-overlay">
+        <div class="absolute inset-0 bg-gradient-to-b from-background-dark via-background-dark/80 to-background-dark"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary mb-6 animate-pulse">
+            <span class="material-symbols-outlined text-sm">download</span>
+            <span class="text-xs font-bold uppercase tracking-widest">Instant Digital Download</span>
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+            MASTER <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-white">NEW SKILLS</span>
+        </h1>
+        
+        <p class="text-gray-400 text-lg max-w-xl mx-auto leading-relaxed">
+            Premium courses, E-books, and software to elevate your financial and digital career.
+        </p>
     </div>
 </section>
 
-<!-- PRODUCT GRID -->
-<main class="max-w-7xl mx-auto px-4 pb-24">
+<!-- MAIN CONTENT -->
+<main class="max-w-7xl mx-auto px-4 md:px-8 py-12 min-h-screen">
     
     <div id="loading" class="text-center py-20">
         <span class="material-symbols-outlined animate-spin text-5xl text-primary">sync</span>
-        <p class="mt-4 text-gray-500">Loading Library...</p>
+        <p class="mt-4 text-gray-500 text-sm uppercase tracking-widest">Loading Library...</p>
     </div>
 
     <div id="digitalGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
@@ -70,17 +108,41 @@
 
 </main>
 
-<!-- FOOTER ADMIN -->
-<footer class="text-center py-10 border-t border-white/5">
-    <button onclick="openAdminLogin()" class="text-xs text-red-900/50 hover:text-red-500 font-bold uppercase tracking-widest">
-        Upload Digital Product
-    </button>
+<!-- FOOTER -->
+<footer class="bg-card-bg border-t border-white/5 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="col-span-1 md:col-span-2">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-primary text-3xl">diamond</span>
+                <span class="text-xl font-bold">Kingdom Wealth</span>
+            </div>
+            <p class="text-gray-400 text-sm">Empowering your world through Technology, Finance, and Security.</p>
+        </div>
+        <div>
+            <h4 class="font-bold text-white mb-4">Links</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+                <li><a href="index.html" class="hover:text-primary">Home</a></li>
+                <li><a href="store.html" class="hover:text-primary">Gadget Store</a></li>
+                <li><a href="affiliate-register.html" class="hover:text-primary">Become Affiliate</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-bold text-white mb-4">Admin</h4>
+            <button onclick="openAdminLogin()" class="text-xs text-red-500 hover:text-white uppercase tracking-widest border border-red-900/50 px-3 py-2 rounded">
+                Upload Product
+            </button>
+        </div>
+    </div>
+    <div class="border-t border-white/5 pt-8 text-center px-6">
+        <p class="text-xs text-gray-600">© 2026 Kingdom Wealth Limited.</p>
+    </div>
 </footer>
 
 <!-- 1. ADMIN UPLOAD MODAL -->
 <div id="adminModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-[#1a1a1a] p-8 rounded-3xl w-full max-w-lg border border-white/10 shadow-2xl relative max-h-[90vh] overflow-y-auto">
         <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+        
         <h3 class="text-2xl font-bold text-white mb-6">Add Digital Product</h3>
         
         <form onsubmit="handleUpload(event)" class="space-y-4">
@@ -123,19 +185,20 @@
     </div>
 </div>
 
-<!-- 2. DETAILS / BUY MODAL -->
-<div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-[#111118] w-full max-w-4xl rounded-2xl border border-white/10 flex flex-col md:flex-row overflow-hidden relative">
-        <button onclick="document.getElementById('detailsModal').classList.add('hidden')" class="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full text-white"><span class="material-symbols-outlined">close</span></button>
-        
+<!-- 2. PRODUCT DETAILS MODAL -->
+<div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-0 md:p-4 overflow-y-auto">
+    <div class="min-h-screen md:h-auto w-full md:max-w-4xl bg-card-bg md:rounded-2xl border border-white/10 flex flex-col md:flex-row relative">
+        <button onclick="document.getElementById('detailsModal').classList.add('hidden')" class="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-red-600 transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
         <!-- Left Image -->
-        <div class="w-full md:w-1/2 h-64 md:h-auto bg-black flex items-center justify-center relative">
+        <div class="w-full md:w-1/2 bg-black flex items-center justify-center h-[40vh] md:h-auto">
             <img id="modalImg" src="" class="w-full h-full object-cover opacity-80">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#111118] to-transparent"></div>
         </div>
 
         <!-- Right Content -->
-        <div class="w-full md:w-1/2 p-8 flex flex-col">
+        <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
             <div class="mb-auto">
                 <span class="px-3 py-1 bg-green-500/20 text-green-400 text-[10px] font-bold rounded uppercase">Instant Access</span>
                 <h2 id="modalName" class="text-3xl font-bold text-white mt-4 mb-2"></h2>
@@ -143,20 +206,19 @@
                 <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed mb-6"></p>
             </div>
 
-            <!-- Dynamic Button Area -->
-            <div class="grid grid-cols-2 gap-4 mt-6">
-                <button id="chatBtn" class="py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2 font-bold text-sm">
-                    <span class="material-symbols-outlined text-lg">chat</span> Ask Question
-                </button>
-                <button id="buyBtn" class="py-3 rounded-xl bg-primary text-black hover:bg-white transition-colors flex items-center justify-center gap-2 font-bold text-sm">
+            <div class="mt-6 flex flex-col gap-3">
+                <button id="buyBtn" onclick="initiatePurchase()" class="w-full py-4 rounded-xl bg-primary text-black font-bold flex items-center justify-center gap-2 hover:bg-white transition-all shadow-lg">
                     Buy Now
+                </button>
+                <button id="chatBtn" class="w-full py-4 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2 font-bold text-sm">
+                    <span class="material-symbols-outlined text-lg">chat</span> Ask Question
                 </button>
             </div>
 
-            <!-- Download Area (Hidden until paid) -->
+            <!-- Download Area -->
             <div id="downloadArea" class="hidden mt-6 p-4 bg-green-900/20 border border-green-500/30 rounded-xl text-center">
                 <p class="text-green-400 text-sm font-bold mb-2">🎉 Payment Successful!</p>
-                <a id="downloadLink" href="#" target="_blank" class="block w-full py-2 bg-green-600 text-white rounded-lg font-bold text-sm hover:bg-green-500">
+                <a id="downloadLink" href="#" target="_blank" class="block w-full py-3 bg-green-600 text-white rounded-lg font-bold text-sm hover:bg-green-500 shadow-lg">
                     Download File Now
                 </a>
             </div>
@@ -175,9 +237,8 @@
     let allProducts = [];
     let currentItem = null;
 
-    // 1. INIT
+    // 1. INIT & LOAD PRODUCTS
     window.onload = async function() {
-        // Check for referral
         const urlParams = new URLSearchParams(window.location.search);
         const ref = urlParams.get('ref');
         if(ref) localStorage.setItem('kw_ref', ref);
@@ -186,11 +247,6 @@
             document.getElementById('fileNameDisplay').innerText = this.files[0].name;
         });
 
-        loadProducts();
-    };
-
-    // 2. LOAD PRODUCTS
-    async function loadProducts() {
         const { data, error } = await _supabase.from('digital_products').select('*').order('created_at', { ascending: false });
         
         document.getElementById('loading').classList.add('hidden');
@@ -202,16 +258,28 @@
             allProducts = data;
             data.forEach(p => {
                 const html = `
-                    <div class="group bg-card-bg border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer" onclick="openModal('${p.id}')">
-                        <div class="h-48 overflow-hidden bg-black relative">
+                    <div class="group bg-card-bg border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer fade-in">
+                        <div class="h-56 overflow-hidden bg-black relative" onclick="openModal('${p.id}')">
                             <img src="${p.image_url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all"></div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-lg font-bold text-white mb-1 line-clamp-1">${p.name}</h3>
-                            <div class="flex justify-between items-center mt-4">
-                                <p class="text-primary font-bold text-xl">₦${Number(p.price).toLocaleString()}</p>
-                                <span class="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded">50% Affiliate Comm</span>
+                            <div onclick="openModal('${p.id}')">
+                                <h3 class="text-lg font-bold text-white mb-1 line-clamp-1">${p.name}</h3>
+                                <div class="flex justify-between items-center mt-2 mb-4">
+                                    <p class="text-primary font-bold text-xl">₦${Number(p.price).toLocaleString()}</p>
+                                    <span class="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded">${p.commission_rate}% Comm</span>
+                                </div>
+                            </div>
+                            
+                            <!-- ACTION BUTTONS -->
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="generateAffiliateLink('${p.id}')" class="py-2 bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">link</span> Promote
+                                </button>
+                                <button onclick="deleteProduct('${p.id}')" class="py-2 bg-red-900/20 hover:bg-red-900/40 text-red-500 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors opacity-0 group-hover:opacity-100">
+                                    <span class="material-symbols-outlined text-sm">delete</span> Delete
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -219,6 +287,27 @@
                 grid.innerHTML += html;
             });
         }
+    };
+
+    // 2. GENERATE AFFILIATE LINK
+    async function generateAffiliateLink(productId) {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if(!user) return alert("Please Login first to get your affiliate link.");
+
+        // Check if user is an affiliate
+        const { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+        
+        if (!profile || !profile.is_affiliate) {
+            if(confirm("You are not an affiliate yet. Want to register?")) {
+                window.location.href = "affiliate-register.html";
+            }
+            return;
+        }
+
+        // Generate Link
+        const link = `${window.location.origin}/digital-store.html?ref=${profile.referral_code}`;
+        navigator.clipboard.writeText(link);
+        alert(`Affiliate Link Copied!\n\n${link}\n\nShare this link. When people buy, you earn commission!`);
     }
 
     // 3. ADMIN UPLOAD
@@ -229,8 +318,6 @@
 
     async function handleUpload(e) {
         e.preventDefault();
-        
-        // Security Check
         const { data: { user } } = await _supabase.auth.getUser();
         if(!user || user.email !== "dben61168@gmail.com") return alert("Unauthorized.");
 
@@ -242,19 +329,15 @@
         const comm = document.getElementById('prodComm').value;
         const desc = document.getElementById('prodDesc').value;
         const linkInput = document.getElementById('prodLink').value;
-        
         const imgFile = document.getElementById('coverImage').files[0];
         const docFile = document.getElementById('prodFile').files[0];
 
         try {
             if(!imgFile) throw new Error("Cover Image Required");
-            
-            // 1. Upload Cover
             const imgPath = `covers/${Date.now()}_${imgFile.name.replace(/[^a-zA-Z0-9]/g,'')}`;
             await _supabase.storage.from('product-images').upload(imgPath, imgFile);
             const { data: imgUrl } = _supabase.storage.from('product-images').getPublicUrl(imgPath);
 
-            // 2. Upload File (if present) OR Use Link
             let finalDownloadLink = linkInput;
             if (docFile) {
                 const docPath = `files/${Date.now()}_${docFile.name.replace(/[^a-zA-Z0-9]/g,'')}`;
@@ -263,48 +346,43 @@
                 finalDownloadLink = docUrl.publicUrl;
             }
 
-            if(!finalDownloadLink) throw new Error("Please upload a file OR provide a link.");
-
-            // 3. Save to DB
             const { error } = await _supabase.from('digital_products').insert([{
-                name, price, description: desc, 
-                commission_rate: comm,
-                image_url: imgUrl.publicUrl,
-                file_url: finalDownloadLink 
+                name, price, description: desc, commission_rate: comm,
+                image_url: imgUrl.publicUrl, file_url: finalDownloadLink 
             }]);
 
             if(error) throw error;
             alert("Uploaded Successfully!"); location.reload();
-
-        } catch(err) {
-            alert("Error: " + err.message);
-        } finally {
-            btn.innerText = "Upload Product"; btn.disabled = false;
-        }
+        } catch(err) { alert("Error: " + err.message); } 
+        finally { btn.innerText = "Upload Product"; btn.disabled = false; }
     }
 
-    // 4. DETAILS & BUY
+    // 4. DELETE PRODUCT
+    async function deleteProduct(id) {
+        if(!confirm("Are you sure you want to delete this?")) return;
+        const pass = prompt("Enter Admin Password:");
+        if(pass !== "KW9032473005") return alert("Access Denied");
+
+        const { error } = await _supabase.from('digital_products').delete().eq('id', id);
+        if(error) alert("Error: " + error.message);
+        else location.reload();
+    }
+
+    // 5. DETAILS & BUY
     function openModal(id) {
         currentItem = allProducts.find(p => p.id === id);
-        
         document.getElementById('modalName').innerText = currentItem.name;
         document.getElementById('modalPrice').innerText = "₦" + Number(currentItem.price).toLocaleString();
         document.getElementById('modalDesc').innerText = currentItem.description;
         document.getElementById('modalImg').src = currentItem.image_url;
 
-        // Reset Buttons
         document.getElementById('downloadArea').classList.add('hidden');
         document.getElementById('buyBtn').classList.remove('hidden');
 
-        // Chat Button
         document.getElementById('chatBtn').onclick = () => {
             const msg = `Hi, I have a question about the digital product: ${currentItem.name}`;
             window.open(`https://wa.me/2349032473005?text=${encodeURIComponent(msg)}`, '_blank');
         };
-
-        // Buy Button
-        document.getElementById('buyBtn').onclick = () => initiatePurchase();
-
         document.getElementById('detailsModal').classList.remove('hidden');
     }
 
@@ -318,15 +396,12 @@
             amount: currentItem.price * 100,
             currency: 'NGN',
             callback: async function(response) {
-                // SUCCESS!
                 document.getElementById('buyBtn').classList.add('hidden');
-                const dlArea = document.getElementById('downloadArea');
                 const dlLink = document.getElementById('downloadLink');
-                
-                dlArea.classList.remove('hidden');
-                dlLink.href = currentItem.file_url; // Reveal the link
+                document.getElementById('downloadArea').classList.remove('hidden');
+                dlLink.href = currentItem.file_url;
 
-                // PROCESS AFFILIATE COMMISSION
+                // AFFILIATE COMMISSION
                 const refCode = localStorage.getItem('kw_ref');
                 if (refCode) {
                     const { data: aff } = await _supabase.from('profiles').select('*').eq('referral_code', refCode).single();
@@ -334,10 +409,7 @@
                         const comm = (currentItem.price * currentItem.commission_rate) / 100;
                         const newBal = Number(aff.wallet_balance) + comm;
                         const newTotal = Number(aff.total_earnings) + comm;
-                        
                         await _supabase.from('profiles').update({ wallet_balance: newBal, total_earnings: newTotal }).eq('id', aff.id);
-                        
-                        // Log Transaction for Affiliate
                         await _supabase.from('transactions').insert({
                             user_id: aff.id, type: 'commission', amount: comm, status: 'success', 
                             product_name: `Comm: ${currentItem.name}`, bank_name: 'Affiliate System'
