@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KW Digital Store - Courses & E-Books</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#f9f506", "dark-bg": "#050510", "card-bg": "#111118" }, fontFamily: { "display": ["Manrope", "sans-serif"] } } } }
+    </script>
+</head>
+<body class="bg-dark-bg font-display text-white">
+
+    <!-- NAV -->
+    <nav class="p-4 flex justify-between items-center border-b border-white/10">
+        <h1 class="text-xl font-bold text-primary">KW Digital</h1>
+        <a href="index.html" class="text-sm text-gray-400">Back Home</a>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="text-center py-12 px-4">
+        <h1 class="text-4xl font-bold mb-4">Master New Skills</h1>
+        <p class="text-gray-400">Instant access to premium courses and software.</p>
+    </div>
+
+    <!-- GRID -->
+    <div id="grid" class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 pb-20">
+        <!-- Products injected here -->
+    </div>
+
+    <script>
+        const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+        const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+        const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+        const PAYSTACK_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
+
+        // 1. CAPTURE REFERRAL CODE
+        window.onload = async function() {
+            // Check URL for ?ref=CODE
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            
+            if (refCode) {
+                // Save to browser memory for later
+                localStorage.setItem('kw_referrer', refCode);
+                console.log("Referral captured:", refCode);
+            }
+
+            loadDigitalProducts();
+        }
+
+        // 2. LOAD PRODUCTS
+        async function loadDigitalProducts() {
+            const { data, error } = await _supabase.from('digital_products').select('*');
+            const grid = document.getElementById('grid');
+            
+            if(data) {
+                data.forEach(prod => {
+                    grid.innerHTML += `
+                        <div class="bg-card-bg rounded-2xl border border-white/5 p-6 hover:border-primary/50 transition-all">
+                            <div class="h-40 bg-black/50 rounded-xl mb-4 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-6xl text-gray-700">school</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">${prod.name}</h3>
+                            <p class="text-primary font-bold text-lg mb-4">₦${Number(prod.price).toLocaleString()}</p>
+                            <button onclick="buyDigital('${prod.id}', '${prod.name}', ${prod.price}, ${prod.commission_rate})" class="w-full py-3 bg-white text-black font-bold rounded-lg hover:bg-primary transition-colors">Buy Now</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // 3. BUY & SPLIT COMMISSION
+        function buyDigital(id, name, price, commissionRate) {
+            const email = prompt("Enter your email to receive the file:");
+            if(!email) return;
+
+            let handler = PaystackPop.setup({
+                key: PAYSTACK_KEY,
+                email: email,
+                amount: price * 100,
+                currency: 'NGN',
+                callback: async function(response) {
+                    alert("Payment Successful! Processing...");
+
+                    // --- COMMISSION LOGIC ---
+                    const referrerCode = localStorage.getItem('kw_referrer');
+                    
+                    if (referrerCode) {
+                        // Find the Affiliate
+                        const { data: affiliate } = await _supabase
+                            .from('profiles')
+                            .select('*')
+                            .eq('referral_code', referrerCode)
+                            .single();
+
+                        if (affiliate) {
+                            // Calculate Split
+                            const commAmount = (price * commissionRate) / 100;
+                            const affiliateNewBal = Number(affiliate.wallet_balance) + commAmount;
+                            const affiliateTotal = Number(affiliate.total_earnings) + commAmount;
+
+                            // Pay the Affiliate (Update Database Wallet)
+                            await _supabase.from('profiles')
+                                .update({ 
+                                    wallet_balance: affiliateNewBal,
+                                    total_earnings: affiliateTotal 
+                                })
+                                .eq('id', affiliate.id);
+
+                            // Record Transaction for Affiliate
+                            await _supabase.from('transactions').insert({
+                                user_id: affiliate.id,
+                                type: 'commission',
+                                amount: commAmount,
+                                status: 'success',
+                                product_name: `Commission: ${name}`,
+                                bank_name: 'Affiliate System'
+                            });
+                        }
+                    }
+
+                    alert("Sent! Check your email for the product link.");
+                },
+                onClose: function() { alert('Transaction cancelled.'); }
+            });
+            handler.openIframe();
+        }
+    </script>
+</body>
+</html>
