@@ -1,135 +1,355 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html class="light" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KW Digital Store - Courses & E-Books</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KW Digital - Courses & E-Books</title>
+    
+    <!-- FONTS & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://js.paystack.co/v1/inline.js"></script>
+
     <script>
-        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#f9f506", "dark-bg": "#050510", "card-bg": "#111118" }, fontFamily: { "display": ["Manrope", "sans-serif"] } } } }
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#f9f506", "dark-bg": "#050510", "card-bg": "#111118" },
+                    fontFamily: { "display": ["Spline Sans", "sans-serif"] }
+                },
+            },
+        }
     </script>
+    <style>
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+        .dark .glass-panel { background: rgba(26, 26, 26, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body class="bg-dark-bg font-display text-white">
 
-    <!-- NAV -->
-    <nav class="p-4 flex justify-between items-center border-b border-white/10">
-        <h1 class="text-xl font-bold text-primary">KW Digital</h1>
-        <a href="index.html" class="text-sm text-gray-400">Back Home</a>
-    </nav>
+<!-- HEADER -->
+<nav class="sticky top-0 z-50 w-full glass-panel">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+        <a href="code.html" class="flex items-center gap-3">
+            <div class="size-10 bg-white/10 rounded-lg flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-2xl">school</span>
+            </div>
+            <h1 class="text-xl font-bold tracking-tight">KW Academy Store</h1>
+        </a>
+        <a href="index.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Back Home</a>
+    </div>
+</nav>
 
-    <!-- HEADER -->
-    <div class="text-center py-12 px-4">
-        <h1 class="text-4xl font-bold mb-4">Master New Skills</h1>
-        <p class="text-gray-400">Instant access to premium courses and software.</p>
+<!-- HERO -->
+<section class="py-20 px-4 text-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10"></div>
+    <div class="relative z-10">
+        <h1 class="text-4xl md:text-6xl font-black mb-4">Master New <span class="text-primary">Skills</span></h1>
+        <p class="text-gray-400 max-w-xl mx-auto text-lg">Instant access to premium courses, PDFs, and video trainings.</p>
+        <p class="text-xs text-green-400 mt-4 font-bold uppercase tracking-widest">⚡ Instant Digital Delivery</p>
+    </div>
+</section>
+
+<!-- PRODUCT GRID -->
+<main class="max-w-7xl mx-auto px-4 pb-24">
+    
+    <div id="loading" class="text-center py-20">
+        <span class="material-symbols-outlined animate-spin text-5xl text-primary">sync</span>
+        <p class="mt-4 text-gray-500">Loading Library...</p>
     </div>
 
-    <!-- GRID -->
-    <div id="grid" class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 pb-20">
-        <!-- Products injected here -->
+    <div id="digitalGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+        <!-- Products Injected Here -->
     </div>
 
-    <script>
-        const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
-        const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
-        const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
-        const PAYSTACK_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
+</main>
 
-        // 1. CAPTURE REFERRAL CODE
-        window.onload = async function() {
-            // Check URL for ?ref=CODE
-            const urlParams = new URLSearchParams(window.location.search);
-            const refCode = urlParams.get('ref');
+<!-- FOOTER ADMIN -->
+<footer class="text-center py-10 border-t border-white/5">
+    <button onclick="openAdminLogin()" class="text-xs text-red-900/50 hover:text-red-500 font-bold uppercase tracking-widest">
+        Upload Digital Product
+    </button>
+</footer>
+
+<!-- 1. ADMIN UPLOAD MODAL -->
+<div id="adminModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#1a1a1a] p-8 rounded-3xl w-full max-w-lg border border-white/10 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+        <h3 class="text-2xl font-bold text-white mb-6">Add Digital Product</h3>
+        
+        <form onsubmit="handleUpload(event)" class="space-y-4">
             
-            if (refCode) {
-                // Save to browser memory for later
-                localStorage.setItem('kw_referrer', refCode);
-                console.log("Referral captured:", refCode);
-            }
+            <!-- Cover Image -->
+            <div class="border border-dashed border-gray-600 rounded-lg p-4 text-center relative group">
+                <input id="coverImage" type="file" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                <span class="material-symbols-outlined text-3xl text-gray-500">image</span>
+                <p class="text-xs text-gray-400">Upload Cover Image</p>
+            </div>
 
-            loadDigitalProducts();
-        }
-
-        // 2. LOAD PRODUCTS
-        async function loadDigitalProducts() {
-            const { data, error } = await _supabase.from('digital_products').select('*');
-            const grid = document.getElementById('grid');
+            <input id="prodName" required class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white outline-none" placeholder="Course/Book Title">
             
-            if(data) {
-                data.forEach(prod => {
-                    grid.innerHTML += `
-                        <div class="bg-card-bg rounded-2xl border border-white/5 p-6 hover:border-primary/50 transition-all">
-                            <div class="h-40 bg-black/50 rounded-xl mb-4 flex items-center justify-center">
-                                <span class="material-symbols-outlined text-6xl text-gray-700">school</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">${prod.name}</h3>
-                            <p class="text-primary font-bold text-lg mb-4">₦${Number(prod.price).toLocaleString()}</p>
-                            <button onclick="buyDigital('${prod.id}', '${prod.name}', ${prod.price}, ${prod.commission_rate})" class="w-full py-3 bg-white text-black font-bold rounded-lg hover:bg-primary transition-colors">Buy Now</button>
+            <div class="grid grid-cols-2 gap-4">
+                <input id="prodPrice" type="number" required class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white outline-none" placeholder="Price (NGN)">
+                <!-- Commission -->
+                <div class="relative">
+                    <input id="prodComm" type="number" value="50" required class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white outline-none" placeholder="Comm %">
+                    <span class="absolute right-3 top-3 text-gray-500 text-xs">% Comm</span>
+                </div>
+            </div>
+
+            <!-- The File (Product) -->
+            <div class="border border-dashed border-green-900/50 bg-green-900/10 rounded-lg p-4 text-center relative group">
+                <input id="prodFile" type="file" accept=".pdf,.doc,.docx,.mp4,.zip" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                <span class="material-symbols-outlined text-3xl text-green-500">cloud_download</span>
+                <p class="text-xs text-green-400">Upload PDF/Video/Doc (Product)</p>
+                <p id="fileNameDisplay" class="text-[10px] text-gray-500 mt-1"></p>
+            </div>
+
+            <!-- OR External Link -->
+            <input id="prodLink" class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white outline-none text-xs" placeholder="OR Paste External Link (Drive/YouTube)">
+
+            <textarea id="prodDesc" rows="3" required class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white outline-none" placeholder="Description..."></textarea>
+
+            <button type="submit" class="w-full bg-primary text-black font-bold py-3 rounded-xl hover:bg-white transition-all">
+                <span id="uploadText">Upload Product</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- 2. DETAILS / BUY MODAL -->
+<div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-[#111118] w-full max-w-4xl rounded-2xl border border-white/10 flex flex-col md:flex-row overflow-hidden relative">
+        <button onclick="document.getElementById('detailsModal').classList.add('hidden')" class="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full text-white"><span class="material-symbols-outlined">close</span></button>
+        
+        <!-- Left Image -->
+        <div class="w-full md:w-1/2 h-64 md:h-auto bg-black flex items-center justify-center relative">
+            <img id="modalImg" src="" class="w-full h-full object-cover opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#111118] to-transparent"></div>
+        </div>
+
+        <!-- Right Content -->
+        <div class="w-full md:w-1/2 p-8 flex flex-col">
+            <div class="mb-auto">
+                <span class="px-3 py-1 bg-green-500/20 text-green-400 text-[10px] font-bold rounded uppercase">Instant Access</span>
+                <h2 id="modalName" class="text-3xl font-bold text-white mt-4 mb-2"></h2>
+                <p id="modalPrice" class="text-2xl font-bold text-primary mb-6"></p>
+                <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed mb-6"></p>
+            </div>
+
+            <!-- Dynamic Button Area -->
+            <div class="grid grid-cols-2 gap-4 mt-6">
+                <button id="chatBtn" class="py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2 font-bold text-sm">
+                    <span class="material-symbols-outlined text-lg">chat</span> Ask Question
+                </button>
+                <button id="buyBtn" class="py-3 rounded-xl bg-primary text-black hover:bg-white transition-colors flex items-center justify-center gap-2 font-bold text-sm">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- Download Area (Hidden until paid) -->
+            <div id="downloadArea" class="hidden mt-6 p-4 bg-green-900/20 border border-green-500/30 rounded-xl text-center">
+                <p class="text-green-400 text-sm font-bold mb-2">🎉 Payment Successful!</p>
+                <a id="downloadLink" href="#" target="_blank" class="block w-full py-2 bg-green-600 text-white rounded-lg font-bold text-sm hover:bg-green-500">
+                    Download File Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+    // CONFIG
+    const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+    const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+    const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+    const PAYSTACK_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
+
+    let allProducts = [];
+    let currentItem = null;
+
+    // 1. INIT
+    window.onload = async function() {
+        // Check for referral
+        const urlParams = new URLSearchParams(window.location.search);
+        const ref = urlParams.get('ref');
+        if(ref) localStorage.setItem('kw_ref', ref);
+
+        document.getElementById('prodFile').addEventListener('change', function(){
+            document.getElementById('fileNameDisplay').innerText = this.files[0].name;
+        });
+
+        loadProducts();
+    };
+
+    // 2. LOAD PRODUCTS
+    async function loadProducts() {
+        const { data, error } = await _supabase.from('digital_products').select('*').order('created_at', { ascending: false });
+        
+        document.getElementById('loading').classList.add('hidden');
+        const grid = document.getElementById('digitalGrid');
+        grid.classList.remove('hidden');
+        grid.innerHTML = '';
+
+        if(data) {
+            allProducts = data;
+            data.forEach(p => {
+                const html = `
+                    <div class="group bg-card-bg border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer" onclick="openModal('${p.id}')">
+                        <div class="h-48 overflow-hidden bg-black relative">
+                            <img src="${p.image_url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all"></div>
                         </div>
-                    `;
-                });
-            }
-        }
-
-        // 3. BUY & SPLIT COMMISSION
-        function buyDigital(id, name, price, commissionRate) {
-            const email = prompt("Enter your email to receive the file:");
-            if(!email) return;
-
-            let handler = PaystackPop.setup({
-                key: PAYSTACK_KEY,
-                email: email,
-                amount: price * 100,
-                currency: 'NGN',
-                callback: async function(response) {
-                    alert("Payment Successful! Processing...");
-
-                    // --- COMMISSION LOGIC ---
-                    const referrerCode = localStorage.getItem('kw_referrer');
-                    
-                    if (referrerCode) {
-                        // Find the Affiliate
-                        const { data: affiliate } = await _supabase
-                            .from('profiles')
-                            .select('*')
-                            .eq('referral_code', referrerCode)
-                            .single();
-
-                        if (affiliate) {
-                            // Calculate Split
-                            const commAmount = (price * commissionRate) / 100;
-                            const affiliateNewBal = Number(affiliate.wallet_balance) + commAmount;
-                            const affiliateTotal = Number(affiliate.total_earnings) + commAmount;
-
-                            // Pay the Affiliate (Update Database Wallet)
-                            await _supabase.from('profiles')
-                                .update({ 
-                                    wallet_balance: affiliateNewBal,
-                                    total_earnings: affiliateTotal 
-                                })
-                                .eq('id', affiliate.id);
-
-                            // Record Transaction for Affiliate
-                            await _supabase.from('transactions').insert({
-                                user_id: affiliate.id,
-                                type: 'commission',
-                                amount: commAmount,
-                                status: 'success',
-                                product_name: `Commission: ${name}`,
-                                bank_name: 'Affiliate System'
-                            });
-                        }
-                    }
-
-                    alert("Sent! Check your email for the product link.");
-                },
-                onClose: function() { alert('Transaction cancelled.'); }
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-white mb-1 line-clamp-1">${p.name}</h3>
+                            <div class="flex justify-between items-center mt-4">
+                                <p class="text-primary font-bold text-xl">₦${Number(p.price).toLocaleString()}</p>
+                                <span class="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded">50% Affiliate Comm</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += html;
             });
-            handler.openIframe();
         }
-    </script>
+    }
+
+    // 3. ADMIN UPLOAD
+    function openAdminLogin() {
+        if(prompt("Admin Password:") === "KW9032473005") document.getElementById('adminModal').classList.remove('hidden');
+        else alert("Incorrect.");
+    }
+
+    async function handleUpload(e) {
+        e.preventDefault();
+        
+        // Security Check
+        const { data: { user } } = await _supabase.auth.getUser();
+        if(!user || user.email !== "dben61168@gmail.com") return alert("Unauthorized.");
+
+        const btn = e.target.querySelector('button');
+        btn.innerText = "Uploading..."; btn.disabled = true;
+
+        const name = document.getElementById('prodName').value;
+        const price = document.getElementById('prodPrice').value;
+        const comm = document.getElementById('prodComm').value;
+        const desc = document.getElementById('prodDesc').value;
+        const linkInput = document.getElementById('prodLink').value;
+        
+        const imgFile = document.getElementById('coverImage').files[0];
+        const docFile = document.getElementById('prodFile').files[0];
+
+        try {
+            if(!imgFile) throw new Error("Cover Image Required");
+            
+            // 1. Upload Cover
+            const imgPath = `covers/${Date.now()}_${imgFile.name.replace(/[^a-zA-Z0-9]/g,'')}`;
+            await _supabase.storage.from('product-images').upload(imgPath, imgFile);
+            const { data: imgUrl } = _supabase.storage.from('product-images').getPublicUrl(imgPath);
+
+            // 2. Upload File (if present) OR Use Link
+            let finalDownloadLink = linkInput;
+            if (docFile) {
+                const docPath = `files/${Date.now()}_${docFile.name.replace(/[^a-zA-Z0-9]/g,'')}`;
+                await _supabase.storage.from('digital-files').upload(docPath, docFile);
+                const { data: docUrl } = _supabase.storage.from('digital-files').getPublicUrl(docPath);
+                finalDownloadLink = docUrl.publicUrl;
+            }
+
+            if(!finalDownloadLink) throw new Error("Please upload a file OR provide a link.");
+
+            // 3. Save to DB
+            const { error } = await _supabase.from('digital_products').insert([{
+                name, price, description: desc, 
+                commission_rate: comm,
+                image_url: imgUrl.publicUrl,
+                file_url: finalDownloadLink 
+            }]);
+
+            if(error) throw error;
+            alert("Uploaded Successfully!"); location.reload();
+
+        } catch(err) {
+            alert("Error: " + err.message);
+        } finally {
+            btn.innerText = "Upload Product"; btn.disabled = false;
+        }
+    }
+
+    // 4. DETAILS & BUY
+    function openModal(id) {
+        currentItem = allProducts.find(p => p.id === id);
+        
+        document.getElementById('modalName').innerText = currentItem.name;
+        document.getElementById('modalPrice').innerText = "₦" + Number(currentItem.price).toLocaleString();
+        document.getElementById('modalDesc').innerText = currentItem.description;
+        document.getElementById('modalImg').src = currentItem.image_url;
+
+        // Reset Buttons
+        document.getElementById('downloadArea').classList.add('hidden');
+        document.getElementById('buyBtn').classList.remove('hidden');
+
+        // Chat Button
+        document.getElementById('chatBtn').onclick = () => {
+            const msg = `Hi, I have a question about the digital product: ${currentItem.name}`;
+            window.open(`https://wa.me/2349032473005?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+
+        // Buy Button
+        document.getElementById('buyBtn').onclick = () => initiatePurchase();
+
+        document.getElementById('detailsModal').classList.remove('hidden');
+    }
+
+    function initiatePurchase() {
+        const email = prompt("Enter your email to receive the file:");
+        if(!email) return;
+
+        let handler = PaystackPop.setup({
+            key: PAYSTACK_KEY,
+            email: email,
+            amount: currentItem.price * 100,
+            currency: 'NGN',
+            callback: async function(response) {
+                // SUCCESS!
+                document.getElementById('buyBtn').classList.add('hidden');
+                const dlArea = document.getElementById('downloadArea');
+                const dlLink = document.getElementById('downloadLink');
+                
+                dlArea.classList.remove('hidden');
+                dlLink.href = currentItem.file_url; // Reveal the link
+
+                // PROCESS AFFILIATE COMMISSION
+                const refCode = localStorage.getItem('kw_ref');
+                if (refCode) {
+                    const { data: aff } = await _supabase.from('profiles').select('*').eq('referral_code', refCode).single();
+                    if(aff) {
+                        const comm = (currentItem.price * currentItem.commission_rate) / 100;
+                        const newBal = Number(aff.wallet_balance) + comm;
+                        const newTotal = Number(aff.total_earnings) + comm;
+                        
+                        await _supabase.from('profiles').update({ wallet_balance: newBal, total_earnings: newTotal }).eq('id', aff.id);
+                        
+                        // Log Transaction for Affiliate
+                        await _supabase.from('transactions').insert({
+                            user_id: aff.id, type: 'commission', amount: comm, status: 'success', 
+                            product_name: `Comm: ${currentItem.name}`, bank_name: 'Affiliate System'
+                        });
+                    }
+                }
+            },
+            onClose: function() { alert('Transaction cancelled.'); }
+        });
+        handler.openIframe();
+    }
+</script>
+
 </body>
 </html>
