@@ -2,84 +2,112 @@
 <html class="dark" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>KW Affiliate Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#f9f506", "dark-bg": "#050510" }, fontFamily: { "display": ["Manrope", "sans-serif"] } } } }
+        tailwind.config = { 
+            darkMode: "class", 
+            theme: { 
+                extend: { 
+                    colors: { "primary": "#f9f506", "dark-bg": "#050510" }, 
+                    fontFamily: { "display": ["Manrope", "sans-serif"] } 
+                } 
+            } 
+        }
     </script>
+    <style>
+        /* Prevents horizontal scrolling on tiny screens */
+        body { overflow-x: hidden; }
+        .break-all { word-break: break-all; }
+    </style>
 </head>
-<body class="bg-dark-bg font-display text-white p-6 flex flex-col items-center min-h-screen">
+<body class="bg-dark-bg font-display text-white p-4 md:p-8 flex flex-col items-center min-h-screen">
 
     <!-- NAV -->
-    <nav class="w-full max-w-4xl flex justify-between items-center mb-8">
+    <nav class="w-full max-w-4xl flex justify-between items-center mb-6 md:mb-10">
         <div class="flex items-center gap-2">
-            <span class="text-primary font-bold text-xl">KW Partners</span>
-            <span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded uppercase">Dashboard</span>
+            <span class="text-primary font-bold text-lg md:text-xl">KW Partners</span>
+            <span class="bg-primary/20 text-primary text-[9px] md:text-[10px] px-2 py-0.5 rounded uppercase font-bold">Dashboard</span>
         </div>
-        <button onclick="logout()" class="text-sm text-gray-400 hover:text-white">Logout</button>
+        <button onclick="logout()" class="text-sm text-gray-400 hover:text-white border border-white/10 px-3 py-1 rounded-lg">Logout</button>
     </nav>
 
-    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="w-full max-w-4xl space-y-6">
         
-        <!-- MAIN STATS -->
-        <div class="bg-[#111118] border border-white/10 rounded-2xl p-8 shadow-2xl col-span-1 md:col-span-2">
-            <h2 id="welcomeName" class="text-xl font-bold mb-6">Welcome, Partner</h2>
+        <!-- MAIN STATS CARD -->
+        <div class="bg-[#111118] border border-white/10 rounded-2xl p-5 md:p-8 shadow-2xl">
+            <h2 id="welcomeName" class="text-lg md:text-xl font-bold mb-6 text-center md:text-left">Welcome, Partner</h2>
             
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div class="bg-black/40 p-4 rounded-xl border border-white/5">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Wallet -->
+                <div class="bg-black/40 p-4 rounded-xl border border-white/5 flex flex-col justify-center">
                     <p class="text-xs text-gray-400 mb-1">Wallet Balance</p>
-                    <h2 id="walletBal" class="text-3xl font-bold text-primary">₦0.00</h2>
+                    <h2 id="walletBal" class="text-2xl md:text-3xl font-bold text-primary truncate">₦0.00</h2>
                 </div>
-                <div class="bg-black/40 p-4 rounded-xl border border-white/5">
+                <!-- Earnings -->
+                <div class="bg-black/40 p-4 rounded-xl border border-white/5 flex flex-col justify-center">
                     <p class="text-xs text-gray-400 mb-1">Total Earnings</p>
-                    <h2 id="totalEarned" class="text-2xl font-bold text-green-400">₦0.00</h2>
+                    <h2 id="totalEarned" class="text-xl md:text-2xl font-bold text-green-400 truncate">₦0.00</h2>
                 </div>
-                <div class="bg-black/40 p-4 rounded-xl border border-white/5 col-span-2 md:col-span-1">
+                <!-- Code -->
+                <div class="bg-black/40 p-4 rounded-xl border border-white/5 sm:col-span-2 lg:col-span-1">
                     <p class="text-xs text-gray-400 mb-1">Affiliate Code</p>
-                    <div class="flex items-center gap-2">
-                        <code id="affCode" class="text-lg font-bold text-white">...</code>
-                        <button onclick="copyCode()" class="text-primary hover:text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>
+                    <div class="flex items-center justify-between gap-2">
+                        <code id="affCode" class="text-lg font-bold text-white tracking-widest">...</code>
+                        <button onclick="copyCode()" class="bg-primary/10 p-2 rounded-lg text-primary hover:bg-primary hover:text-black transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- WITHDRAWAL SECTION -->
             <div class="mt-8 pt-6 border-t border-white/10">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
                     <h3 class="font-bold text-white">Withdraw Funds</h3>
-                    <span id="bankDisplay" class="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded">No Bank Added</span>
+                    <span id="bankDisplay" class="text-[11px] md:text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full border border-white/5">No Bank Added</span>
                 </div>
-                <div class="flex gap-2">
-                    <input id="withdrawAmount" type="number" placeholder="Amount (Min ₦1000)" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none">
-                    <button onclick="handleWithdraw()" class="bg-primary text-black font-bold px-6 py-3 rounded-xl hover:bg-white transition-colors shadow-lg">
+                
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input id="withdrawAmount" type="number" placeholder="Amount (Min ₦1000)" 
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none text-base">
+                    <button onclick="handleWithdraw()" 
+                        class="w-full sm:w-auto bg-primary text-black font-bold px-8 py-3 rounded-xl hover:bg-white transition-all shadow-lg active:scale-95">
                         Withdraw
                     </button>
                 </div>
-                <p class="text-[10px] text-gray-500 mt-2">Withdrawals are processed to your saved bank account automatically within 24 hours.</p>
+                <p class="text-[10px] text-gray-500 mt-3 text-center sm:text-left">Withdrawals are processed automatically within 24 hours.</p>
             </div>
         </div>
 
-        <!-- LINK GENERATOR -->
-        <div class="bg-[#111118] border border-white/10 rounded-2xl p-6 shadow-xl">
+        <!-- LINK GENERATOR CARD -->
+        <div class="bg-[#111118] border border-white/10 rounded-2xl p-5 md:p-6 shadow-xl">
             <h3 class="font-bold text-white mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                Your Link
+                Your Affiliate Link
             </h3>
-            <div class="bg-black/50 p-3 rounded-lg border border-white/5 break-all">
-                <p id="fullLink" class="text-xs text-gray-400 font-mono"></p>
+            <div class="bg-black/50 p-4 rounded-xl border border-white/5 break-all mb-4">
+                <p id="fullLink" class="text-[11px] md:text-xs text-gray-400 font-mono leading-relaxed text-center md:text-left"></p>
             </div>
-            <button onclick="copyLink()" class="w-full mt-4 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/5 transition-colors">
-                Copy Link
-            </button>
-            <a href="digital-store.html" target="_blank" class="block w-full text-center mt-2 text-primary text-xs hover:underline">Visit Store</a>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button onclick="copyLink()" class="py-3 border border-white/20 rounded-xl text-sm font-semibold hover:bg-white hover:text-black transition-all">
+                    Copy Link
+                </button>
+                <a href="digital-store.html" target="_blank" class="flex items-center justify-center py-3 bg-white/5 rounded-xl text-primary text-sm font-semibold hover:underline">
+                    Visit Store
+                </a>
+            </div>
         </div>
 
     </div>
 
     <script>
+        // ... Your Script Stays Exactly The Same ...
         const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
         const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
         const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
@@ -98,7 +126,6 @@
                 return;
             }
 
-            // Update UI
             document.getElementById('welcomeName').innerText = "Welcome, " + (profile.full_name || "Partner");
             document.getElementById('walletBal').innerText = "₦" + Number(profile.wallet_balance).toLocaleString();
             document.getElementById('totalEarned').innerText = "₦" + Number(profile.total_earnings).toLocaleString();
@@ -107,40 +134,36 @@
             const link = `https://kingdomwealthltd.com/digital-store.html?ref=${profile.referral_code}`;
             document.getElementById('fullLink').innerText = link;
 
-            // Bank Info
             if(profile.bank_name && profile.account_number) {
                 document.getElementById('bankDisplay').innerText = `${profile.bank_name} - ${profile.account_number}`;
-                document.getElementById('bankDisplay').className = "text-xs text-green-400 bg-green-900/20 px-2 py-1 rounded border border-green-900/50";
+                document.getElementById('bankDisplay').className = "text-[10px] md:text-xs text-green-400 bg-green-900/20 px-3 py-1 rounded-full border border-green-900/50";
             } else {
-                document.getElementById('bankDisplay').innerHTML = `<a href="affiliate-register.html" class="text-red-400 hover:underline">Add Bank Details</a>`;
+                document.getElementById('bankDisplay').innerHTML = `<a href="affiliate-register.html" class="text-red-400 hover:underline font-bold">Add Bank Details</a>`;
             }
         };
 
         function copyCode() {
             navigator.clipboard.writeText(userProfile.referral_code);
-            alert("Code Copied!");
+            alert("Affiliate Code Copied!");
         }
         
         function copyLink() {
             navigator.clipboard.writeText(document.getElementById('fullLink').innerText);
-            alert("Link Copied! Share this to earn.");
+            alert("Affiliate Link Copied!");
         }
 
         async function handleWithdraw() {
             const amount = document.getElementById('withdrawAmount').value;
-            
             if(!amount || amount < 1000) return alert("Minimum withdrawal is ₦1,000");
             if(Number(amount) > Number(userProfile.wallet_balance)) return alert("Insufficient Balance");
-            if(!userProfile.bank_name) return alert("No Bank Account Linked. Please create a new account to update bank details.");
+            if(!userProfile.bank_name) return alert("Please add bank details first.");
 
-            const confirmTx = confirm(`Withdraw ₦${amount} to ${userProfile.bank_name} (${userProfile.account_number})?`);
+            const confirmTx = confirm(`Withdraw ₦${amount} to ${userProfile.bank_name}?`);
             if(!confirmTx) return;
 
-            // 1. Deduct Balance
             const newBal = Number(userProfile.wallet_balance) - Number(amount);
             await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', userProfile.id);
 
-            // 2. Create Transaction Request
             await _supabase.from('transactions').insert({
                 user_id: userProfile.id,
                 type: 'withdrawal',
@@ -151,7 +174,7 @@
                 product_name: 'Affiliate Payout'
             });
 
-            alert("Withdrawal Submitted! Funds will be sent to your account shortly.");
+            alert("Withdrawal Submitted!");
             location.reload();
         }
 
