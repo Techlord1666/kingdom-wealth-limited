@@ -2,11 +2,11 @@
 <html class="light" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kingdom Store - Premium Products</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+    <title>Kingdom Store - Premium Gadgets</title>
     
     <!-- FONTS & ICONS -->
-    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <!-- LIBRARIES -->
@@ -22,194 +22,211 @@
                 extend: {
                     colors: {
                         "primary": "#f9f506",
-                        "background-light": "#f8f8f5",
-                        "background-dark": "#1a1a1a",
-                        "luxury-black": "#0a0a0a",
+                        "dark-bg": "#050510",
+                        "card-bg": "#111118",
+                        "luxury-black": "#000000",
                     },
-                    fontFamily: { "display": ["Spline Sans", "sans-serif"] },
-                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
                 },
             },
         }
     </script>
     <style>
-        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
-        .dark .glass-panel { background: rgba(26, 26, 26, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .glass-panel { background: rgba(17, 17, 24, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
-<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-white transition-colors duration-200">
+<body class="bg-dark-bg font-display text-white overflow-x-hidden antialiased">
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 w-full glass-panel">
-    <div class="max-w-[1440px] mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+<!-- NAVBAR -->
+<header class="fixed top-0 z-50 w-full glass-panel">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
         <a href="code.html" class="flex items-center gap-3">
-            <div class="size-10 bg-luxury-black rounded-lg flex items-center justify-center text-primary">
-                <span class="material-symbols-outlined text-3xl">diamond</span>
+            <div class="size-10 bg-white/10 rounded-lg flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-2xl">diamond</span>
             </div>
-            <h1 class="text-xl font-bold tracking-tight hidden sm:block">Kingdom Wealth</h1>
+            <h1 class="text-lg font-bold tracking-tight hidden sm:block">Kingdom Wealth</h1>
         </a>
 
         <div class="hidden md:flex items-center gap-6">
-            <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors">Home</a>
-            <a href="https://selar.com/m/TopOnlineCoursesforStudents" target="_blank" class="text-sm font-bold text-red-600 hover:text-red-500 transition-colors flex items-center gap-1">
-                <span class="material-symbols-outlined text-lg">school</span> Digital Courses
+            <a href="code.html" class="text-sm font-medium hover:text-primary transition-colors text-gray-300">Home</a>
+            <a href="https://selar.com/m/TopOnlineCoursesforStudents" target="_blank" class="text-sm font-bold text-red-500 hover:text-white transition-colors flex items-center gap-1">
+                <span class="material-symbols-outlined text-lg">school</span> Courses
             </a>
-            <a href="dash.html" class="text-sm font-bold bg-luxury-black text-primary px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Dashboard</a>
-            
-            <div class="flex gap-3">
-                <a href="login.html" class="px-4 py-2 text-sm font-bold border border-gray-300 dark:border-gray-700 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Login</a>
-                <a href="signup.html" class="px-4 py-2 text-sm font-bold bg-primary text-luxury-black rounded-full hover:bg-yellow-400 transition-colors">Join Now</a>
-            </div>
+            <a href="dash.html" class="px-4 py-2 bg-white/10 rounded-full text-sm font-bold hover:bg-primary hover:text-black transition-colors">Dashboard</a>
         </div>
 
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-luxury-black dark:text-white">
+        <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-white p-2">
             <span class="material-symbols-outlined text-3xl">menu</span>
         </button>
     </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-[#1a1a1a] border-t border-gray-100 dark:border-gray-800 p-4 flex flex-col gap-4 shadow-xl absolute w-full left-0">
-        <a class="text-sm font-medium py-2" href="index.html">Home</a>
-        <a href="https://selar.com/m/TopOnlineCoursesforStudents" target="_blank" class="text-sm font-bold text-red-500 py-2 flex items-center gap-2">
-            <span class="material-symbols-outlined">school</span> Digital Courses
-        </a>
-        <a class="text-sm font-bold text-primary py-2" href="dash.html">Dashboard</a>
-        <div class="flex flex-col gap-2 mt-2">
-            <a href="login.html" class="w-full text-center py-3 border border-gray-300 dark:border-gray-700 rounded-lg font-bold">Login</a>
-            <a href="signup.html" class="w-full text-center py-3 bg-primary text-luxury-black rounded-lg font-bold">Join Now</a>
-        </div>
+    <div id="mobileMenu" class="hidden bg-card-bg border-t border-white/10 p-4 flex flex-col gap-4 md:hidden">
+        <a href="code.html" class="text-gray-300 py-2 border-b border-white/5">Home</a>
+        <a href="https://selar.com/m/TopOnlineCoursesforStudents" target="_blank" class="text-red-500 font-bold py-2 border-b border-white/5">Digital Courses</a>
+        <a href="dash.html" class="text-primary font-bold py-2">Dashboard</a>
     </div>
 </header>
 
-<main class="max-w-[1440px] mx-auto px-4 md:px-6 py-8 flex flex-col gap-10 min-h-screen">
-    
-    <!-- CATEGORY FILTER -->
-    <div class="sticky top-24 z-40 bg-background-light dark:bg-background-dark py-2">
-        <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
-            <button onclick="filterProducts('All')" class="cat-btn bg-luxury-black text-white px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap border border-transparent active-cat">All Items</button>
-            <button onclick="filterProducts('iPhone')" class="cat-btn bg-white dark:bg-[#1a1a1a] border border-gray-300 dark:border-gray-700 px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary">iPhone</button>
-            <button onclick="filterProducts('Samsung')" class="cat-btn bg-white dark:bg-[#1a1a1a] border border-gray-300 dark:border-gray-700 px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary">Samsung</button>
-            <button onclick="filterProducts('Laptop')" class="cat-btn bg-white dark:bg-[#1a1a1a] border border-gray-300 dark:border-gray-700 px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary">Laptops</button>
-            <button onclick="filterProducts('Accessory')" class="cat-btn bg-white dark:bg-[#1a1a1a] border border-gray-300 dark:border-gray-700 px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary">Accessories</button>
-        </div>
+<!-- HERO -->
+<section class="relative pt-32 pb-16 px-4 md:px-10 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQassaqqcChVBYJE3YNeew2uh-TpowQE6Uvvtwp8P0POTEE3V69XDTFKB9XwlS63zDqkWCW6Znyy6IwLc89qEYK7LEj6UPkAlvDz00MSdVybBJAiHVELbGvlB8ewAeGQGpOYqjiIiQNcXF-xBIo4oJcLMsujj2pXN25wm4fdPgjJ_kPLdyNh3F-sciY2gAfGZJlpdN3ZaRE4WZUBhDpvirIf-xeKEQZt6lW33UwbyWoiS232lKsmOpcH1OvIQ_egry62cCKHpU5ZQ" 
+             class="w-full h-full object-cover opacity-30 mix-blend-overlay">
+        <div class="absolute inset-0 bg-gradient-to-b from-dark-bg via-transparent to-dark-bg"></div>
     </div>
 
-    <!-- PRODUCT GRID -->
-    <div id="storeContainer" class="flex flex-col gap-6">
-        <div id="loading" class="text-center py-20">
-            <span class="material-symbols-outlined animate-spin text-4xl text-primary">progress_activity</span>
-            <p class="mt-4 text-gray-500">Loading Products...</p>
+    <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary mb-6 animate-pulse">
+            <span class="material-symbols-outlined text-sm">verified</span>
+            <span class="text-xs font-bold uppercase tracking-widest">Official Store</span>
         </div>
-
-        <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 border-2 border-dashed border-gray-700 rounded-3xl text-center px-4">
-            <span class="material-symbols-outlined text-6xl text-gray-600 mb-4">inventory_2</span>
-            <h3 class="text-2xl font-bold text-gray-400">Store is Empty</h3>
-            <p class="text-gray-500 mb-4">Admin, please upload products.</p>
-        </div>
-
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
-            <!-- Items injected via JS -->
-        </div>
+        <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+            PREMIUM <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-white">COLLECTION</span>
+        </h1>
     </div>
+</section>
 
+<!-- CATEGORY FILTER -->
+<div class="sticky top-20 z-40 bg-dark-bg/95 backdrop-blur-md border-b border-white/5 py-4">
+    <div class="max-w-7xl mx-auto px-4 overflow-x-auto no-scrollbar flex gap-3">
+        <button onclick="filterProducts('All')" class="cat-btn px-6 py-2 rounded-full bg-white text-black text-sm font-bold whitespace-nowrap active-cat">All</button>
+        <button onclick="filterProducts('iPhone')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">iPhone</button>
+        <button onclick="filterProducts('Samsung')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Samsung</button>
+        <button onclick="filterProducts('Laptop')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Laptops</button>
+        <button onclick="filterProducts('Accessory')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Accessories</button>
+    </div>
+</div>
+
+<!-- MAIN STORE CONTENT -->
+<main class="max-w-7xl mx-auto px-4 md:px-8 py-12 min-h-screen">
+    <div id="loading" class="text-center py-20">
+        <span class="material-symbols-outlined animate-spin text-5xl text-primary">sync</span>
+        <p class="mt-4 text-gray-500 text-sm uppercase tracking-widest">Loading Inventory...</p>
+    </div>
+    <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 text-center">
+        <div class="size-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-4xl text-gray-600">inventory_2</span>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-2">Store is Empty</h3>
+        <p class="text-gray-500">Check back later for new drops.</p>
+    </div>
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+        <!-- Products Injected Here -->
+    </div>
 </main>
 
-<!-- FOOTER -->
-<footer class="bg-luxury-black text-white py-12 mt-20">
-    <div class="max-w-[1440px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-        <div>
-            <p class="text-sm text-gray-400">© 2026 Kingdom Wealth Limited.</p>
+<!-- FOOTER (UPDATED) -->
+<footer class="bg-card-bg border-t border-white/5 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <!-- Brand -->
+        <div class="col-span-1 md:col-span-2">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-primary text-3xl">diamond</span>
+                <span class="text-xl font-bold">Kingdom Wealth</span>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
+                Empowering your world through Technology, Finance, and Security.
+            </p>
+            <!-- Social Media Icons -->
+            <div class="flex gap-4 mt-6">
+                <a href="https://www.facebook.com/share/1FQyw79FcW/" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition-colors text-white">FB</a>
+                <a href="https://www.tiktok.com/@kingdomwealthenterprise?_r=1&_t=ZN-94HB315x1te" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-black border border-white/10 hover:border-pink-500 transition-colors text-white">TT</a>
+                <a href="https://www.linkedin.com/groups/15796049" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#0077B5] transition-colors text-white">IN</a>
+            </div>
         </div>
-        <button onclick="openAdminLogin()" class="px-4 py-2 bg-red-900/30 border border-red-900 text-red-400 text-xs font-bold rounded-lg hover:bg-red-900 hover:text-white transition-colors flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">admin_panel_settings</span> Admin Access
+
+        <!-- Links -->
+        <div>
+            <h4 class="font-bold text-white mb-4">Company</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+                <li><a href="code.html" class="hover:text-primary">Home</a></li>
+                <li><a href="about.html" class="hover:text-primary">About Us</a></li>
+                <li><a href="services.html" class="hover:text-primary">Services</a></li>
+            </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+            <h4 class="font-bold text-white mb-4">Legal & Support</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+                <li><button onclick="openInfoModal('privacy')" class="hover:text-primary text-left">Privacy Policy</button></li>
+                <li><button onclick="openInfoModal('terms')" class="hover:text-primary text-left">Terms & Conditions</button></li>
+                <li><button onclick="openInfoModal('shipping')" class="hover:text-primary text-left">Shipping Policy</button></li>
+                <li><button onclick="openInfoModal('sitemap')" class="hover:text-primary text-left">Sitemap</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="border-t border-white/5 pt-8 text-center flex flex-col md:flex-row justify-between items-center px-6">
+        <p class="text-xs text-gray-600">© 2026 Kingdom Wealth Limited.</p>
+        <button onclick="openAdminLogin()" class="text-[10px] text-red-900/50 hover:text-red-500 uppercase tracking-widest mt-2 md:mt-0">
+            Staff Access
         </button>
     </div>
 </footer>
 
-<!-- 1. ADMIN UPLOAD MODAL (MULTI IMAGE) -->
+<!-- 1. ADMIN UPLOAD MODAL -->
 <div id="adminModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-[#1a1a1a] p-6 md:p-8 rounded-2xl w-full max-w-lg border border-gray-700 shadow-2xl max-h-[90vh] overflow-y-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-white">Upload Product</h3>
-            <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
-        </div>
-        
-        <form onsubmit="handleUpload(event)" class="space-y-4">
-            <!-- Image Input (Multiple) -->
-            <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-primary transition-colors relative">
+    <div class="bg-[#1a1a1a] p-8 rounded-3xl w-full max-w-lg border border-white/10 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto">
+        <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+        <h3 class="text-2xl font-bold text-white mb-8">Add Product</h3>
+        <form onsubmit="handleUpload(event)" class="space-y-5">
+            <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-primary transition-colors relative group">
                 <input id="prodImages" type="file" accept="image/*" multiple required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                <span class="material-symbols-outlined text-3xl text-gray-400">add_photo_alternate</span>
-                <p class="text-sm text-gray-400 mt-2">Click to Upload (Max 6 Images)</p>
-                <p id="fileCount" class="text-xs text-primary mt-1"></p>
+                <span class="material-symbols-outlined text-4xl text-gray-500 group-hover:text-primary transition-colors">add_photo_alternate</span>
+                <p class="text-sm text-gray-400 mt-2">Click to select up to 6 images</p>
+                <p id="fileCount" class="text-xs text-primary mt-2 font-bold"></p>
             </div>
-
-            <input id="prodName" required class="w-full bg-white/5 border border-gray-600 rounded-lg p-3 text-white focus:border-primary outline-none" placeholder="Product Name">
-            
+            <input id="prodName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none" placeholder="Product Name">
             <div class="grid grid-cols-2 gap-4">
-                <input id="prodPrice" type="number" required class="w-full bg-white/5 border border-gray-600 rounded-lg p-3 text-white focus:border-primary outline-none" placeholder="Price (NGN)">
-                <select id="prodCategory" class="w-full bg-white/5 border border-gray-600 rounded-lg p-3 text-gray-300 focus:border-primary outline-none">
+                <input id="prodPrice" type="number" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none" placeholder="Price (NGN)">
+                <select id="prodCategory" class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-gray-300 focus:border-primary outline-none">
                     <option value="iPhone">iPhone</option>
                     <option value="Samsung">Samsung</option>
                     <option value="Laptop">Laptop</option>
                     <option value="Tablet">Tablet</option>
                     <option value="Accessory">Accessory</option>
-                    <option value="Gadget">Other Gadget</option>
                 </select>
             </div>
-
-            <textarea id="prodDesc" rows="4" required class="w-full bg-white/5 border border-gray-600 rounded-lg p-3 text-white focus:border-primary outline-none" placeholder="Full Description..."></textarea>
-
-            <button type="submit" class="w-full bg-primary text-black font-bold py-3 rounded-lg hover:bg-yellow-400 flex items-center justify-center gap-2">
-                <span id="uploadIcon" class="material-symbols-outlined text-lg">upload</span>
-                <span id="uploadText">Upload Product</span>
+            <textarea id="prodDesc" rows="4" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none" placeholder="Detailed Description..."></textarea>
+            <button type="submit" class="w-full bg-primary text-black font-bold py-4 rounded-xl hover:bg-white transition-all shadow-lg shadow-primary/20">
+                <span id="uploadText">Upload Now</span>
             </button>
         </form>
     </div>
 </div>
 
-<!-- 2. PRODUCT DETAILS MODAL (THE NEW POPUP) -->
-<div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-0 md:p-4 overflow-y-auto">
-    <div class="bg-white dark:bg-[#111118] w-full max-w-5xl md:rounded-3xl min-h-screen md:min-h-0 md:h-auto overflow-hidden flex flex-col md:flex-row relative">
-        
-        <!-- Close Button -->
+<!-- 2. PRODUCT DETAILS MODAL -->
+<div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md overflow-y-auto">
+    <div class="min-h-screen md:h-auto md:max-w-5xl md:mx-auto md:my-10 bg-card-bg md:rounded-3xl flex flex-col md:flex-row relative border border-white/10">
         <button onclick="closeDetailsModal()" class="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-red-600 transition-colors">
             <span class="material-symbols-outlined">close</span>
         </button>
-
-        <!-- Left: Image Gallery -->
         <div class="w-full md:w-1/2 bg-black flex flex-col">
-            <!-- Main Image -->
-            <div class="h-[300px] md:h-[500px] w-full flex items-center justify-center bg-[#0a0a0a]">
+            <div class="h-[40vh] md:h-[500px] w-full flex items-center justify-center p-4">
                 <img id="detailMainImg" src="" class="max-h-full max-w-full object-contain">
             </div>
-            <!-- Thumbnails -->
-            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto bg-[#0a0a0a] scrollbar-hide h-24 shrink-0">
-                <!-- Injected via JS -->
-            </div>
+            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto no-scrollbar bg-[#050505] h-20 shrink-0"></div>
         </div>
-
-        <!-- Right: Details & Actions -->
-        <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col bg-white dark:bg-[#111118] h-full overflow-y-auto">
-            <div class="mb-auto">
-                <span id="detailCategory" class="px-3 py-1 bg-primary/10 text-primary border border-primary/20 text-xs font-bold rounded-full uppercase tracking-wider"></span>
-                <h2 id="detailName" class="text-2xl md:text-4xl font-black text-gray-900 dark:text-white mt-4 mb-2 leading-tight"></h2>
-                <p id="detailPrice" class="text-xl md:text-2xl font-bold text-primary mb-6"></p>
-                
-                <div class="w-full h-px bg-gray-200 dark:bg-white/10 mb-6"></div>
-                
-                <h4 class="text-sm font-bold text-gray-500 uppercase mb-2">Description</h4>
-                <p id="detailDesc" class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
+        <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
+            <div class="mb-8">
+                <span id="detailCategory" class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-bold rounded-full uppercase tracking-wider text-gray-400"></span>
+                <h2 id="detailName" class="text-3xl font-black text-white mt-4 mb-2 leading-tight"></h2>
+                <p id="detailPrice" class="text-2xl font-bold text-primary mb-6"></p>
+                <div class="w-full h-px bg-white/10 mb-6"></div>
+                <p id="detailDesc" class="text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
             </div>
-
-            <!-- Sticky Action Buttons -->
-            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-white/10 grid grid-cols-2 gap-3">
-                <button id="btnChat" class="py-4 rounded-xl border border-green-600 text-green-600 dark:text-green-400 font-bold flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-all">
-                    <span class="material-symbols-outlined">chat</span> Check Availability
+            <div class="mt-auto grid grid-cols-2 gap-3 pt-6">
+                <button id="btnChat" class="py-4 rounded-xl border border-green-600 text-green-500 font-bold flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-all">
+                    <span class="material-symbols-outlined">chat</span> Enquire
                 </button>
-                <button id="btnBuy" class="py-4 rounded-xl bg-luxury-black text-white font-bold flex items-center justify-center gap-2 hover:bg-primary hover:text-black transition-all">
+                <button id="btnBuy" class="py-4 rounded-xl bg-primary text-black font-bold flex items-center justify-center gap-2 hover:bg-white transition-all shadow-lg shadow-primary/20">
                     Buy Now
                 </button>
             </div>
@@ -217,19 +234,30 @@
     </div>
 </div>
 
-<!-- 3. PAYMENT CONFIRMATION MODAL -->
+<!-- 3. PAYMENT MODAL -->
 <div id="purchaseModal" class="fixed inset-0 z-[120] hidden bg-black/90 flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-[#1a1a1a] p-6 rounded-2xl w-full max-w-md border border-gray-700 shadow-2xl relative">
-        <button onclick="document.getElementById('purchaseModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400"><span class="material-symbols-outlined">close</span></button>
-        <div class="text-center mb-6">
-            <h3 class="text-xl font-bold dark:text-white">Checkout</h3>
-            <p class="text-sm text-gray-500">Pay securely with Wallet or Card.</p>
+    <div class="bg-[#1a1a1a] p-8 rounded-3xl w-full max-w-md border border-white/10 shadow-2xl relative">
+        <button onclick="document.getElementById('purchaseModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-400"><span class="material-symbols-outlined">close</span></button>
+        <div class="text-center mb-8">
+            <h3 class="text-2xl font-bold text-white">Checkout</h3>
+            <p class="text-sm text-gray-500">Pay securely via Wallet or Card.</p>
         </div>
         <form onsubmit="handlePayment(event)" class="space-y-4">
-            <input id="custName" required class="w-full bg-gray-50 dark:bg-white/5 border rounded-lg p-3 dark:text-white" placeholder="Full Name">
-            <input id="custEmail" type="email" required class="w-full bg-gray-50 dark:bg-white/5 border rounded-lg p-3 dark:text-white" placeholder="Email Address">
-            <button type="submit" class="w-full bg-luxury-black text-white font-bold py-3 rounded-lg hover:scale-[1.02] transition-transform">Proceed to Pay</button>
+            <input id="custName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-primary" placeholder="Full Name">
+            <input id="custEmail" type="email" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-primary" placeholder="Email Address">
+            <button type="submit" class="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-transform">Proceed to Pay</button>
         </form>
+    </div>
+</div>
+
+<!-- 4. INFO MODAL (Policies, Sitemap) -->
+<div id="infoModal" class="fixed inset-0 z-[150] hidden bg-black/95 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#111118] w-full max-w-2xl rounded-2xl border border-white/10 flex flex-col max-h-[80vh]">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 id="infoTitle" class="text-xl font-bold text-white">Information</h3>
+            <button onclick="document.getElementById('infoModal').classList.add('hidden')" class="text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div id="infoContent" class="p-8 overflow-y-auto text-gray-300 text-sm leading-relaxed space-y-4"></div>
     </div>
 </div>
 
@@ -243,194 +271,155 @@
     let allProducts = [];
     let currentProduct = null;
 
-    // 1. LOAD PRODUCTS
     window.onload = async function() {
-        const loading = document.getElementById('loading');
-        const grid = document.getElementById('productGrid');
-        
-        // Show file count on admin select
         document.getElementById('prodImages').addEventListener('change', function(){
             document.getElementById('fileCount').innerText = this.files.length + " files selected";
         });
-
         try {
             const { data, error } = await _supabase.from('products').select('*').order('created_at', { ascending: false });
-            loading.classList.add('hidden');
-            if (!data || data.length === 0) {
+            document.getElementById('loading').classList.add('hidden');
+            if(!data || data.length === 0) {
                 document.getElementById('emptyState').classList.remove('hidden');
             } else {
                 allProducts = data;
-                grid.classList.remove('hidden');
+                document.getElementById('productGrid').classList.remove('hidden');
                 renderProducts(data);
             }
-        } catch (err) { loading.innerHTML = `<p class="text-red-500">Error loading products.</p>`; }
+        } catch(e) { console.error(e); }
     };
 
-    // 2. RENDER CARD
     function renderProducts(products) {
         const grid = document.getElementById('productGrid');
         grid.innerHTML = '';
         products.forEach(prod => {
-            // Use first image or placeholder
-            const mainImg = prod.image_url && prod.image_url.length > 0 ? prod.image_url[0] : 'https://via.placeholder.com/300';
+            const img = prod.image_url && prod.image_url.length > 0 ? prod.image_url[0] : '';
             const price = Number(prod.price).toLocaleString();
-
+            
             const html = `
-                <article class="group bg-white dark:bg-[#1a1a1a] rounded-3xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 flex flex-col h-full relative cursor-pointer" onclick="openDetailsModal('${prod.id}')">
-                    <button onclick="deleteProduct('${prod.id}'); event.stopPropagation();" class="absolute top-3 right-3 z-30 bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700"><span class="material-symbols-outlined text-sm">delete</span></button>
-                    <div class="relative">
-                        <div class="absolute top-3 left-3 z-10 bg-primary text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase">${prod.category}</div>
-                        <div class="aspect-square bg-[#f8f8f5] dark:bg-gray-800 rounded-2xl overflow-hidden flex items-center justify-center">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" src="${mainImg}" alt="${prod.name}">
-                        </div>
+                <div class="group bg-card-bg rounded-2xl p-4 border border-white/5 hover:border-primary/50 transition-all cursor-pointer fade-in" onclick="openDetailsModal('${prod.id}')">
+                    <div class="aspect-square bg-[#050505] rounded-xl overflow-hidden mb-4 relative">
+                        <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 left-3 bg-black/60 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded uppercase">${prod.category}</div>
                     </div>
-                    <div class="mt-4">
-                        <h3 class="font-bold text-lg text-luxury-black dark:text-white line-clamp-1">${prod.name}</h3>
-                        <span class="font-bold text-lg text-primary">₦${price}</span>
-                        <p class="text-[10px] text-gray-500 mt-2 flex items-center gap-1"><span class="material-symbols-outlined text-sm">visibility</span> Click to view details</p>
+                    <div>
+                        <h3 class="text-white font-bold text-lg line-clamp-1">${prod.name}</h3>
+                        <p class="text-primary font-bold">₦${price}</p>
+                        <p class="text-xs text-gray-500 mt-2 flex items-center gap-1"><span class="material-symbols-outlined text-sm">visibility</span> View Details</p>
                     </div>
-                </article>
+                    <button onclick="deleteProduct('${prod.id}'); event.stopPropagation();" class="mt-4 w-full py-2 bg-red-900/20 text-red-500 text-xs font-bold rounded hover:bg-red-600 hover:text-white transition-colors opacity-0 group-hover:opacity-100">Delete (Admin)</button>
+                </div>
             `;
             grid.innerHTML += html;
         });
     }
 
-    // 3. PRODUCT DETAILS MODAL (GALLERY LOGIC)
     function openDetailsModal(id) {
         currentProduct = allProducts.find(p => p.id === id);
         if(!currentProduct) return;
-
-        // Set Text
-        document.getElementById('detailCategory').innerText = currentProduct.category;
         document.getElementById('detailName').innerText = currentProduct.name;
         document.getElementById('detailPrice').innerText = "₦" + Number(currentProduct.price).toLocaleString();
+        document.getElementById('detailCategory').innerText = currentProduct.category;
         document.getElementById('detailDesc').innerText = currentProduct.description;
-
-        // Set Images
+        const images = currentProduct.image_url || [];
         const mainImg = document.getElementById('detailMainImg');
         const thumbs = document.getElementById('detailThumbnails');
-        
-        // Default to first image
-        const images = currentProduct.image_url || [];
         if(images.length > 0) mainImg.src = images[0];
-
-        // Build Thumbnails
         thumbs.innerHTML = '';
-        images.forEach(img => {
-            const thumb = document.createElement('img');
-            thumb.src = img;
-            thumb.className = "h-full w-20 object-cover rounded-lg border border-gray-700 cursor-pointer hover:border-primary opacity-60 hover:opacity-100 transition-all";
-            thumb.onclick = () => { mainImg.src = img; };
-            thumbs.appendChild(thumb);
+        images.forEach(src => {
+            const t = document.createElement('img');
+            t.src = src;
+            t.className = "h-full w-20 object-cover rounded-lg border border-white/20 cursor-pointer hover:border-primary transition-all";
+            t.onclick = () => mainImg.src = src;
+            thumbs.appendChild(t);
         });
-
-        // Set Button Actions
         document.getElementById('btnChat').onclick = () => contactWhatsapp(currentProduct.name, currentProduct.price);
         document.getElementById('btnBuy').onclick = () => document.getElementById('purchaseModal').classList.remove('hidden');
-
         document.getElementById('detailsModal').classList.remove('hidden');
     }
 
     function closeDetailsModal() { document.getElementById('detailsModal').classList.add('hidden'); }
 
-    // 4. MULTI-IMAGE UPLOAD
     async function handleUpload(e) {
         e.preventDefault();
         const { data: { user } } = await _supabase.auth.getUser();
-        const MY_ADMIN_EMAIL = "dben61168@gmail.com"; 
-        if (!user || user.email !== MY_ADMIN_EMAIL) return alert("Security Alert: Unauthorized.");
-
-        const btn = document.getElementById('uploadIcon').parentElement;
+        if(!user || user.email !== "dben61168@gmail.com") return alert("Unauthorized");
+        const btn = e.target.querySelector('button');
         const txt = document.getElementById('uploadText');
         txt.innerText = "Uploading...";
         btn.disabled = true;
-
         const name = document.getElementById('prodName').value;
         const price = document.getElementById('prodPrice').value;
-        const category = document.getElementById('prodCategory').value;
+        const cat = document.getElementById('prodCategory').value;
         const desc = document.getElementById('prodDesc').value;
-        const fileInput = document.getElementById('prodImages');
-        const files = fileInput.files;
-
+        const files = document.getElementById('prodImages').files;
         try {
-            if (files.length === 0) throw new Error("Select at least 1 image.");
-            if (files.length > 6) throw new Error("Max 6 images allowed.");
-
-            const imageUrls = [];
-
-            // Loop and upload each file
-            for (let i = 0; i < files.length; i++) {
+            if(files.length === 0) throw new Error("Select images");
+            const urls = [];
+            for(let i=0; i<files.length; i++) {
                 const file = files[i];
-                const fileExt = file.name.split('.').pop();
-                const cleanName = file.name.replace(/[^a-zA-Z0-9]/g, '-');
-                const fileName = `${Date.now()}_${i}_${cleanName}.${fileExt}`;
-
-                const { error: imgError } = await _supabase.storage.from('product-images').upload(fileName, file);
-                if (imgError) throw imgError;
-
-                const { data: urlData } = _supabase.storage.from('product-images').getPublicUrl(fileName);
-                imageUrls.push(urlData.publicUrl);
+                const ext = file.name.split('.').pop();
+                const path = `${Date.now()}_${i}.${ext}`;
+                const { error } = await _supabase.storage.from('product-images').upload(path, file);
+                if(error) throw error;
+                const { data } = _supabase.storage.from('product-images').getPublicUrl(path);
+                urls.push(data.publicUrl);
             }
-
-            // Insert Array of URLs
             const { error: dbError } = await _supabase.from('products').insert([{
-                name, price, category, description: desc, image_url: imageUrls
+                name, price, category: cat, description: desc, image_url: urls
             }]);
-
-            if (dbError) throw dbError;
-
-            alert("Product Uploaded!");
-            location.reload();
-
-        } catch (err) {
-            alert("Upload Failed: " + err.message);
-        } finally {
-            txt.innerText = "Upload Product";
-            btn.disabled = false;
-        }
+            if(dbError) throw dbError;
+            alert("Uploaded!"); location.reload();
+        } catch(err) { alert("Error: " + err.message); } 
+        finally { txt.innerText = "Upload Now"; btn.disabled = false; }
     }
 
-    // 5. OTHER FUNCTIONS (Delete, Chat, Payment) - Same as before
-    function openAdminLogin() {
-        const pass = prompt("Enter Admin Password:");
-        if(pass === "KW9032473005") document.getElementById('adminModal').classList.remove('hidden');
-        else alert("Incorrect.");
-    }
-
-    function contactWhatsapp(name, price) {
-        window.open(`https://wa.me/2349032473005?text=I want to enquire about ${name} (Price: ₦${price})`, '_blank');
-    }
-
-    async function handlePayment(e) {
-        e.preventDefault();
-        const email = document.getElementById('custEmail').value;
-        const name = document.getElementById('custName').value;
-        const price = Number(currentProduct.price);
-        
-        let handler = PaystackPop.setup({
-            key: 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616', // LIVE KEY
-            email: email, amount: price * 100, currency: 'NGN',
-            callback: function(r) { alert('Success! Ref: ' + r.reference); closeDetailsModal(); document.getElementById('purchaseModal').classList.add('hidden'); },
-            onClose: function() { alert('Cancelled'); }
-        });
-        handler.openIframe();
-    }
-    
-    async function deleteProduct(id) {
-        if(!confirm("Delete this product?")) return;
-        const pass = prompt("Admin Password:");
-        if(pass !== "KW9032473005") return alert("Denied");
-        await _supabase.from('products').delete().eq('id', id);
-        location.reload();
-    }
-
-    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
-    
+    function openAdminLogin() { if(prompt("Admin Password:") === "KW9032473005") document.getElementById('adminModal').classList.remove('hidden'); else alert("Wrong"); }
+    function contactWhatsapp(name, price) { window.open(`https://wa.me/2349032473005?text=Enquiry: ${name} (Price: ${price})`, '_blank'); }
     function filterProducts(cat) {
+        document.querySelectorAll('.cat-btn').forEach(b => { b.classList.remove('bg-white', 'text-black'); b.classList.add('border-white/20', 'text-gray-300'); });
         if(cat === 'All') renderProducts(allProducts);
         else renderProducts(allProducts.filter(p => p.category === cat));
     }
-</script>
+    async function deleteProduct(id) {
+        if(!confirm("Delete?")) return;
+        if(prompt("Admin Password:") !== "KW9032473005") return alert("Denied");
+        await _supabase.from('products').delete().eq('id', id);
+        location.reload();
+    }
+    async function handlePayment(e) {
+        e.preventDefault();
+        alert("Payment Gateway Initializing..."); 
+        const email = document.getElementById('custEmail').value;
+        const price = Number(currentProduct.price);
+        let handler = PaystackPop.setup({
+            key: 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616',
+            email: email, amount: price * 100, currency: 'NGN',
+            callback: function(r){ alert('Success! Ref: '+r.reference); closeDetailsModal(); document.getElementById('purchaseModal').classList.add('hidden'); },
+            onClose: function(){ alert('Cancelled'); }
+        });
+        handler.openIframe();
+    }
 
+    // INFO MODAL (Privacy, Shipping, Terms, Sitemap)
+    function openInfoModal(type) {
+        const title = document.getElementById('infoTitle');
+        const content = document.getElementById('infoContent');
+        document.getElementById('infoModal').classList.remove('hidden');
+
+        if(type === 'privacy') {
+            title.innerText = "Privacy Policy";
+            content.innerHTML = `<p><strong>1. Data Collection:</strong> We collect minimal data (Name, Email) to process orders.</p><p><strong>2. Security:</strong> All data is encrypted via Supabase.</p><p><strong>3. Third Parties:</strong> We do not sell your data.</p>`;
+        } else if(type === 'terms') {
+            title.innerText = "Terms & Conditions";
+            content.innerHTML = `<p><strong>1. Returns:</strong> Gadgets have a 7-day warranty for factory defects.</p><p><strong>2. Payments:</strong> All payments are securely processed by Paystack.</p><p><strong>3. Delivery:</strong> We are not responsible for delays caused by third-party logistics.</p>`;
+        } else if(type === 'shipping') {
+            title.innerText = "Shipping Policy";
+            content.innerHTML = `<p><strong>Lagos:</strong> 24-48 Hours Delivery.</p><p><strong>Nationwide:</strong> 3-5 Business Days.</p><p><strong>Fee:</strong> Shipping fees are calculated based on location and paid directly to the courier.</p>`;
+        } else if(type === 'sitemap') {
+            title.innerText = "Sitemap";
+            content.innerHTML = `<ul class="space-y-2"><li><a href="code.html" class="text-primary hover:underline">Home</a></li><li><a href="store.html" class="text-primary hover:underline">Store</a></li><li><a href="services.html" class="text-primary hover:underline">Services</a></li><li><a href="about.html" class="text-primary hover:underline">About Us</a></li><li><a href="security.html" class="text-primary hover:underline">Security</a></li></ul>`;
+        }
+    }
+</script>
 </body>
 </html>
