@@ -2,7 +2,7 @@
 <html class="light" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>KW Academy - Digital Store</title>
     
     <!-- FONTS & ICONS -->
@@ -24,7 +24,6 @@
                         "background-light": "#f8f8f5",
                         "background-dark": "#050510",
                         "card-bg": "#111118",
-                        "luxury-black": "#000000",
                     },
                     fontFamily: { "display": ["Spline Sans", "sans-serif"] },
                 },
@@ -33,8 +32,6 @@
     </script>
     <style>
         .glass-panel { background: rgba(17, 17, 24, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-        .fade-in { animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
@@ -102,6 +99,7 @@
         <p class="mt-4 text-gray-500 text-sm uppercase tracking-widest">Loading Library...</p>
     </div>
 
+    <!-- Product Grid (Responsive) -->
     <div id="digitalGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
         <!-- Products Injected Here -->
     </div>
@@ -185,7 +183,7 @@
     </div>
 </div>
 
-<!-- 2. PRODUCT DETAILS MODAL -->
+<!-- 2. DETAILS / BUY MODAL -->
 <div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-0 md:p-4 overflow-y-auto">
     <div class="min-h-screen md:h-auto w-full md:max-w-4xl bg-card-bg md:rounded-2xl border border-white/10 flex flex-col md:flex-row relative">
         <button onclick="document.getElementById('detailsModal').classList.add('hidden')" class="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-red-600 transition-colors">
@@ -201,21 +199,22 @@
         <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
             <div class="mb-auto">
                 <span class="px-3 py-1 bg-green-500/20 text-green-400 text-[10px] font-bold rounded uppercase">Instant Access</span>
-                <h2 id="modalName" class="text-3xl font-bold text-white mt-4 mb-2"></h2>
+                <h2 id="modalName" class="text-3xl font-bold text-white mt-4 mb-2 leading-tight"></h2>
                 <p id="modalPrice" class="text-2xl font-bold text-primary mb-6"></p>
                 <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed mb-6"></p>
             </div>
 
-            <div class="mt-6 flex flex-col gap-3">
-                <button id="buyBtn" onclick="initiatePurchase()" class="w-full py-4 rounded-xl bg-primary text-black font-bold flex items-center justify-center gap-2 hover:bg-white transition-all shadow-lg">
-                    Buy Now
-                </button>
-                <button id="chatBtn" class="w-full py-4 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2 font-bold text-sm">
+            <!-- Dynamic Button Area -->
+            <div class="grid grid-cols-2 gap-4 mt-6">
+                <button id="chatBtn" class="py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-colors flex items-center justify-center gap-2 font-bold text-sm">
                     <span class="material-symbols-outlined text-lg">chat</span> Ask Question
+                </button>
+                <button id="buyBtn" onclick="initiatePurchase()" class="py-3 rounded-xl bg-primary text-black hover:bg-white transition-colors flex items-center justify-center gap-2 font-bold text-sm">
+                    Buy Now
                 </button>
             </div>
 
-            <!-- Download Area -->
+            <!-- Download Area (Hidden until paid) -->
             <div id="downloadArea" class="hidden mt-6 p-4 bg-green-900/20 border border-green-500/30 rounded-xl text-center">
                 <p class="text-green-400 text-sm font-bold mb-2">🎉 Payment Successful!</p>
                 <a id="downloadLink" href="#" target="_blank" class="block w-full py-3 bg-green-600 text-white rounded-lg font-bold text-sm hover:bg-green-500 shadow-lg">
@@ -236,8 +235,9 @@
 
     let allProducts = [];
     let currentItem = null;
+    let isUserAffiliate = false; // Flag to track status
 
-    // 1. INIT & LOAD PRODUCTS
+    // 1. INIT
     window.onload = async function() {
         const urlParams = new URLSearchParams(window.location.search);
         const ref = urlParams.get('ref');
@@ -247,6 +247,21 @@
             document.getElementById('fileNameDisplay').innerText = this.files[0].name;
         });
 
+        // CHECK IF USER IS AFFILIATE
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (user) {
+            const { data: profile } = await _supabase.from('profiles').select('is_affiliate, referral_code').eq('id', user.id).single();
+            if (profile && profile.is_affiliate) {
+                isUserAffiliate = true;
+                window.currentUserProfile = profile; // Save for link generation
+            }
+        }
+
+        loadProducts();
+    };
+
+    // 2. LOAD PRODUCTS
+    async function loadProducts() {
         const { data, error } = await _supabase.from('digital_products').select('*').order('created_at', { ascending: false });
         
         document.getElementById('loading').classList.add('hidden');
@@ -257,60 +272,49 @@
         if(data) {
             allProducts = data;
             data.forEach(p => {
+                // CONDITIONAL RENDER OF PROMOTE BUTTON
+                const promoteBtn = isUserAffiliate 
+                    ? `<button onclick="generateLink('${p.id}'); event.stopPropagation();" class="mt-2 w-full py-2 bg-green-900/30 text-green-400 border border-green-800 rounded font-bold text-xs hover:bg-green-800 hover:text-white transition-colors">Get Affiliate Link</button>` 
+                    : '';
+
                 const html = `
-                    <div class="group bg-card-bg border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer fade-in">
-                        <div class="h-56 overflow-hidden bg-black relative" onclick="openModal('${p.id}')">
+                    <div class="group bg-card-bg border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer relative" onclick="openModal('${p.id}')">
+                        
+                        <!-- DELETE BUTTON (ADMIN ONLY - protected by password) -->
+                        <button onclick="deleteProduct('${p.id}'); event.stopPropagation();" class="absolute top-2 right-2 z-20 bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">delete</span></button>
+
+                        <div class="h-48 overflow-hidden bg-black relative">
                             <img src="${p.image_url}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all"></div>
                         </div>
                         <div class="p-6">
-                            <div onclick="openModal('${p.id}')">
-                                <h3 class="text-lg font-bold text-white mb-1 line-clamp-1">${p.name}</h3>
-                                <div class="flex justify-between items-center mt-2 mb-4">
-                                    <p class="text-primary font-bold text-xl">₦${Number(p.price).toLocaleString()}</p>
-                                    <span class="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded">${p.commission_rate}% Comm</span>
-                                </div>
+                            <h3 class="text-lg font-bold text-white mb-1 line-clamp-1">${p.name}</h3>
+                            <div class="flex justify-between items-center mt-2">
+                                <p class="text-primary font-bold text-xl">₦${Number(p.price).toLocaleString()}</p>
+                                <span class="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded">${p.commission_rate}% Comm</span>
                             </div>
                             
-                            <!-- ACTION BUTTONS -->
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="generateAffiliateLink('${p.id}')" class="py-2 bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors">
-                                    <span class="material-symbols-outlined text-sm">link</span> Promote
-                                </button>
-                                <button onclick="deleteProduct('${p.id}')" class="py-2 bg-red-900/20 hover:bg-red-900/40 text-red-500 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors opacity-0 group-hover:opacity-100">
-                                    <span class="material-symbols-outlined text-sm">delete</span> Delete
-                                </button>
-                            </div>
+                            <!-- Only shows if user is an Affiliate -->
+                            ${promoteBtn}
                         </div>
                     </div>
                 `;
                 grid.innerHTML += html;
             });
         }
-    };
-
-    // 2. GENERATE AFFILIATE LINK
-    async function generateAffiliateLink(productId) {
-        const { data: { user } } = await _supabase.auth.getUser();
-        if(!user) return alert("Please Login first to get your affiliate link.");
-
-        // Check if user is an affiliate
-        const { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-        
-        if (!profile || !profile.is_affiliate) {
-            if(confirm("You are not an affiliate yet. Want to register?")) {
-                window.location.href = "affiliate-register.html";
-            }
-            return;
-        }
-
-        // Generate Link
-        const link = `${window.location.origin}/digital-store.html?ref=${profile.referral_code}`;
-        navigator.clipboard.writeText(link);
-        alert(`Affiliate Link Copied!\n\n${link}\n\nShare this link. When people buy, you earn commission!`);
     }
 
-    // 3. ADMIN UPLOAD
+    // 3. GENERATE AFFILIATE LINK
+    function generateLink(productId) {
+        if (!isUserAffiliate) return alert("You must be a registered affiliate to promote.");
+        
+        // This links to the dashboard where they will see the product, tracking them
+        const link = `${window.location.origin}/digital-store.html?ref=${window.currentUserProfile.referral_code}`;
+        navigator.clipboard.writeText(link);
+        alert("Affiliate Link Copied!\n\n" + link + "\n\nShare this. When anyone buys, you get paid.");
+    }
+
+    // 4. ADMIN UPLOAD
     function openAdminLogin() {
         if(prompt("Admin Password:") === "KW9032473005") document.getElementById('adminModal').classList.remove('hidden');
         else alert("Incorrect.");
@@ -353,22 +357,21 @@
 
             if(error) throw error;
             alert("Uploaded Successfully!"); location.reload();
+
         } catch(err) { alert("Error: " + err.message); } 
         finally { btn.innerText = "Upload Product"; btn.disabled = false; }
     }
 
-    // 4. DELETE PRODUCT
+    // 5. DELETE PRODUCT
     async function deleteProduct(id) {
-        if(!confirm("Are you sure you want to delete this?")) return;
-        const pass = prompt("Enter Admin Password:");
-        if(pass !== "KW9032473005") return alert("Access Denied");
-
-        const { error } = await _supabase.from('digital_products').delete().eq('id', id);
-        if(error) alert("Error: " + error.message);
-        else location.reload();
+        if(!confirm("Delete this product?")) return;
+        if(prompt("Admin Password:") !== "KW9032473005") return alert("Denied");
+        
+        await _supabase.from('digital_products').delete().eq('id', id);
+        location.reload();
     }
 
-    // 5. DETAILS & BUY
+    // 6. DETAILS & PAYMENT FLOW
     function openModal(id) {
         currentItem = allProducts.find(p => p.id === id);
         document.getElementById('modalName').innerText = currentItem.name;
@@ -388,38 +391,57 @@
 
     function initiatePurchase() {
         const email = prompt("Enter your email to receive the file:");
-        if(!email) return;
+        if(!email || !email.includes('@')) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        // Check Paystack
+        if (typeof PaystackPop === 'undefined') return alert("System Error: Paystack not loaded.");
 
         let handler = PaystackPop.setup({
             key: PAYSTACK_KEY,
             email: email,
-            amount: currentItem.price * 100,
+            amount: currentItem.price * 100, // Kobo
             currency: 'NGN',
-            callback: async function(response) {
-                document.getElementById('buyBtn').classList.add('hidden');
-                const dlLink = document.getElementById('downloadLink');
-                document.getElementById('downloadArea').classList.remove('hidden');
-                dlLink.href = currentItem.file_url;
-
-                // AFFILIATE COMMISSION
-                const refCode = localStorage.getItem('kw_ref');
-                if (refCode) {
-                    const { data: aff } = await _supabase.from('profiles').select('*').eq('referral_code', refCode).single();
-                    if(aff) {
-                        const comm = (currentItem.price * currentItem.commission_rate) / 100;
-                        const newBal = Number(aff.wallet_balance) + comm;
-                        const newTotal = Number(aff.total_earnings) + comm;
-                        await _supabase.from('profiles').update({ wallet_balance: newBal, total_earnings: newTotal }).eq('id', aff.id);
-                        await _supabase.from('transactions').insert({
-                            user_id: aff.id, type: 'commission', amount: comm, status: 'success', 
-                            product_name: `Comm: ${currentItem.name}`, bank_name: 'Affiliate System'
-                        });
-                    }
-                }
+            metadata: { custom_fields: [{ display_name: "Product", value: currentItem.name }] },
+            
+            // Success Callback
+            callback: function(response) {
+                processSuccessfulPayment(response.reference);
             },
             onClose: function() { alert('Transaction cancelled.'); }
         });
         handler.openIframe();
+    }
+
+    async function processSuccessfulPayment(reference) {
+        alert("Payment Successful! Your download is ready.");
+        
+        document.getElementById('buyBtn').classList.add('hidden');
+        const dlArea = document.getElementById('downloadArea');
+        const dlLink = document.getElementById('downloadLink');
+        dlArea.classList.remove('hidden');
+        dlLink.href = currentItem.file_url;
+
+        // Affiliate Logic
+        const refCode = localStorage.getItem('kw_ref');
+        if (refCode) {
+            try {
+                const { data: aff } = await _supabase.from('profiles').select('*').eq('referral_code', refCode).single();
+                if(aff) {
+                    const comm = (currentItem.price * currentItem.commission_rate) / 100;
+                    const newBal = Number(aff.wallet_balance) + comm;
+                    const newTotal = Number(aff.total_earnings) + comm;
+                    
+                    await _supabase.from('profiles').update({ wallet_balance: newBal, total_earnings: newTotal }).eq('id', aff.id);
+                    await _supabase.from('transactions').insert({
+                        user_id: aff.id, type: 'commission', amount: comm, status: 'success', 
+                        product_name: `Comm: ${currentItem.name}`, bank_name: 'Affiliate System'
+                    });
+                }
+            } catch(e) { console.error(e); }
+        }
     }
 </script>
 
