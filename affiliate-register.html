@@ -61,80 +61,92 @@
         </form>
     </div>
 
-    <script>
-        const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
-        const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
-        const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+   <script>
+    const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+    const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+    const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
-        async function handleAffiliateSignUp(event) {
-            event.preventDefault();
-            const btn = document.querySelector('button[type="submit"]');
-            btn.innerText = "Processing...";
-            btn.disabled = true;
+    // CHECK IF ALREADY LOGGED IN ON LOAD
+    window.onload = async function() {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (user) {
+            // Pre-fill email if logged in
+            document.getElementById('email').value = user.email;
+            document.getElementById('email').disabled = true; // Lock email field
+            document.getElementById('password').parentElement.classList.add('hidden'); // Hide password field
+            
+            // Change Button Text
+            document.querySelector('button[type="submit"]').innerText = "Upgrade to Affiliate";
+        }
+    };
 
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const bankName = document.getElementById('bankName').value;
-            const accNum = document.getElementById('accNum').value;
-            const accName = document.getElementById('accName').value;
+    async function handleAffiliateSignUp(event) {
+        event.preventDefault();
+        const btn = document.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+        btn.innerText = "Processing...";
+        btn.disabled = true;
 
-            try {
-                // 1. Create User
-                const { data, error } = await _supabase.auth.signUp({
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const bankName = document.getElementById('bankName').value;
+        const accNum = document.getElementById('accNum').value;
+        const accName = document.getElementById('accName').value;
+
+        try {
+            let userId;
+
+            // 1. CHECK LOGIN STATUS AGAIN
+            const { data: { user } } = await _supabase.auth.getUser();
+
+            if (user) {
+                // SCENARIO A: USER IS LOGGED IN (UPGRADE)
+                userId = user.id;
+            } else {
+                // SCENARIO B: NEW USER (SIGN UP)
+                const password = document.getElementById('password').value;
+                const { data: signUpData, error: signUpError } = await _supabase.auth.signUp({
                     email: email,
                     password: password,
                     options: { data: { full_name: firstName + " " + lastName } }
                 });
 
-                if (error) throw error;
-
-                // 2. Generate Affiliate Code
-                const namePart = firstName.substring(0,3).toUpperCase();
-                const random = Math.floor(1000 + Math.random() * 9000);
-                const code = `KW-${namePart}-${random}`;
-
-                // 3. Update Profile with Affiliate Status & Bank Details
-                // Note: The profile row is created automatically by triggers usually, 
-                // but we update it here to be sure or insert if needed.
-                // We will wait 1 second for the trigger to create the profile first.
-                setTimeout(async () => {
-                    const { error: profileError } = await _supabase
-                        .from('profiles')
-                        .update({
-                            is_affiliate: true,
-                            referral_code: code,
-                            bank_name: bankName,
-                            account_number: accNum,
-                            account_name: accName
-                        })
-                        .eq('id', data.user.id);
-
-                    if (profileError) {
-                        // Fallback: If update failed (maybe profile didn't exist yet), insert it
-                         await _supabase.from('profiles').insert([{
-                            id: data.user.id,
-                            email: email,
-                            full_name: firstName + " " + lastName,
-                            is_affiliate: true,
-                            referral_code: code,
-                            bank_name: bankName,
-                            account_number: accNum,
-                            account_name: accName
-                         }]);
-                    }
-                    
-                    alert("Welcome to the Team! Redirecting to Dashboard...");
-                    window.location.href = "affiliate-dash.html";
-                }, 1500);
-
-            } catch (err) {
-                alert("Error: " + err.message);
-                btn.innerText = "Register as Affiliate";
-                btn.disabled = false;
+                if (signUpError) throw signUpError;
+                userId = signUpData.user.id;
             }
+
+            // 2. GENERATE AFFILIATE DATA
+            const namePart = firstName.substring(0,3).toUpperCase();
+            const random = Math.floor(1000 + Math.random() * 9000);
+            const code = `KW-${namePart}-${random}`;
+
+            // 3. UPDATE/INSERT DATABASE
+            // We use 'upsert' to handle both existing profiles and new ones
+            const { error: profileError } = await _supabase
+                .from('profiles')
+                .upsert({
+                    id: userId,
+                    email: email,
+                    full_name: firstName + " " + lastName,
+                    is_affiliate: true,
+                    referral_code: code,
+                    bank_name: bankName,
+                    account_number: accNum,
+                    account_name: accName
+                }, { onConflict: 'id' }); // Update if ID exists
+
+            if (profileError) throw profileError;
+
+            alert("Welcome to the Team! Redirecting to Dashboard...");
+            window.location.href = "affiliate-dash.html";
+
+        } catch (err) {
+            alert("Error: " + err.message);
+            btn.innerText = originalText;
+            btn.disabled = false;
         }
-    </script>
+    }
+</script>
 </body>
 </html>
