@@ -4,9 +4,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>KW Affiliate Portal</title>
+    
+    <!-- TAILWIND & FONTS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <script>
         tailwind.config = { 
             darkMode: "class", 
@@ -19,11 +22,14 @@
         }
     </script>
     <style>
-        /* Prevents horizontal scrolling on tiny screens */
         body { overflow-x: hidden; }
         .break-all { word-break: break-all; }
+        /* Smooth Fade In */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
+
 <body class="bg-dark-bg font-display text-white p-4 md:p-8 flex flex-col items-center min-h-screen">
 
     <!-- NAV -->
@@ -32,10 +38,17 @@
             <span class="text-primary font-bold text-lg md:text-xl">KW Partners</span>
             <span class="bg-primary/20 text-primary text-[9px] md:text-[10px] px-2 py-0.5 rounded uppercase font-bold">Dashboard</span>
         </div>
-        <button onclick="logout()" class="text-sm text-gray-400 hover:text-white border border-white/10 px-3 py-1 rounded-lg">Logout</button>
+        <button onclick="logout()" class="text-sm text-gray-400 hover:text-white border border-white/10 px-3 py-1 rounded-lg transition-colors">Logout</button>
     </nav>
 
-    <div class="w-full max-w-4xl space-y-6">
+    <!-- LOADING SPINNER -->
+    <div id="loading" class="flex flex-col items-center justify-center h-[50vh]">
+        <div class="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p class="text-gray-500 text-sm animate-pulse">Loading Profile...</p>
+    </div>
+
+    <!-- DASHBOARD CONTENT (HIDDEN UNTIL LOADED) -->
+    <div id="dashSection" class="w-full max-w-4xl space-y-6 hidden fade-in">
         
         <!-- MAIN STATS CARD -->
         <div class="bg-[#111118] border border-white/10 rounded-2xl p-5 md:p-8 shadow-2xl">
@@ -69,12 +82,12 @@
             <div class="mt-8 pt-6 border-t border-white/10">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
                     <h3 class="font-bold text-white">Withdraw Funds</h3>
-                    <span id="bankDisplay" class="text-[11px] md:text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full border border-white/5">No Bank Added</span>
+                    <span id="bankDisplay" class="text-[11px] md:text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full border border-white/5">Checking Bank Details...</span>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row gap-3">
                     <input id="withdrawAmount" type="number" placeholder="Amount (Min ₦1000)" 
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none text-base">
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none text-base transition-all focus:bg-white/10">
                     <button onclick="handleWithdraw()" 
                         class="w-full sm:w-auto bg-primary text-black font-bold px-8 py-3 rounded-xl hover:bg-white transition-all shadow-lg active:scale-95">
                         Withdraw
@@ -106,120 +119,122 @@
 
     </div>
 
-  <script>
-    const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
-    const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
-    const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
-    let userProfile = null;
+    <script>
+        const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+        const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+        const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+        let userProfile = null;
 
-    window.onload = async function() {
-        // 1. Check Login
-        const { data: { user } } = await _supabase.auth.getUser();
-        if(!user) return window.location.href = 'affiliate-register.html';
+        window.onload = async function() {
+            // 1. Check Login
+            const { data: { user } } = await _supabase.auth.getUser();
+            if(!user) return window.location.href = 'affiliate-register.html';
 
-        // 2. Get Profile
-        let { data: profile, error } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-        
-        // 3. AUTO-FIX: If profile doesn't exist or code is missing
-        if (!profile || !profile.referral_code) {
-            console.log("Profile incomplete. Fixing...");
-            await fixMissingProfile(user);
-            return; // Wait for reload
+            // 2. Get Profile
+            let { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+            
+            // 3. AUTO-FIX: If profile doesn't exist or code is missing
+            if (!profile || !profile.referral_code) {
+                console.log("Profile incomplete. Fixing...");
+                await fixMissingProfile(user);
+                return; // Wait for reload
+            }
+
+            userProfile = profile;
+            renderDashboard(profile);
+        };
+
+        async function fixMissingProfile(user) {
+            // Generate new code
+            const namePart = (user.user_metadata.full_name || "USER").substring(0,3).toUpperCase();
+            const random = Math.floor(10000 + Math.random() * 90000);
+            const code = `KW-${namePart}-${random}`;
+
+            // Upsert (Insert or Update)
+            const { error } = await _supabase.from('profiles').upsert({
+                id: user.id,
+                email: user.email,
+                full_name: user.user_metadata.full_name || "Partner",
+                is_affiliate: true,
+                referral_code: code,
+                wallet_balance: 0
+            });
+
+            if (!error) {
+                location.reload(); 
+            } else {
+                console.error(error);
+                alert("System upgrading... please refresh the page manually.");
+            }
         }
 
-        userProfile = profile;
-        renderDashboard(profile);
-    };
+        function renderDashboard(profile) {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('dashSection').classList.remove('hidden');
+            
+            document.getElementById('welcomeName').innerText = "Welcome, " + (profile.full_name || "Partner");
+            document.getElementById('walletBal').innerText = "₦" + Number(profile.wallet_balance || 0).toLocaleString();
+            document.getElementById('totalEarned').innerText = "₦" + Number(profile.total_earnings || 0).toLocaleString();
+            
+            // Display Code
+            document.getElementById('affCode').innerText = profile.referral_code;
+            
+            // Generate Link
+            const link = `https://kingdomwealthltd.com/digital-store.html?ref=${profile.referral_code}`;
+            document.getElementById('fullLink').innerText = link;
 
-    async function fixMissingProfile(user) {
-        // Generate new code
-        const random = Math.floor(10000 + Math.random() * 90000);
-        const code = `KW-AUTO-${random}`;
-
-        // Upsert (Insert or Update)
-        const { error } = await _supabase.from('profiles').upsert({
-            id: user.id,
-            email: user.email,
-            full_name: user.user_metadata.full_name || "Partner",
-            is_affiliate: true,
-            referral_code: code,
-            wallet_balance: 0
-        });
-
-        if (!error) {
-            location.reload(); // Refresh to show the new data
-        } else {
-            console.error(error);
-            alert("System upgrading... please refresh the page manually.");
+            // Bank Info
+            if(profile.bank_name && profile.account_number) {
+                document.getElementById('bankDisplay').innerText = `${profile.bank_name} - ${profile.account_number}`;
+                document.getElementById('bankDisplay').className = "text-[10px] md:text-xs text-green-400 bg-green-900/20 px-3 py-1 rounded-full border border-green-900/50";
+            } else {
+                document.getElementById('bankDisplay').innerHTML = `<a href="affiliate-register.html" class="text-red-400 hover:underline">Add Bank Details</a>`;
+            }
         }
-    }
 
-    function renderDashboard(profile) {
-        document.getElementById('dashSection').classList.remove('hidden');
-        
-        document.getElementById('welcomeName').innerText = "Welcome, " + (profile.full_name || "Partner");
-        document.getElementById('walletBal').innerText = "₦" + Number(profile.wallet_balance || 0).toLocaleString();
-        document.getElementById('totalEarned').innerText = "₦" + Number(profile.total_earnings || 0).toLocaleString();
-        
-        // Display Code
-        document.getElementById('affCode').innerText = profile.referral_code;
-        
-        // Generate Link
-        const link = `https://kingdomwealthltd.com/digital-store.html?ref=${profile.referral_code}`;
-        document.getElementById('fullLink').innerText = link;
-
-        // Bank Info
-        if(profile.bank_name && profile.account_number) {
-            document.getElementById('bankDisplay').innerText = `${profile.bank_name} - ${profile.account_number}`;
-            document.getElementById('bankDisplay').className = "text-xs text-green-400 bg-green-900/20 px-2 py-1 rounded border border-green-900/50";
-        } else {
-            document.getElementById('bankDisplay').innerHTML = `<a href="affiliate-register.html" class="text-red-400 hover:underline">Add Bank Details</a>`;
+        function copyCode() {
+            navigator.clipboard.writeText(userProfile.referral_code);
+            alert("Code Copied!");
         }
-    }
-
-    function copyCode() {
-        navigator.clipboard.writeText(userProfile.referral_code);
-        alert("Code Copied!");
-    }
-    
-    function copyLink() {
-        navigator.clipboard.writeText(document.getElementById('fullLink').innerText);
-        alert("Link Copied! Share this to earn.");
-    }
-
-    async function handleWithdraw() {
-        const amount = document.getElementById('withdrawAmount').value;
         
-        if(!amount || amount < 1000) return alert("Minimum withdrawal is ₦1,000");
-        if(Number(amount) > Number(userProfile.wallet_balance)) return alert("Insufficient Balance");
-        if(!userProfile.bank_name) return alert("No Bank Account Linked. Please go to settings to add bank details.");
+        function copyLink() {
+            navigator.clipboard.writeText(document.getElementById('fullLink').innerText);
+            alert("Link Copied! Share this to earn.");
+        }
 
-        const confirmTx = confirm(`Withdraw ₦${amount} to ${userProfile.bank_name} (${userProfile.account_number})?`);
-        if(!confirmTx) return;
+        async function handleWithdraw() {
+            const amount = document.getElementById('withdrawAmount').value;
+            
+            if(!amount || amount < 1000) return alert("Minimum withdrawal is ₦1,000");
+            if(Number(amount) > Number(userProfile.wallet_balance)) return alert("Insufficient Balance");
+            if(!userProfile.bank_name) return alert("No Bank Account Linked. Please create a new account to update bank details.");
 
-        // Deduct
-        const newBal = Number(userProfile.wallet_balance) - Number(amount);
-        await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', userProfile.id);
+            const confirmTx = confirm(`Withdraw ₦${amount} to ${userProfile.bank_name} (${userProfile.account_number})?`);
+            if(!confirmTx) return;
 
-        // Record
-        await _supabase.from('transactions').insert({
-            user_id: userProfile.id,
-            type: 'withdrawal',
-            amount: amount,
-            status: 'pending',
-            bank_name: userProfile.bank_name,
-            account_number: userProfile.account_number,
-            product_name: 'Affiliate Payout'
-        });
+            // 1. Deduct Balance
+            const newBal = Number(userProfile.wallet_balance) - Number(amount);
+            await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', userProfile.id);
 
-        alert("Withdrawal Submitted!");
-        location.reload();
-    }
+            // 2. Create Transaction Request
+            await _supabase.from('transactions').insert({
+                user_id: userProfile.id,
+                type: 'withdrawal',
+                amount: amount,
+                status: 'pending',
+                bank_name: userProfile.bank_name,
+                account_number: userProfile.account_number,
+                product_name: 'Affiliate Payout'
+            });
 
-    async function logout() {
-        await _supabase.auth.signOut();
-        window.location.href = 'index.html';
-    }
-</script>
+            alert("Withdrawal Submitted! Funds will be sent to your account shortly.");
+            location.reload();
+        }
+
+        async function logout() {
+            await _supabase.auth.signOut();
+            window.location.href = 'index.html';
+        }
+    </script>
 </body>
 </html>
