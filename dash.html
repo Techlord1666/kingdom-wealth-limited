@@ -32,6 +32,7 @@
             },
         }
     </script>
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white antialiased min-h-screen flex flex-col transition-colors duration-300">
@@ -48,9 +49,12 @@
                 </a>
                 <button onclick="toggleMenu()" class="md:hidden p-2"><span class="material-symbols-outlined text-3xl">menu</span></button>
             </div>
+            
             <div id="navLinks" class="hidden md:flex flex-col md:flex-row items-center gap-6 w-full md:w-auto mt-4 md:mt-0">
                 <a class="text-sm font-medium hover:text-primary transition-colors" href="index.html">Home</a>
-                 <a class="text-sm font-medium text-text-main hover:text-royal-blue dark:text-white dark:hover:text-primary transition-colors" href="store.html">KW Gadget</a>
+                <a class="text-sm font-medium hover:text-primary transition-colors" href="store.html">Store</a>
+                <!-- Affiliate Button will be injected here via JS -->
+                
                 <div class="flex items-center gap-4">
                     <div id="dashboardProfileImg" class="size-10 rounded-full bg-gray-200 bg-cover bg-center cursor-pointer border-2 hover:border-primary"
                          style="background-image: url('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');"
@@ -109,10 +113,7 @@
                 <h3 class="font-bold text-xl flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary">menu_book</span> Learning Progress
                 </h3>
-                
-                <!-- Dynamic Course Container -->
                 <div id="courseContainer" class="flex flex-col gap-4">
-                    <!-- Loading State -->
                     <div class="p-8 text-center text-gray-500 bg-white dark:bg-[#112240] rounded-xl border border-dashed border-gray-300 dark:border-gray-700">
                         <span class="material-symbols-outlined animate-spin text-2xl">sync</span>
                         <p class="text-sm mt-2">Checking your library...</p>
@@ -125,9 +126,7 @@
                 <h3 class="font-bold text-xl flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary">local_shipping</span> Order Tracking
                 </h3>
-                
                 <div id="orderContainer" class="bg-white dark:bg-[#112240] rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden min-h-[200px]">
-                    <!-- Loading State -->
                     <div class="p-8 text-center text-gray-500">
                         <span class="material-symbols-outlined animate-spin text-2xl">sync</span>
                         <p class="text-sm mt-2">Loading orders...</p>
@@ -160,6 +159,48 @@
 
     </main>
 
+    <!-- AI SUPPORT WIDGET -->
+    <div id="ai-widget" class="fixed bottom-6 right-6 z-[9999] font-sans">
+        
+        <!-- Chat Window -->
+        <div id="chat-window" class="hidden flex-col w-[300px] md:w-[350px] h-[450px] bg-white dark:bg-[#1a1a2e] rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform origin-bottom-right scale-95 opacity-0">
+            <div class="bg-primary p-4 flex justify-between items-center text-black">
+                <div class="flex items-center gap-2">
+                    <div class="size-8 bg-black rounded-full flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-lg">smart_toy</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm">Kingdom AI</h4>
+                        <p class="text-[10px] opacity-80">Online | Replies Instantly</p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="hover:bg-black/10 p-1 rounded">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-[#0f0f12] flex flex-col gap-3">
+                <div class="self-start bg-white dark:bg-[#292938] text-gray-800 dark:text-gray-200 p-3 rounded-2xl rounded-tl-none border border-gray-100 dark:border-gray-700 text-sm shadow-sm max-w-[85%]">
+                    Hello! I am the Kingdom Wealth Assistant. 👋 <br><br>
+                    Ask me about <b>Withdrawals</b>, <b>Courses</b>, or <b>Gadgets</b>.
+                </div>
+            </div>
+            <div class="p-3 bg-white dark:bg-[#1a1a2e] border-t border-gray-200 dark:border-gray-700 flex gap-2">
+                <input type="text" id="user-input" placeholder="Type a message..." 
+                       class="flex-1 bg-gray-100 dark:bg-black/30 border-0 rounded-full px-4 py-2 text-sm focus:ring-1 focus:ring-primary dark:text-white"
+                       onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()" class="bg-primary text-black p-2 rounded-full hover:brightness-90 transition-transform active:scale-95">
+                    <span class="material-symbols-outlined text-lg">send</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Button -->
+        <button onclick="toggleChat()" id="chat-btn" 
+                class="size-14 bg-primary hover:bg-yellow-400 text-black rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 active:scale-95">
+            <span class="material-symbols-outlined text-3xl">support_agent</span>
+        </button>
+    </div>
+
     <!-- LOGIC -->
     <script>
         // 1. SETUP
@@ -167,7 +208,6 @@
         const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
         const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
         
-        // PAYSTACK KEY (TEST MODE)
         const PAYSTACK_PUBLIC_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
 
         let currentUser = null;
@@ -184,11 +224,33 @@
             if (!user) { window.location.href = "login.html"; return; }
             currentUser = user;
 
-            // Name
+            // Get Profile
+            let { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+            
+            // Update Name
             const dbName = user.user_metadata.full_name || user.email.split('@')[0];
             document.getElementById('welcomeName').innerText = dbName;
 
-            // Load All Data
+            // --- AFFILIATE SWITCH LOGIC ---
+            const navLinks = document.getElementById('navLinks');
+            
+            if (profile && profile.is_affiliate) {
+                // Show Switch Button
+                const switchBtn = document.createElement('a');
+                switchBtn.href = "affiliate-dash.html";
+                switchBtn.className = "px-4 py-2 bg-green-900/30 text-green-400 border border-green-900 rounded-full text-sm font-bold hover:bg-green-600 hover:text-white transition-colors flex items-center gap-2";
+                switchBtn.innerHTML = '<span class="material-symbols-outlined text-lg">sync_alt</span> Affiliate Portal';
+                navLinks.appendChild(switchBtn);
+            } else {
+                // Show Join Button
+                const joinBtn = document.createElement('a');
+                joinBtn.href = "affiliate-register.html";
+                joinBtn.className = "text-sm font-bold text-primary hover:text-white transition-colors";
+                joinBtn.innerText = "Become an Affiliate";
+                navLinks.insertBefore(joinBtn, navLinks.firstChild);
+            }
+
+            // Load Data
             fetchWallet();
             fetchHistoryAndOrders();
         };
@@ -205,7 +267,7 @@
             }
         }
 
-        // 4. FETCH HISTORY & SORT (Courses vs Gadgets vs Money)
+        // 4. FETCH HISTORY & SORT
         async function fetchHistoryAndOrders() {
             const { data: transactions } = await _supabase
                 .from('transactions')
@@ -217,7 +279,6 @@
             const orderContainer = document.getElementById('orderContainer');
             const historyTable = document.getElementById('transactionTable');
 
-            // Reset HTML
             courseContainer.innerHTML = '';
             orderContainer.innerHTML = '';
             historyTable.innerHTML = '';
@@ -226,17 +287,14 @@
             let orderCount = 0;
 
             if (!transactions || transactions.length === 0) {
-                // EMPTY STATES
                 courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">You haven't enrolled in any courses yet.</p><a href="store.html" class="text-primary text-sm font-bold mt-2 inline-block">Browse Academy</a></div>`;
                 orderContainer.innerHTML = `<div class="p-6 text-center"><p class="text-gray-500 text-sm">No recent orders.</p></div>`;
                 historyTable.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No financial history found.</td></tr>`;
                 return;
             }
 
-            // LOOP THROUGH DATA
             transactions.forEach(tx => {
-                
-                // A. COURSES (If category is Course)
+                // A. COURSES
                 if (tx.category === 'Course' && tx.type === 'purchase') {
                     courseCount++;
                     const courseHtml = `
@@ -246,9 +304,7 @@
                             </div>
                             <div class="flex-1 text-center sm:text-left">
                                 <h4 class="font-bold text-gray-900 dark:text-white">${tx.product_name}</h4>
-                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full mt-2">
-                                    <div class="bg-primary h-2 rounded-full" style="width: 10%"></div>
-                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full mt-2"><div class="bg-primary h-2 rounded-full" style="width: 10%"></div></div>
                                 <p class="text-xs text-gray-500 mt-1">10% Complete</p>
                             </div>
                             <button class="bg-primary text-black px-4 py-2 rounded-lg text-xs font-bold">Resume Reading</button>
@@ -256,20 +312,14 @@
                     `;
                     courseContainer.innerHTML += courseHtml;
                 }
-
-                // B. GADGET ORDERS (If category is Gadget)
+                // B. GADGETS
                 else if (tx.category === 'Gadget' && tx.type === 'purchase') {
                     orderCount++;
-                    
-                    let statusColor = 'bg-yellow-100 text-yellow-700';
-                    if(tx.delivery_status === 'Delivered') statusColor = 'bg-green-100 text-green-700';
-
+                    let statusColor = tx.delivery_status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
                     const orderHtml = `
                         <div class="p-4 border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                             <div class="flex items-center gap-3">
-                                <div class="size-10 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500">
-                                    <span class="material-symbols-outlined">devices</span>
-                                </div>
+                                <div class="size-10 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500"><span class="material-symbols-outlined">devices</span></div>
                                 <div class="flex-1">
                                     <h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">${tx.product_name}</h4>
                                     <p class="text-xs text-gray-500">ID: ${tx.account_number.substring(0,8)}...</p>
@@ -283,8 +333,7 @@
                     `;
                     orderContainer.innerHTML += orderHtml;
                 }
-
-                // C. FINANCIAL TABLE (Deposits, Withdrawals)
+                // C. FINANCIAL TABLE
                 else {
                     const date = new Date(tx.created_at).toLocaleDateString();
                     const statusClass = tx.status === 'success' ? 'text-green-500' : 'text-yellow-500';
@@ -300,16 +349,14 @@
                 }
             });
 
-            // Update Count Badges
             document.getElementById('liveCourseCount').innerText = courseCount;
             document.getElementById('liveOrderCount').innerText = orderCount;
-
-            // Handle Empty Specific Sections
+            
             if (courseCount === 0) courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">No active courses.</p></div>`;
             if (orderCount === 0) orderContainer.innerHTML = `<div class="p-6 text-center"><p class="text-gray-500 text-sm">No gadget orders yet.</p></div>`;
         }
 
-        // 5. TOP UP
+        // 5. TRANSACTIONS
         function handleTopUp() {
             let amount = prompt("Enter amount (NGN):");
             if (!amount || isNaN(amount) || Number(amount) < 100) return alert("Min NGN 100");
@@ -325,7 +372,6 @@
             handler.openIframe();
         }
 
-        // 6. PROCESS TX
         async function processTx(amount, ref, type, name) {
             const newBal = Number(currentBalance) + Number(amount);
             await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', currentUser.id);
@@ -336,7 +382,6 @@
             location.reload();
         }
 
-        // 7. WITHDRAW
         async function handleWithdraw() {
             let amount = prompt("Amount to Withdraw:");
             if (!amount || Number(amount) > currentBalance) return alert("Insufficient Funds");
@@ -357,160 +402,34 @@
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('hidden'); document.getElementById('navLinks').classList.toggle('flex'); }
 
         // --- AI BOT LOGIC ---
-    let isChatOpen = false;
-
-    function toggleChat() {
-        const window = document.getElementById('chat-window');
-        const btn = document.getElementById('chat-btn');
-        isChatOpen = !isChatOpen;
-
-        if (isChatOpen) {
-            window.classList.remove('hidden');
-            // Small timeout for animation
-            setTimeout(() => {
-                window.classList.remove('scale-95', 'opacity-0');
-                window.classList.add('scale-100', 'opacity-100');
-            }, 10);
-            btn.classList.add('hidden');
-        } else {
-            window.classList.remove('scale-100', 'opacity-100');
-            window.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                window.classList.add('hidden');
-                btn.classList.remove('hidden');
-            }, 300);
+        let isChatOpen = false;
+        function toggleChat() {
+            const w = document.getElementById('chat-window');
+            const b = document.getElementById('chat-btn');
+            isChatOpen = !isChatOpen;
+            if(isChatOpen){ w.classList.remove('hidden'); setTimeout(()=>w.classList.remove('scale-95','opacity-0'),10); b.classList.add('hidden'); }
+            else { w.classList.add('scale-95','opacity-0'); setTimeout(()=>w.classList.add('hidden'),300); b.classList.remove('hidden'); }
         }
-    }
-
-    function handleKeyPress(e) {
-        if (e.key === 'Enter') sendMessage();
-    }
-
-    function sendMessage() {
-        const input = document.getElementById('user-input');
-        const message = input.value.trim();
-        if (!message) return;
-
-        // 1. Add User Message
-        addMessage(message, 'user');
-        input.value = '';
-
-        // 2. Simulate Thinking Delay (makes it feel real)
-        const chatBox = document.getElementById('chat-messages');
-        const loadingId = 'loading-' + Date.now();
-        
-        chatBox.innerHTML += `
-            <div id="${loadingId}" class="self-start text-gray-400 text-xs ml-2 animate-pulse">
-                Thinking...
-            </div>
-        `;
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        setTimeout(() => {
-            document.getElementById(loadingId).remove();
-            const response = getBotResponse(message.toLowerCase());
-            addMessage(response, 'bot');
-        }, 1000);
-    }
-
-    function addMessage(text, sender) {
-        const chatBox = document.getElementById('chat-messages');
-        const isUser = sender === 'user';
-        
-        const bubble = document.createElement('div');
-        bubble.className = isUser 
-            ? "self-end bg-primary text-black p-3 rounded-2xl rounded-tr-none text-sm shadow-sm max-w-[85%]"
-            : "self-start bg-white dark:bg-[#292938] text-gray-800 dark:text-gray-200 p-3 rounded-2xl rounded-tl-none border border-gray-100 dark:border-gray-700 text-sm shadow-sm max-w-[85%]";
-        
-        bubble.innerHTML = text;
-        chatBox.appendChild(bubble);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    // --- THE BRAIN (TRAINING DATA) ---
-    function getBotResponse(input) {
-        
-        // 1. WITHDRAWAL QUESTIONS
-        if (input.includes('withdraw') || input.includes('money') || input.includes('fund') || input.includes('cash')) {
-            return "<b>Withdrawal Policy:</b><br>To ensure security, all withdrawal requests are reviewed by our Admin team. <br><br>Please allow up to <b>24 hours</b> for the funds to reflect in your bank account.";
+        function handleKeyPress(e) { if(e.key==='Enter') sendMessage(); }
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const msg = input.value.trim();
+            if(!msg) return;
+            addMessage(msg, 'user');
+            input.value = '';
+            setTimeout(() => { addMessage(getBotResponse(msg.toLowerCase()), 'bot'); }, 1000);
         }
-
-        // 2. GADGETS
-        if (input.includes('phone') || input.includes('iphone') || input.includes('laptop') || input.includes('delivery')) {
-            return "We sell premium gadgets like iPhones and MacBooks! <br><br>Orders within Lagos take 24 hours. Outside Lagos takes 2-3 days. Check the <a href='store.html' class='underline font-bold'>Store</a> to see stock.";
+        function addMessage(text, sender) {
+            const chat = document.getElementById('chat-messages');
+            const cls = sender === 'user' ? "self-end bg-primary text-black" : "self-start bg-white dark:bg-[#292938]";
+            chat.innerHTML += `<div class="${cls} p-3 rounded-2xl rounded-tr-none text-sm shadow-sm max-w-[85%]">${text}</div>`;
+            chat.scrollTop = chat.scrollHeight;
         }
-
-        // 3. COURSES / ACADEMY
-        if (input.includes('course') || input.includes('learn') || input.includes('trade') || input.includes('forex')) {
-            return "Our Academy offers top-tier Forex and Tech courses. Once you purchase a course, it appears in your Dashboard immediately.";
+        function getBotResponse(input) {
+            if(input.includes('withdraw')) return "Withdrawals take up to 24 hours.";
+            if(input.includes('course')) return "Courses appear in your Dashboard instantly.";
+            return "Please chat with us on WhatsApp for help.";
         }
-
-        // 4. SECURITY / SPY
-        if (input.includes('spy') || input.includes('security') || input.includes('protect')) {
-            return "KW Intelligence provides discreet corporate security and background checks. This service is strictly confidential. Please contact us directly.";
-        }
-
-        // 5. CONTACT / HUMAN
-        if (input.includes('human') || input.includes('contact') || input.includes('help') || input.includes('agent')) {
-            return "You can chat with our CEO or Support team directly on WhatsApp: <br><br><a href='https://wa.me/2349032473005' target='_blank' class='text-primary font-bold underline'>Click here to Open WhatsApp</a>";
-        }
-
-        // 6. GREETINGS
-        if (input.includes('hi') || input.includes('hello') || input.includes('hey')) {
-            return "Hello! Welcome to Kingdom Wealth. How can I assist you today?";
-        }
-
-        // DEFAULT RESPONSE
-        return "I'm not sure about that. But you can <a href='https://wa.me/2349032473005' target='_blank' class='text-primary font-bold underline'>Chat with us on WhatsApp</a> for immediate help.";
-    }
     </script>
-    <!-- AI SUPPORT WIDGET -->
-<div id="ai-widget" class="fixed bottom-6 right-6 z-[9999] font-sans">
-    
-    <!-- 1. The Chat Window (Hidden by default) -->
-    <div id="chat-window" class="hidden flex-col w-[350px] h-[450px] bg-white dark:bg-[#1a1a2e] rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform origin-bottom-right scale-95 opacity-0">
-        
-        <!-- Header -->
-        <div class="bg-primary p-4 flex justify-between items-center text-black">
-            <div class="flex items-center gap-2">
-                <div class="size-8 bg-black rounded-full flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-lg">smart_toy</span>
-                </div>
-                <div>
-                    <h4 class="font-bold text-sm">Kingdom AI</h4>
-                    <p class="text-[10px] opacity-80">Online | Replies Instantly</p>
-                </div>
-            </div>
-            <button onclick="toggleChat()" class="hover:bg-black/10 p-1 rounded">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </div>
-
-        <!-- Chat Area (Messages) -->
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-[#0f0f12] flex flex-col gap-3">
-            <!-- Initial Greeting -->
-            <div class="self-start bg-white dark:bg-[#292938] text-gray-800 dark:text-gray-200 p-3 rounded-2xl rounded-tl-none border border-gray-100 dark:border-gray-700 text-sm shadow-sm max-w-[85%]">
-                Hello! I am the Kingdom Wealth Assistant. 👋 <br><br>
-                How can I help you? You can ask about <b>Withdrawals</b>, <b>Courses</b>, or <b>Gadgets</b>.
-            </div>
-        </div>
-
-        <!-- Input Area -->
-        <div class="p-3 bg-white dark:bg-[#1a1a2e] border-t border-gray-200 dark:border-gray-700 flex gap-2">
-            <input type="text" id="user-input" placeholder="Type a message..." 
-                   class="flex-1 bg-gray-100 dark:bg-black/30 border-0 rounded-full px-4 py-2 text-sm focus:ring-1 focus:ring-primary dark:text-white"
-                   onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()" class="bg-primary text-black p-2 rounded-full hover:brightness-90 transition-transform active:scale-95">
-                <span class="material-symbols-outlined text-lg">send</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- 2. The Floating Button (Avatar) -->
-    <button onclick="toggleChat()" id="chat-btn" 
-            class="size-14 bg-primary hover:bg-yellow-400 text-black rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 active:scale-95">
-        <span class="material-symbols-outlined text-3xl">support_agent</span>
-    </button>
-</div>
 </body>
 </html>
