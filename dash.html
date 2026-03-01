@@ -70,7 +70,7 @@
         <!-- Welcome -->
         <div class="mb-8">
             <h1 class="text-2xl md:text-4xl font-bold tracking-tight mb-2">
-                Welcome back, <span id="welcomeName" class="text-primary">Investor</span>
+                Welcome back, <span id="welcomeName" class="text-primary">Loading...</span>
             </h1>
             <p class="text-sm md:text-base text-gray-500">Track your courses, orders, and finances.</p>
         </div>
@@ -208,66 +208,76 @@
         const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
         const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
         
-        const PAYSTACK_PUBLIC_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
+        // PAYSTACK KEY (TEST MODE)
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_60dc217c251dcfbb8f5c6c894be866e15a68d840'; 
 
         let currentUser = null;
         let currentBalance = 0;
 
         // 2. INIT
         window.onload = async function() {
-            // Profile Pic
+            // Profile Pic - LocalStorage first for speed
             const savedImg = localStorage.getItem('kw_profile_pic');
             if(savedImg) document.getElementById('dashboardProfileImg').style.backgroundImage = `url('${savedImg}')`;
 
-            // Auth Check
+            // A. Check Auth
             const { data: { user } } = await _supabase.auth.getUser();
             if (!user) { window.location.href = "login.html"; return; }
             currentUser = user;
 
-            // Get Profile
+            // B. Get Profile from DB (Source of Truth)
             let { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             
-            // Update Name
-            const dbName = user.user_metadata.full_name || user.email.split('@')[0];
-            document.getElementById('welcomeName').innerText = dbName;
+            // C. Fix Missing Profile
+            if (!profile) {
+                 const { data: newProfile } = await _supabase.from('profiles').insert([{ id: user.id, email: user.email }]).select().single();
+                 profile = newProfile;
+            }
 
-            // --- AFFILIATE SWITCH LOGIC ---
+            // D. Update Name (FIXED LOGIC)
+            // Use profile.full_name first, then metadata, then email
+            const displayName = profile.full_name || user.user_metadata.full_name || user.email.split('@')[0];
+            document.getElementById('welcomeName').innerText = displayName;
+            
+            // Save correct name to local storage for next time
+            localStorage.setItem('kw_username', displayName);
+
+            // E. CHECK AFFILIATE STATUS & SHOW BUTTON
             const navLinks = document.getElementById('navLinks');
             
             if (profile && profile.is_affiliate) {
-                // Show Switch Button
+                // User IS an affiliate -> Show "Switch" Button
                 const switchBtn = document.createElement('a');
                 switchBtn.href = "affiliate-dash.html";
                 switchBtn.className = "px-4 py-2 bg-green-900/30 text-green-400 border border-green-900 rounded-full text-sm font-bold hover:bg-green-600 hover:text-white transition-colors flex items-center gap-2";
                 switchBtn.innerHTML = '<span class="material-symbols-outlined text-lg">sync_alt</span> Affiliate Portal';
+                
                 navLinks.appendChild(switchBtn);
             } else {
-                // Show Join Button
+                // User is NOT an affiliate -> Show "Join" Button
                 const joinBtn = document.createElement('a');
                 joinBtn.href = "affiliate-register.html";
                 joinBtn.className = "text-sm font-bold text-primary hover:text-white transition-colors";
                 joinBtn.innerText = "Become an Affiliate";
+                
                 navLinks.insertBefore(joinBtn, navLinks.firstChild);
             }
 
             // Load Data
-            fetchWallet();
+            fetchWallet(profile);
             fetchHistoryAndOrders();
         };
 
         // 3. FETCH WALLET
-        async function fetchWallet() {
-            let { data: profile } = await _supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+        async function fetchWallet(profile) {
+            // Use the profile passed from onload to save a network call
             if (profile) {
-                currentBalance = profile.wallet_balance;
+                currentBalance = profile.wallet_balance || 0;
                 document.getElementById('liveBalance').innerText = "₦" + currentBalance.toLocaleString();
-            } else {
-                await _supabase.from('profiles').insert([{ id: currentUser.id, email: currentUser.email }]);
-                fetchWallet();
             }
         }
 
-        // 4. FETCH HISTORY & SORT
+        // 4. FETCH HISTORY & SORT (Courses vs Gadgets vs Money)
         async function fetchHistoryAndOrders() {
             const { data: transactions } = await _supabase
                 .from('transactions')
@@ -279,6 +289,7 @@
             const orderContainer = document.getElementById('orderContainer');
             const historyTable = document.getElementById('transactionTable');
 
+            // Reset HTML
             courseContainer.innerHTML = '';
             orderContainer.innerHTML = '';
             historyTable.innerHTML = '';
@@ -287,14 +298,17 @@
             let orderCount = 0;
 
             if (!transactions || transactions.length === 0) {
+                // EMPTY STATES
                 courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">You haven't enrolled in any courses yet.</p><a href="store.html" class="text-primary text-sm font-bold mt-2 inline-block">Browse Academy</a></div>`;
                 orderContainer.innerHTML = `<div class="p-6 text-center"><p class="text-gray-500 text-sm">No recent orders.</p></div>`;
                 historyTable.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No financial history found.</td></tr>`;
                 return;
             }
 
+            // LOOP THROUGH DATA
             transactions.forEach(tx => {
-                // A. COURSES
+                
+                // A. COURSES (If category is Course)
                 if (tx.category === 'Course' && tx.type === 'purchase') {
                     courseCount++;
                     const courseHtml = `
@@ -304,7 +318,9 @@
                             </div>
                             <div class="flex-1 text-center sm:text-left">
                                 <h4 class="font-bold text-gray-900 dark:text-white">${tx.product_name}</h4>
-                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full mt-2"><div class="bg-primary h-2 rounded-full" style="width: 10%"></div></div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full mt-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 10%"></div>
+                                </div>
                                 <p class="text-xs text-gray-500 mt-1">10% Complete</p>
                             </div>
                             <button class="bg-primary text-black px-4 py-2 rounded-lg text-xs font-bold">Resume Reading</button>
@@ -312,14 +328,20 @@
                     `;
                     courseContainer.innerHTML += courseHtml;
                 }
-                // B. GADGETS
+
+                // B. GADGET ORDERS (If category is Gadget)
                 else if (tx.category === 'Gadget' && tx.type === 'purchase') {
                     orderCount++;
-                    let statusColor = tx.delivery_status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
+                    
+                    let statusColor = 'bg-yellow-100 text-yellow-700';
+                    if(tx.delivery_status === 'Delivered') statusColor = 'bg-green-100 text-green-700';
+
                     const orderHtml = `
                         <div class="p-4 border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                             <div class="flex items-center gap-3">
-                                <div class="size-10 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500"><span class="material-symbols-outlined">devices</span></div>
+                                <div class="size-10 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500">
+                                    <span class="material-symbols-outlined">devices</span>
+                                </div>
                                 <div class="flex-1">
                                     <h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">${tx.product_name}</h4>
                                     <p class="text-xs text-gray-500">ID: ${tx.account_number.substring(0,8)}...</p>
@@ -333,13 +355,14 @@
                     `;
                     orderContainer.innerHTML += orderHtml;
                 }
-                // C. FINANCIAL TABLE
+
+                // C. FINANCIAL TABLE (Deposits, Withdrawals)
                 else {
                     const date = new Date(tx.created_at).toLocaleDateString();
                     const statusClass = tx.status === 'success' ? 'text-green-500' : 'text-yellow-500';
                     const row = `
                         <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                            <td class="px-6 py-4 font-medium capitalize">${tx.type}</td>
+                            <td class="px-6 py-4 font-medium capitalize text-gray-900 dark:text-white">${tx.type}</td>
                             <td class="px-6 py-4 font-bold">₦${Number(tx.amount).toLocaleString()}</td>
                             <td class="px-6 py-4 ${statusClass} text-xs font-bold uppercase">${tx.status}</td>
                             <td class="px-6 py-4 text-gray-500">${date}</td>
@@ -349,14 +372,16 @@
                 }
             });
 
+            // Update Count Badges
             document.getElementById('liveCourseCount').innerText = courseCount;
             document.getElementById('liveOrderCount').innerText = orderCount;
-            
+
+            // Handle Empty Specific Sections
             if (courseCount === 0) courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">No active courses.</p></div>`;
             if (orderCount === 0) orderContainer.innerHTML = `<div class="p-6 text-center"><p class="text-gray-500 text-sm">No gadget orders yet.</p></div>`;
         }
 
-        // 5. TRANSACTIONS
+        // 5. TOP UP
         function handleTopUp() {
             let amount = prompt("Enter amount (NGN):");
             if (!amount || isNaN(amount) || Number(amount) < 100) return alert("Min NGN 100");
@@ -372,6 +397,7 @@
             handler.openIframe();
         }
 
+        // 6. PROCESS TX
         async function processTx(amount, ref, type, name) {
             const newBal = Number(currentBalance) + Number(amount);
             await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', currentUser.id);
@@ -382,6 +408,7 @@
             location.reload();
         }
 
+        // 7. WITHDRAW
         async function handleWithdraw() {
             let amount = prompt("Amount to Withdraw:");
             if (!amount || Number(amount) > currentBalance) return alert("Insufficient Funds");
