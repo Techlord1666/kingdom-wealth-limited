@@ -24,7 +24,6 @@
     <style>
         body { overflow-x: hidden; }
         .break-all { word-break: break-all; }
-        /* Smooth Fade In */
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -38,7 +37,10 @@
             <span class="text-primary font-bold text-lg md:text-xl">KW Partners</span>
             <span class="bg-primary/20 text-primary text-[9px] md:text-[10px] px-2 py-0.5 rounded uppercase font-bold">Dashboard</span>
         </div>
-        <button onclick="logout()" class="text-sm text-gray-400 hover:text-white border border-white/10 px-3 py-1 rounded-lg transition-colors">Logout</button>
+        <div class="flex gap-2">
+            <a href="dash.html" class="text-xs font-bold text-white bg-white/10 px-3 py-2 rounded-lg hover:bg-white/20 transition-colors">Customer View</a>
+            <button onclick="logout()" class="text-xs font-bold text-red-400 border border-red-900/50 px-3 py-2 rounded-lg hover:bg-red-900/20 transition-colors">Logout</button>
+        </div>
     </nav>
 
     <!-- LOADING SPINNER -->
@@ -52,7 +54,17 @@
         
         <!-- MAIN STATS CARD -->
         <div class="bg-[#111118] border border-white/10 rounded-2xl p-5 md:p-8 shadow-2xl">
-            <h2 id="welcomeName" class="text-lg md:text-xl font-bold mb-6 text-center md:text-left">Welcome, Partner</h2>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <div>
+                    <h2 id="welcomeName" class="text-lg md:text-xl font-bold">Welcome, Partner</h2>
+                    <p class="text-xs text-gray-500 mt-1">Track your earnings and payouts.</p>
+                </div>
+                <!-- Bank Account Display -->
+                <div class="mt-2 md:mt-0 flex items-center gap-2 bg-green-900/20 border border-green-900/50 px-3 py-1.5 rounded-lg">
+                    <span class="text-green-500 text-xs">Bank:</span>
+                    <span id="bankDisplay" class="text-xs font-bold text-white">Loading...</span>
+                </div>
+            </div>
             
             <!-- Stats Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -82,7 +94,6 @@
             <div class="mt-8 pt-6 border-t border-white/10">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
                     <h3 class="font-bold text-white">Withdraw Funds</h3>
-                    <span id="bankDisplay" class="text-[11px] md:text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full border border-white/5">Checking Bank Details...</span>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row gap-3">
@@ -93,7 +104,7 @@
                         Withdraw
                     </button>
                 </div>
-                <p class="text-[10px] text-gray-500 mt-3 text-center sm:text-left">Withdrawals are processed automatically within 24 hours.</p>
+                <p class="text-[10px] text-gray-500 mt-3">Withdrawals are sent to the account displayed above within 24 hours.</p>
             </div>
         </div>
 
@@ -111,8 +122,8 @@
                 <button onclick="copyLink()" class="py-3 border border-white/20 rounded-xl text-sm font-semibold hover:bg-white hover:text-black transition-all">
                     Copy Link
                 </button>
-                <a href="digital-store.html" target="_blank" class="flex items-center justify-center py-3 bg-white/5 rounded-xl text-primary text-sm font-semibold hover:underline">
-                    Visit Store
+                <a href="digital-store.html" class="flex items-center justify-center py-3 bg-white/5 rounded-xl text-primary text-sm font-semibold hover:underline">
+                    Go to Store
                 </a>
             </div>
         </div>
@@ -128,16 +139,23 @@
         window.onload = async function() {
             // 1. Check Login
             const { data: { user } } = await _supabase.auth.getUser();
-            if(!user) return window.location.href = 'affiliate-register.html';
+            if(!user) return window.location.href = 'login.html'; // Redirect to login if not authenticated
 
             // 2. Get Profile
             let { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             
-            // 3. AUTO-FIX: If profile doesn't exist or code is missing
+            // 3. AUTO-FIX: If profile or code is missing, generate it NOW
             if (!profile || !profile.referral_code) {
-                console.log("Profile incomplete. Fixing...");
+                console.log("Profile incomplete. Attempting auto-fix...");
                 await fixMissingProfile(user);
-                return; // Wait for reload
+                return; // Stop here, the fix function will reload the page
+            }
+
+            // 4. CHECK IF AFFILIATE
+            if (!profile.is_affiliate) {
+                 alert("You are not registered as an Affiliate yet. Redirecting...");
+                 window.location.href = "affiliate-register.html";
+                 return;
             }
 
             userProfile = profile;
@@ -145,26 +163,26 @@
         };
 
         async function fixMissingProfile(user) {
-            // Generate new code
-            const namePart = (user.user_metadata.full_name || "USER").substring(0,3).toUpperCase();
+            // Generate new code: KW + First 3 chars of ID + Random
             const random = Math.floor(10000 + Math.random() * 90000);
-            const code = `KW-${namePart}-${random}`;
+            const code = `KW-${user.id.substring(0,3).toUpperCase()}-${random}`;
 
-            // Upsert (Insert or Update)
+            // Force Update or Insert
             const { error } = await _supabase.from('profiles').upsert({
                 id: user.id,
                 email: user.email,
                 full_name: user.user_metadata.full_name || "Partner",
                 is_affiliate: true,
                 referral_code: code,
-                wallet_balance: 0
+                wallet_balance: 0,
+                total_earnings: 0
             });
 
             if (!error) {
-                location.reload(); 
+                location.reload(); // Reload to show the dashboard
             } else {
                 console.error(error);
-                alert("System upgrading... please refresh the page manually.");
+                alert("Account setup failed. Please contact support.");
             }
         }
 
@@ -183,10 +201,9 @@
             const link = `https://kingdomwealthltd.com/digital-store.html?ref=${profile.referral_code}`;
             document.getElementById('fullLink').innerText = link;
 
-            // Bank Info
+            // Display Bank Info
             if(profile.bank_name && profile.account_number) {
                 document.getElementById('bankDisplay').innerText = `${profile.bank_name} - ${profile.account_number}`;
-                document.getElementById('bankDisplay').className = "text-[10px] md:text-xs text-green-400 bg-green-900/20 px-3 py-1 rounded-full border border-green-900/50";
             } else {
                 document.getElementById('bankDisplay').innerHTML = `<a href="affiliate-register.html" class="text-red-400 hover:underline">Add Bank Details</a>`;
             }
@@ -233,7 +250,7 @@
 
         async function logout() {
             await _supabase.auth.signOut();
-            window.location.href = 'index.html';
+            window.location.href = 'login.html';
         }
     </script>
 </body>
