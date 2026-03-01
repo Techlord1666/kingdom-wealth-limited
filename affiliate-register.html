@@ -73,7 +73,11 @@
             // Pre-fill email if logged in
             document.getElementById('email').value = user.email;
             document.getElementById('email').disabled = true; // Lock email field
-            document.getElementById('password').parentElement.classList.add('hidden'); // Hide password field
+            
+            // FIX: Hide ONLY the password field and remove its requirement so the form submits smoothly
+            const passField = document.getElementById('password');
+            passField.classList.add('hidden');
+            passField.required = false; 
             
             // Change Button Text
             document.querySelector('button[type="submit"]').innerText = "Upgrade to Affiliate";
