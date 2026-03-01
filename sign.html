@@ -39,7 +39,7 @@
         }
     </script>
 
-    <style>
+<style>
         .glass-panel {
             background: rgba(17, 17, 24, 0.9);
             backdrop-filter: blur(12px);
@@ -90,8 +90,7 @@
                 </div>
             </div>
 
-            <!-- Mobile Menu Toggle -->
-            <button onclick="toggleMobileMenu()" class="md:hidden text-white p-2">
+<button onclick="toggleMobileMenu()" class="md:hidden text-white p-2">
                 <span class="material-symbols-outlined text-3xl">menu</span>
             </button>
         </div>
@@ -140,15 +139,16 @@
         </div>
 
         <!-- RIGHT SECTION (Sign Up Form) -->
-        <div class="relative flex w-full lg:w-1/2 flex-col justify-center items-center p-6 sm:p-12 bg-background-dark">
+        <div class="relative flex w-full lg:w-1/2 flex-col items-center p-6 sm:p-12 bg-background-dark">
             
-            <!-- Mobile Logo -->
-            <div class="lg:hidden absolute top-6 left-6 flex items-center gap-2 mb-8">
-                <span class="material-symbols-outlined text-accent-gold">diamond</span>
-                <span class="font-bold text-white">KWL</span>
-            </div>
+            <div class="w-full max-w-[480px] my-auto">
+                
+                <!-- Mobile Logo (Moved inside flow and fixed overlap) -->
+                <div class="lg:hidden flex items-center justify-center gap-2 mb-8 w-full">
+                    <span class="material-symbols-outlined text-accent-gold">diamond</span>
+                    <span class="font-bold text-white">KWL</span>
+                </div>
 
-            <div class="w-full max-w-[480px]">
                 <h2 class="text-3xl font-bold mb-6 text-white text-center">Create Account</h2>
 
                 <!-- FORM START -->
@@ -224,7 +224,7 @@
         </div>
     </div>
 
-    <script>
+<script>
     // 1. Mobile Menu
     function toggleMobileMenu() {
         const menu = document.getElementById('mobileMenu');
@@ -297,4 +297,4 @@
     }
 </script>
 </body>
-</html>
+    </html>
