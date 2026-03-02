@@ -1,10 +1,11 @@
 User-agent: *
 Allow: /
 
-# Do not let Google scan private user pages
+# Block Google from Private User Pages
 Disallow: /dash.html
 Disallow: /setting.html
+Disallow: /affiliate-dash.html
 Disallow: /admin
 
-# Point Google to your map
+# Sitemap Location
 Sitemap: https://kingdomwealthltd.com/sitemap.xml
