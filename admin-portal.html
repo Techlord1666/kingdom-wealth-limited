@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KW Admin & HR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#f9f506", "dark-bg": "#050510", "card-bg": "#111118" }, fontFamily: { "display": ["Manrope", "sans-serif"] } } } }
+    </script>
+</head>
+<body class="bg-dark-bg font-display text-white p-6">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-2xl font-bold">Manager <span class="text-primary">Console</span></h1>
+            <button onclick="registerNewStaff()" class="bg-primary text-black text-xs font-bold px-4 py-2 rounded-lg hover:bg-white">+ Register New Worker</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- 1. ATTENDANCE LIST -->
+            <div class="bg-card-bg border border-white/10 rounded-2xl p-6">
+                <h2 class="text-lg font-bold mb-4 text-green-400 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Today's Attendance
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-400">
+                        <thead class="text-xs text-gray-200 uppercase bg-white/5">
+                            <tr>
+                                <th class="px-4 py-3">Name</th>
+                                <th class="px-4 py-3">Time In</th>
+                                <th class="px-4 py-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTable">
+                            <!-- Injected JS -->
+                        </tbody>
+                    </table>
+                    <p id="noAtt" class="text-center text-xs mt-4 hidden">No one has clocked in yet.</p>
+                </div>
+            </div>
+
+            <!-- 2. APPOINTMENTS LIST -->
+            <div class="bg-card-bg border border-white/10 rounded-2xl p-6">
+                <h2 class="text-lg font-bold mb-4 text-blue-400 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    Incoming Appointments
+                </h2>
+                <div class="space-y-3" id="appointmentList">
+                    <!-- Injected JS -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+        const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+        const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+
+        window.onload = async function() {
+            // SECURITY CHECK: Only allow Admin Email (Change to yours)
+            const { data: { user } } = await _supabase.auth.getUser();
+            if(!user || user.email !== "dben61168@gmail.com") {
+                document.body.innerHTML = "<h1 style='color:white; text-align:center; margin-top:20px;'>ACCESS DENIED</h1>";
+                return;
+            }
+
+            loadAttendance();
+            loadAppointments();
+        };
+
+        // 1. LOAD ATTENDANCE
+        async function loadAttendance() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Join Attendance with Staff Info
+            const { data, error } = await _supabase
+                .from('staff_attendance')
+                .select(`
+                    clock_in_time,
+                    staff_directory ( full_name, bank_name, account_number, account_name )
+                `)
+                .eq('date', today);
+
+            const table = document.getElementById('attendanceTable');
+            
+            if(data && data.length > 0) {
+                data.forEach(record => {
+                    const staff = record.staff_directory;
+                    const row = `
+                        <tr class="border-b border-white/5">
+                            <td class="px-4 py-3 font-bold text-white">${staff.full_name}</td>
+                            <td class="px-4 py-3 text-primary">${record.clock_in_time}</td>
+                            <td class="px-4 py-3">
+                                <button onclick="alert('Bank: ${staff.bank_name}\\nAcc: ${staff.account_number}\\nName: ${staff.account_name}')" class="text-xs bg-green-900/30 text-green-400 border border-green-800 px-2 py-1 rounded hover:bg-green-800 hover:text-white transition-colors">
+                                    Pay
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    table.innerHTML += row;
+                });
+            } else {
+                document.getElementById('noAtt').classList.remove('hidden');
+            }
+        }
+
+        // 2. LOAD APPOINTMENTS
+        async function loadAppointments() {
+            const { data } = await _supabase
+                .from('staff_appointments')
+                .select(`*, staff_directory(full_name)`)
+                .eq('status', 'Pending')
+                .order('created_at', {ascending: false});
+
+            const container = document.getElementById('appointmentList');
+
+            if(data && data.length > 0) {
+                data.forEach(app => {
+                    const item = `
+                        <div class="bg-black/40 p-4 rounded-xl border border-white/5">
+                            <div class="flex justify-between mb-2">
+                                <h4 class="font-bold text-white">${app.client_name}</h4>
+                                <span class="text-xs text-gray-500">${app.appointment_date} @ ${app.appointment_time}</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">${app.purpose}</p>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-blue-400">Booked by: ${app.staff_directory.full_name}</span>
+                                <button onclick="markDone('${app.id}')" class="text-green-500 hover:underline">Mark Done</button>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += item;
+                });
+            } else {
+                container.innerHTML = "<p class='text-gray-500 text-sm text-center'>No pending appointments.</p>";
+            }
+        }
+
+        // 3. REGISTER NEW STAFF (Simple Prompt)
+        async function registerNewStaff() {
+            const name = prompt("Enter Worker's Full Name:");
+            const code = prompt("Assign a Special Code (e.g. KW-001):");
+            const bank = prompt("Bank Name:");
+            const accNum = prompt("Account Number:");
+            const accName = prompt("Account Name:");
+
+            if(!name || !code) return;
+
+            const { error } = await _supabase.from('staff_directory').insert([{
+                full_name: name,
+                special_code: code.toUpperCase(),
+                bank_name: bank,
+                account_number: accNum,
+                account_name: accName
+            }]);
+
+            if(error) alert("Error: " + error.message);
+            else alert("Staff Registered Successfully!");
+        }
+
+        async function markDone(id) {
+            await _supabase.from('staff_appointments').update({status: 'Done'}).eq('id', id);
+            location.reload();
+        }
+    </script>
+</body>
+</html>
