@@ -15,7 +15,7 @@
     <!-- SUPABASE LIBRARY -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- PAYSTACK LIBRARY (CRITICAL FOR PAYMENTS) -->
+    <!-- PAYSTACK LIBRARY -->
     <script src="https://js.paystack.co/v1/inline.js"></script>
 
     <script>
@@ -56,7 +56,7 @@
                 <a class="text-sm font-medium hover:text-primary transition-colors" href="index.html">Home</a>
                 <a class="text-sm font-medium hover:text-primary transition-colors" href="store.html">Store</a>
                 
-                <!-- Affiliate Button will appear here automatically -->
+                <!-- Affiliate Button Container -->
                 <div id="affiliateBtnContainer"></div>
 
                 <div class="flex items-center gap-4">
@@ -74,7 +74,7 @@
         <!-- Welcome -->
         <div class="mb-8">
             <h1 class="text-2xl md:text-4xl font-bold tracking-tight mb-2">
-                Welcome back, <span id="welcomeName" class="text-primary">User</span>
+                Welcome back, <span id="welcomeName" class="text-primary">...</span>
             </h1>
             <p class="text-sm md:text-base text-gray-500">Track your courses, orders, and finances.</p>
         </div>
@@ -85,7 +85,6 @@
             <div class="col-span-1 sm:col-span-2 lg:col-span-1 bg-white dark:bg-[#112240] p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-lg relative overflow-hidden">
                 <div class="relative z-10">
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Wallet Balance</p>
-                    <!-- Fixed Currency to Naira -->
                     <h2 id="liveBalance" class="text-4xl font-black mb-4">₦0.00</h2>
                     <div class="flex gap-3">
                         <button onclick="handleTopUp()" class="flex-1 bg-primary text-black text-xs font-bold py-2.5 rounded-lg shadow-md hover:brightness-90 transition-all">+ Top Up</button>
@@ -110,10 +109,9 @@
             </div>
         </div>
 
-        <!-- TWO COLUMNS: Courses (Left) & Orders (Right) -->
+        <!-- TWO COLUMNS -->
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
-            
-            <!-- SECTION 1: Active Courses -->
+            <!-- Active Courses -->
             <div class="xl:col-span-2 flex flex-col gap-6">
                 <h3 class="font-bold text-xl flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary">menu_book</span> Learning Progress
@@ -126,7 +124,7 @@
                 </div>
             </div>
 
-            <!-- SECTION 2: Recent Orders -->
+            <!-- Recent Orders -->
             <div class="flex flex-col gap-6">
                 <h3 class="font-bold text-xl flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary">local_shipping</span> Order Tracking
@@ -140,7 +138,7 @@
             </div>
         </div>
 
-        <!-- SECTION 3: Financial History Table -->
+        <!-- FINANCIAL HISTORY -->
         <div class="bg-white dark:bg-[#112240] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
             <div class="p-6 border-b border-gray-200 dark:border-gray-800">
                 <h3 class="font-bold text-lg">Financial History</h3>
@@ -155,94 +153,107 @@
                             <th class="px-6 py-4">Date</th>
                         </tr>
                     </thead>
-                    <tbody id="transactionTable" class="divide-y divide-gray-100 dark:divide-gray-800">
-                        <!-- Filled via JS -->
-                    </tbody>
+                    <tbody id="transactionTable" class="divide-y divide-gray-100 dark:divide-gray-800"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- ... (Your existing Financial History Table is above here) ... -->
-
-        <!-- MANAGEMENT LINKS (Footer Section of Dashboard) -->
-        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
+        <!-- INTERNAL ACCESS (HIDDEN FOR CUSTOMERS) -->
+        <div id="internalAccess" class="hidden mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
             <p class="text-xs text-gray-500 uppercase tracking-widest mb-4">Internal Access</p>
             
             <div class="flex justify-center items-center gap-6">
-                
-                <!-- 1. Link for Workers (Visible to everyone, but requires Code to login) -->
+                <!-- Staff Portal (No Password needed to see page, code entered on page) -->
                 <a href="staff.html" class="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors">
                     <span class="material-symbols-outlined text-lg">badge</span>
                     Staff Portal
                 </a>
 
-                <!-- 2. Link for YOU (Hidden by default, shown via Code) -->
-                <a href="admin-portal.html" id="adminLink" class="hidden flex items-center gap-2 text-sm font-bold text-red-500 hover:text-white transition-colors border border-red-900/30 bg-red-900/10 px-3 py-1 rounded-lg">
+                <!-- Manager Console (Protected by Password Prompt) -->
+                <button onclick="accessAdmin()" class="flex items-center gap-2 text-sm font-bold text-red-500 hover:text-white transition-colors border border-red-900/30 bg-red-900/10 px-3 py-1 rounded-lg">
                     <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
                     Manager Console
-                </a>
-
+                </button>
             </div>
             <p class="text-[10px] text-gray-600 mt-4">Authorized personnel only.</p>
         </div>
 
-    </main> <!-- This is the closing tag of your existing main section -->
-
     </main>
+
+    <!-- AI WIDGET -->
+    <div id="ai-widget" class="fixed bottom-6 right-6 z-[9999] font-sans">
+        <div id="chat-window" class="hidden flex-col w-[300px] md:w-[350px] h-[450px] bg-white dark:bg-[#1a1a2e] rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform origin-bottom-right scale-95 opacity-0">
+            <div class="bg-primary p-4 flex justify-between items-center text-black">
+                <div class="flex items-center gap-2">
+                    <div class="size-8 bg-black rounded-full flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-lg">smart_toy</span>
+                    </div>
+                    <div><h4 class="font-bold text-sm">Kingdom AI</h4><p class="text-[10px] opacity-80">Online</p></div>
+                </div>
+                <button onclick="toggleChat()" class="hover:bg-black/10 p-1 rounded"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-[#0f0f12] flex flex-col gap-3">
+                <div class="self-start bg-white dark:bg-[#292938] text-gray-800 dark:text-gray-200 p-3 rounded-2xl rounded-tl-none border border-gray-100 dark:border-gray-700 text-sm shadow-sm max-w-[85%]">
+                    Hello! Ask me about Withdrawals, Courses, or Gadgets.
+                </div>
+            </div>
+            <div class="p-3 bg-white dark:bg-[#1a1a2e] border-t border-gray-200 dark:border-gray-700 flex gap-2">
+                <input type="text" id="user-input" placeholder="Type a message..." class="flex-1 bg-gray-100 dark:bg-black/30 border-0 rounded-full px-4 py-2 text-sm focus:ring-1 focus:ring-primary dark:text-white" onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()" class="bg-primary text-black p-2 rounded-full hover:brightness-90"><span class="material-symbols-outlined text-lg">send</span></button>
+            </div>
+        </div>
+        <button onclick="toggleChat()" id="chat-btn" class="size-14 bg-primary hover:bg-yellow-400 text-black rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 active:scale-95">
+            <span class="material-symbols-outlined text-3xl">support_agent</span>
+        </button>
+    </div>
 
     <!-- LOGIC -->
     <script>
-        // 1. SETUP - DO NOT TOUCH KEYS
         const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
         const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
         const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
         
-        // PAYSTACK KEY (Using Test Key to ensure popup opens without error)
-        const PAYSTACK_PUBLIC_KEY = 'pk_test_60dc217c251dcfbb8f5c6c894be866e15a68d840'; 
+        // PAYSTACK PUBLIC KEY
+        const PAYSTACK_PUBLIC_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
 
         let currentUser = null;
         let currentBalance = 0;
 
-        // 2. INITIALIZATION
         window.onload = async function() {
             // A. Check Auth
             const { data: { user } } = await _supabase.auth.getUser();
             if (!user) { window.location.href = "login.html"; return; }
             currentUser = user;
 
-            // B. Get Profile from DB (Restored original logic)
+            // B. Get Profile & Create if Missing
             let { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-            
-            // C. Auto-create if missing
             if (!profile) {
                  const { data: newProfile } = await _supabase.from('profiles').insert([{ id: user.id, email: user.email }]).select().single();
                  profile = newProfile;
             }
 
-            // D. Set Name (Correctly prefers Database Name)
+            // C. Fix User Recognition (Prioritize DB Name)
             const dbName = profile.full_name || user.user_metadata.full_name || user.email.split('@')[0];
             document.getElementById('welcomeName').innerText = dbName;
             
-            // E. CHECK AFFILIATE & SHOW BUTTON (Restored)
-            const container = document.getElementById('affiliateBtnContainer');
-            if (profile && profile.is_affiliate) {
-                container.innerHTML = `
-                    <a href="affiliate-dash.html" class="px-4 py-2 bg-green-900/30 text-green-400 border border-green-900 rounded-full text-sm font-bold hover:bg-green-600 hover:text-white transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined text-lg">sync_alt</span> Switch to Affiliate
-                    </a>
-                `;
-            } else {
-                container.innerHTML = `
-                    <a href="affiliate-register.html" class="text-sm font-bold text-primary hover:text-white transition-colors">Become an Affiliate</a>
-                `;
+            // D. Admin Access Logic (Only for you)
+            const MY_ADMIN_EMAIL = "dben61168@gmail.com";
+            if (user.email === MY_ADMIN_EMAIL) {
+                document.getElementById('internalAccess').classList.remove('hidden');
             }
 
-            // F. Load Data
+            // E. Affiliate Switch Logic
+            const container = document.getElementById('affiliateBtnContainer');
+            if (profile && profile.is_affiliate) {
+                container.innerHTML = `<a href="affiliate-dash.html" class="px-4 py-2 bg-green-900/30 text-green-400 border border-green-900 rounded-full text-sm font-bold hover:bg-green-600 hover:text-white transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-lg">sync_alt</span> Affiliate Portal</a>`;
+            } else {
+                container.innerHTML = `<a href="affiliate-register.html" class="text-sm font-bold text-primary hover:text-white transition-colors">Become an Affiliate</a>`;
+            }
+
             fetchWallet(profile);
             fetchHistoryAndOrders();
         };
 
-        // 3. FETCH WALLET (Fixed Currency)
         function fetchWallet(profile) {
             if (profile) {
                 currentBalance = profile.wallet_balance || 0;
@@ -250,90 +261,59 @@
             }
         }
 
-        // 4. FETCH HISTORY
         async function fetchHistoryAndOrders() {
-            const { data: transactions } = await _supabase
-                .from('transactions')
-                .select('*')
-                .eq('user_id', currentUser.id)
-                .order('created_at', { ascending: false });
-
+            const { data: transactions } = await _supabase.from('transactions').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
             const courseContainer = document.getElementById('courseContainer');
             const orderContainer = document.getElementById('orderContainer');
             const historyTable = document.getElementById('transactionTable');
+            
+            courseContainer.innerHTML = ''; orderContainer.innerHTML = ''; historyTable.innerHTML = '';
 
-            courseContainer.innerHTML = '';
-            orderContainer.innerHTML = '';
-            historyTable.innerHTML = '';
-
-            let courseCount = 0;
-            let orderCount = 0;
+            let courseCount = 0; let orderCount = 0;
 
             if (!transactions || transactions.length === 0) {
-                courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">You haven't enrolled in any courses yet.</p><a href="store.html" class="text-primary text-sm font-bold mt-2 inline-block">Browse Academy</a></div>`;
+                courseContainer.innerHTML = `<div class="p-6 bg-white dark:bg-[#112240] rounded-xl text-center"><p class="text-gray-500">No active courses.</p><a href="store.html" class="text-primary text-sm font-bold mt-2 inline-block">Browse Academy</a></div>`;
                 orderContainer.innerHTML = `<div class="p-6 text-center"><p class="text-gray-500 text-sm">No recent orders.</p></div>`;
-                historyTable.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No financial history found.</td></tr>`;
+                historyTable.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No history found.</td></tr>`;
                 return;
             }
 
             transactions.forEach(tx => {
                 if (tx.category === 'Course' && tx.type === 'purchase') {
                     courseCount++;
-                    courseContainer.innerHTML += `
-                        <div class="bg-white dark:bg-[#112240] p-4 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col sm:flex-row gap-4 items-center">
-                            <div class="size-12 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0"><span class="material-symbols-outlined">school</span></div>
-                            <div class="flex-1 text-center sm:text-left"><h4 class="font-bold text-gray-900 dark:text-white">${tx.product_name}</h4><p class="text-xs text-gray-500 mt-1">Active</p></div>
-                            <button class="bg-primary text-black px-4 py-2 rounded-lg text-xs font-bold">Access</button>
-                        </div>`;
-                }
-                else if (tx.category === 'Gadget' && tx.type === 'purchase') {
+                    courseContainer.innerHTML += `<div class="bg-white dark:bg-[#112240] p-4 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col sm:flex-row gap-4 items-center"><div class="size-12 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0"><span class="material-symbols-outlined">school</span></div><div class="flex-1 text-center sm:text-left"><h4 class="font-bold text-gray-900 dark:text-white">${tx.product_name}</h4><p class="text-xs text-gray-500 mt-1">Active</p></div><button class="bg-primary text-black px-4 py-2 rounded-lg text-xs font-bold">Access</button></div>`;
+                } else if (tx.category === 'Gadget' && tx.type === 'purchase') {
                     orderCount++;
                     let statusColor = tx.delivery_status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
-                    orderContainer.innerHTML += `
-                        <div class="p-4 border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                            <div class="flex items-center gap-3">
-                                <div class="size-10 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500"><span class="material-symbols-outlined">devices</span></div>
-                                <div class="flex-1"><h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">${tx.product_name}</h4><p class="text-xs text-gray-500">ID: ${tx.account_number.substring(0,8)}...</p></div>
-                                <div class="text-right"><span class="text-xs font-bold px-2 py-1 rounded ${statusColor}">${tx.delivery_status || 'Processing'}</span><p class="text-xs font-mono mt-1">₦${Number(tx.amount).toLocaleString()}</p></div>
-                            </div>
-                        </div>`;
-                }
-                else {
+                    orderContainer.innerHTML += `<div class="p-4 border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"><div class="flex items-center gap-3"><div class="size-10 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500"><span class="material-symbols-outlined">devices</span></div><div class="flex-1"><h4 class="text-sm font-bold text-gray-900 dark:text-white truncate">${tx.product_name}</h4><p class="text-xs text-gray-500">ID: ${tx.account_number.substring(0,8)}...</p></div><div class="text-right"><span class="text-xs font-bold px-2 py-1 rounded ${statusColor}">${tx.delivery_status || 'Processing'}</span><p class="text-xs font-mono mt-1">₦${Number(tx.amount).toLocaleString()}</p></div></div></div>`;
+                } else {
                     const date = new Date(tx.created_at).toLocaleDateString();
                     const statusClass = tx.status === 'success' ? 'text-green-500' : 'text-yellow-500';
-                    historyTable.innerHTML += `
-                        <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                            <td class="px-6 py-4 font-medium capitalize text-gray-900 dark:text-white">${tx.type}</td>
-                            <td class="px-6 py-4 font-bold">₦${Number(tx.amount).toLocaleString()}</td>
-                            <td class="px-6 py-4 ${statusClass} text-xs font-bold uppercase">${tx.status}</td>
-                            <td class="px-6 py-4 text-gray-500">${date}</td>
-                        </tr>`;
+                    historyTable.innerHTML += `<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-medium capitalize text-gray-900 dark:text-white">${tx.type}</td><td class="px-6 py-4 font-bold">₦${Number(tx.amount).toLocaleString()}</td><td class="px-6 py-4 ${statusClass} text-xs font-bold uppercase">${tx.status}</td><td class="px-6 py-4 text-gray-500">${date}</td></tr>`;
                 }
             });
-
             document.getElementById('liveCourseCount').innerText = courseCount;
             document.getElementById('liveOrderCount').innerText = orderCount;
         }
 
-        // 5. TRANSACTIONS (Top Up Fixed)
-        function handleTopUp() {
-            // Check if library loaded
-            if (typeof PaystackPop === 'undefined') {
-                alert("Paystack not loaded. Please refresh the page.");
-                return;
+        // ACCESS ADMIN (PASSWORD PROTECTED)
+        function accessAdmin() {
+            const pass = prompt("Enter Admin Security Key:");
+            if (pass === "KW9032473005") { // Use your standard admin password here
+                window.location.href = "admin-portal.html";
+            } else {
+                alert("Access Denied.");
             }
+        }
 
+        function handleTopUp() {
+            if (typeof PaystackPop === 'undefined') return alert("Paystack not loaded.");
             let amount = prompt("Enter amount (NGN):");
             if (!amount || isNaN(amount) || Number(amount) < 100) return alert("Min NGN 100");
 
             let handler = PaystackPop.setup({
-                key: PAYSTACK_PUBLIC_KEY,
-                email: currentUser.email,
-                amount: amount * 100, // Kobo
-                currency: "NGN",
-                callback: function(res) { 
-                    processTx(amount, res.reference, 'deposit', 'Wallet Topup'); 
-                },
+                key: PAYSTACK_PUBLIC_KEY, email: currentUser.email, amount: amount * 100, currency: "NGN",
+                callback: function(res) { processTx(amount, res.reference, 'deposit', 'Wallet Topup'); },
                 onClose: function() { alert('Transaction cancelled.'); }
             });
             handler.openIframe();
@@ -349,14 +329,11 @@
             location.reload();
         }
 
-        // 6. WITHDRAW
         async function handleWithdraw() {
             let amount = prompt("Amount to Withdraw (NGN):");
             if (!amount || Number(amount) > currentBalance) return alert("Insufficient Funds");
-            
             let bank = prompt("Bank Name & Account Number:");
             if(!bank) return;
-
             const newBal = Number(currentBalance) - Number(amount);
             await _supabase.from('profiles').update({ wallet_balance: newBal }).eq('id', currentUser.id);
             await _supabase.from('transactions').insert({
@@ -368,25 +345,35 @@
         }
 
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('hidden'); document.getElementById('navLinks').classList.toggle('flex'); }
-   
-       // ... inside window.onload ...
-
-    // A. Check Auth
-    const { data: { user } } = await _supabase.auth.getUser();
-    if (!user) { window.location.href = "login.html"; return; }
-    currentUser = user;
-
-    // --- NEW CODE STARTS HERE ---
-    // SHOW ADMIN LINK ONLY FOR YOU
-    const MY_EMAIL = "dben61168@gmail.com"; 
-    
-    if (user.email === MY_EMAIL) {
-        const adminBtn = document.getElementById('adminLink');
-        if(adminBtn) adminBtn.classList.remove('hidden');
-    }
-    // --- NEW CODE ENDS HERE ---
-
-    // B. Get Profile from DB... (rest of your existing code)
+        
+        let isChatOpen = false;
+        function toggleChat() {
+            const w = document.getElementById('chat-window');
+            const b = document.getElementById('chat-btn');
+            isChatOpen = !isChatOpen;
+            if(isChatOpen){ w.classList.remove('hidden'); setTimeout(()=>w.classList.remove('scale-95','opacity-0'),10); b.classList.add('hidden'); }
+            else { w.classList.add('scale-95','opacity-0'); setTimeout(()=>w.classList.add('hidden'),300); b.classList.remove('hidden'); }
+        }
+        function handleKeyPress(e) { if(e.key==='Enter') sendMessage(); }
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const msg = input.value.trim();
+            if(!msg) return;
+            addMessage(msg, 'user');
+            input.value = '';
+            setTimeout(() => { addMessage(getBotResponse(msg.toLowerCase()), 'bot'); }, 1000);
+        }
+        function addMessage(text, sender) {
+            const chat = document.getElementById('chat-messages');
+            const cls = sender === 'user' ? "self-end bg-primary text-black" : "self-start bg-white dark:bg-[#292938] text-gray-800 dark:text-gray-200";
+            chat.innerHTML += `<div class="${cls} p-3 rounded-2xl rounded-tr-none text-sm shadow-sm max-w-[85%]">${text}</div>`;
+            chat.scrollTop = chat.scrollHeight;
+        }
+        function getBotResponse(input) {
+            if(input.includes('withdraw')) return "Withdrawals take up to 24 hours.";
+            if(input.includes('course')) return "Courses appear in your Dashboard instantly.";
+            return "Please chat with us on WhatsApp for help.";
+        }
     </script>
 </body>
 </html>
