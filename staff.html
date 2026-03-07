@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KW Staff Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#f9f506", "dark-bg": "#050510", "card-bg": "#111118" }, fontFamily: { "display": ["Manrope", "sans-serif"] } } } }
+    </script>
+</head>
+<body class="bg-dark-bg font-display text-white min-h-screen flex flex-col items-center p-6">
+
+    <!-- Header -->
+    <div class="text-center mb-8 mt-4">
+        <h1 class="text-2xl font-bold text-white">Staff <span class="text-primary">Portal</span></h1>
+        <p class="text-gray-400 text-xs">Attendance & Appointments</p>
+    </div>
+
+    <!-- 1. CLOCK IN SECTION -->
+    <div class="w-full max-w-md bg-card-bg border border-white/10 rounded-2xl p-6 shadow-xl mb-6">
+        <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Daily Attendance
+        </h2>
+        <input id="staffCode" type="text" placeholder="Enter Your Special Code" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-primary outline-none text-center tracking-widest font-bold uppercase mb-4">
+        <button onclick="markAttendance()" class="w-full bg-primary text-black font-bold py-3 rounded-xl hover:bg-white transition-colors">
+            Mark Present
+        </button>
+        <p id="attMsg" class="text-xs text-center mt-3 text-gray-500"></p>
+    </div>
+
+    <!-- 2. BOOK APPOINTMENT SECTION -->
+    <div class="w-full max-w-md bg-card-bg border border-white/10 rounded-2xl p-6 shadow-xl">
+        <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            Book Appointment
+        </h2>
+        <form onsubmit="bookAppointment(event)" class="space-y-3">
+            <input id="appCode" type="text" placeholder="Your Special Code" required class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-blue-400 outline-none uppercase">
+            <input id="clientName" type="text" placeholder="Client Name" required class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-blue-400 outline-none">
+            <div class="grid grid-cols-2 gap-3">
+                <input id="appDate" type="date" required class="bg-black/50 border border-white/10 rounded-lg p-3 text-gray-400">
+                <input id="appTime" type="time" required class="bg-black/50 border border-white/10 rounded-lg p-3 text-gray-400">
+            </div>
+            <textarea id="appPurpose" placeholder="Purpose of meeting..." required class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-blue-400 outline-none"></textarea>
+            <button type="submit" class="w-full border border-blue-500 text-blue-400 font-bold py-3 rounded-xl hover:bg-blue-500 hover:text-white transition-colors">
+                Submit Request
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const _supabaseUrl = 'https://dmscgsujriqmpwkovecr.supabase.co';
+        const _supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtc2Nnc3VqcmlxbXB3a292ZWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMzAzOTUsImV4cCI6MjA4MTYwNjM5NX0.RIsIthkxxnHIFvNBps6T-qzszq_M9GgUiNhdfbky28k';
+        const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+
+        // 1. MARK ATTENDANCE
+        async function markAttendance() {
+            const code = document.getElementById('staffCode').value.trim().toUpperCase();
+            const msg = document.getElementById('attMsg');
+            
+            if(!code) return alert("Please enter your code.");
+            
+            msg.innerText = "Verifying...";
+            
+            // A. Find Worker
+            const { data: staff, error: staffError } = await _supabase.from('staff_directory').select('*').eq('special_code', code).single();
+            
+            if(!staff) {
+                msg.innerText = "Invalid Code. Access Denied.";
+                msg.className = "text-xs text-center mt-3 text-red-500";
+                return;
+            }
+
+            // B. Check if already marked today
+            const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+            const { data: existing } = await _supabase.from('staff_attendance')
+                .select('*')
+                .eq('staff_id', staff.id)
+                .eq('date', today);
+
+            if(existing && existing.length > 0) {
+                msg.innerText = `Hello ${staff.full_name}, you are already marked present for today.`;
+                msg.className = "text-xs text-center mt-3 text-yellow-500";
+                return;
+            }
+
+            // C. Mark Present
+            const timeNow = new Date().toLocaleTimeString();
+            await _supabase.from('staff_attendance').insert([{
+                staff_id: staff.id,
+                date: today,
+                clock_in_time: timeNow,
+                status: 'Present'
+            }]);
+
+            msg.innerText = `Success! Welcome, ${staff.full_name}. Time: ${timeNow}`;
+            msg.className = "text-xs text-center mt-3 text-green-500";
+        }
+
+        // 2. BOOK APPOINTMENT
+        async function bookAppointment(e) {
+            e.preventDefault();
+            const code = document.getElementById('appCode').value.trim().toUpperCase();
+            
+            // Verify Staff
+            const { data: staff } = await _supabase.from('staff_directory').select('id').eq('special_code', code).single();
+            if(!staff) return alert("Invalid Staff Code");
+
+            const client = document.getElementById('clientName').value;
+            const date = document.getElementById('appDate').value;
+            const time = document.getElementById('appTime').value;
+            const purpose = document.getElementById('appPurpose').value;
+
+            const { error } = await _supabase.from('staff_appointments').insert([{
+                staff_id: staff.id,
+                client_name: client,
+                appointment_date: date,
+                appointment_time: time,
+                purpose: purpose
+            }]);
+
+            if(error) alert("Error booking.");
+            else {
+                alert("Appointment Sent to Manager!");
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
