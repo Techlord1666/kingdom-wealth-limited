@@ -162,6 +162,32 @@
             </div>
         </div>
 
+        <!-- ... (Your existing Financial History Table is above here) ... -->
+
+        <!-- MANAGEMENT LINKS (Footer Section of Dashboard) -->
+        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
+            <p class="text-xs text-gray-500 uppercase tracking-widest mb-4">Internal Access</p>
+            
+            <div class="flex justify-center items-center gap-6">
+                
+                <!-- 1. Link for Workers (Visible to everyone, but requires Code to login) -->
+                <a href="staff.html" class="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-lg">badge</span>
+                    Staff Portal
+                </a>
+
+                <!-- 2. Link for YOU (Hidden by default, shown via Code) -->
+                <a href="admin-portal.html" id="adminLink" class="hidden flex items-center gap-2 text-sm font-bold text-red-500 hover:text-white transition-colors border border-red-900/30 bg-red-900/10 px-3 py-1 rounded-lg">
+                    <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+                    Manager Console
+                </a>
+
+            </div>
+            <p class="text-[10px] text-gray-600 mt-4">Authorized personnel only.</p>
+        </div>
+
+    </main> <!-- This is the closing tag of your existing main section -->
+
     </main>
 
     <!-- LOGIC -->
@@ -342,6 +368,25 @@
         }
 
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('hidden'); document.getElementById('navLinks').classList.toggle('flex'); }
+   
+       // ... inside window.onload ...
+
+    // A. Check Auth
+    const { data: { user } } = await _supabase.auth.getUser();
+    if (!user) { window.location.href = "login.html"; return; }
+    currentUser = user;
+
+    // --- NEW CODE STARTS HERE ---
+    // SHOW ADMIN LINK ONLY FOR YOU
+    const MY_EMAIL = "dben61168@gmail.com"; 
+    
+    if (user.email === MY_EMAIL) {
+        const adminBtn = document.getElementById('adminLink');
+        if(adminBtn) adminBtn.classList.remove('hidden');
+    }
+    // --- NEW CODE ENDS HERE ---
+
+    // B. Get Profile from DB... (rest of your existing code)
     </script>
 </body>
 </html>
