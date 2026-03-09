@@ -46,7 +46,7 @@
 <!-- NAVBAR -->
 <header class="fixed top-0 z-50 w-full glass-panel">
     <div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-        <a href="code.html" class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3">
             <div class="size-10 bg-white/10 rounded-lg flex items-center justify-center text-primary">
                 <span class="material-symbols-outlined text-2xl">diamond</span>
             </div>
@@ -58,8 +58,8 @@
             <a href="https://selar.com/m/TopOnlineCoursesforStudents" target="_blank" class="text-sm font-bold text-red-500 hover:text-white transition-colors flex items-center gap-1">
                 <span class="material-symbols-outlined text-lg">school</span> Courses
             </a>
-             <a href="affiliate-dash.html" class="text-sm font-medium hover:text-primary transition-colors text-gray-300">AFFILLIATE </a>
-             <a href="digital-store.html" class="text-sm font-medium hover:text-primary transition-colors text-gray-300">DIGITAL STORE</a>
+             <a href="affiliate-dash.html" class="text-sm font-medium hover:text-primary transition-colors text-gray-300">Affiliate</a>
+             <a href="digital-store.html" class="text-sm font-medium hover:text-primary transition-colors text-gray-300">Digital Store</a>
             <a href="dash.html" class="px-4 py-2 bg-white/10 rounded-full text-sm font-bold hover:bg-primary hover:text-black transition-colors">Dashboard</a>
         </div>
 
@@ -70,7 +70,8 @@
 
     <div id="mobileMenu" class="hidden bg-card-bg border-t border-white/10 p-4 flex flex-col gap-4 md:hidden">
         <a href="index.html" class="text-gray-300 py-2 border-b border-white/5">Home</a>
-         <a href="affiliate-dash.html" class="text-gray-300 py-2 border-b border-white/5">Affilliate dash</a>
+        <a href="affiliate-dash.html" class="text-gray-300 py-2 border-b border-white/5">Affiliate Dash</a>
+        <a href="digital-store.html" class="text-gray-300 py-2 border-b border-white/5">Digital Store</a>
         <a href="https://selar.com/m/TopOnlineCoursesforStudents" target="_blank" class="text-red-500 font-bold py-2 border-b border-white/5">Digital Courses</a>
         <a href="dash.html" class="text-primary font-bold py-2">Dashboard</a>
     </div>
@@ -89,7 +90,7 @@
             <span class="material-symbols-outlined text-sm">verified</span>
             <span class="text-xs font-bold uppercase tracking-widest">Official Store</span>
         </div>
-        <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+        <h1 class="text-4xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
             PREMIUM <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-white">COLLECTION</span>
         </h1>
     </div>
@@ -97,37 +98,40 @@
 
 <!-- CATEGORY FILTER -->
 <div class="sticky top-20 z-40 bg-dark-bg/95 backdrop-blur-md border-b border-white/5 py-4">
-    <div class="max-w-7xl mx-auto px-4 overflow-x-auto no-scrollbar flex gap-3">
-        <button onclick="filterProducts('All')" class="cat-btn px-6 py-2 rounded-full bg-white text-black text-sm font-bold whitespace-nowrap active-cat">All</button>
-        <button onclick="filterProducts('iPhone')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">iPhone</button>
-        <button onclick="filterProducts('Samsung')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Samsung</button>
-        <button onclick="filterProducts('Laptop')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Laptops</button>
-        <button onclick="filterProducts('Accessory')" class="cat-btn px-6 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Accessories</button>
+    <div class="max-w-[1440px] mx-auto px-4 overflow-x-auto no-scrollbar flex gap-3">
+        <button onclick="filterProducts('All')" class="cat-btn px-5 py-2 rounded-full bg-white text-black text-sm font-bold whitespace-nowrap active-cat">All Items</button>
+        <button onclick="filterProducts('iPhone')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">iPhone</button>
+        <button onclick="filterProducts('Samsung')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Samsung</button>
+        <button onclick="filterProducts('Laptop')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Laptops</button>
+        <button onclick="filterProducts('Tablet')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Tablets</button>
+        <button onclick="filterProducts('Accessory')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Accessories</button>
     </div>
 </div>
 
 <!-- MAIN STORE CONTENT -->
-<main class="max-w-7xl mx-auto px-4 md:px-8 py-12 min-h-screen">
+<main class="max-w-[1440px] mx-auto px-4 md:px-8 py-12 min-h-screen">
     <div id="loading" class="text-center py-20">
         <span class="material-symbols-outlined animate-spin text-5xl text-primary">sync</span>
         <p class="mt-4 text-gray-500 text-sm uppercase tracking-widest">Loading Inventory...</p>
     </div>
-    <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 text-center">
+    
+    <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 text-center border border-white/5 rounded-3xl">
         <div class="size-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
             <span class="material-symbols-outlined text-4xl text-gray-600">inventory_2</span>
         </div>
         <h3 class="text-2xl font-bold text-white mb-2">Store is Empty</h3>
         <p class="text-gray-500">Check back later for new drops.</p>
     </div>
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+
+    <!-- GRID: 2 cols on mobile, 3 on tablet, 5 on laptop/desktop -->
+    <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 hidden">
         <!-- Products Injected Here -->
     </div>
 </main>
 
-<!-- FOOTER (UPDATED) -->
+<!-- FOOTER -->
 <footer class="bg-card-bg border-t border-white/5 pt-16 pb-8">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-        <!-- Brand -->
+    <div class="max-w-[1440px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div class="col-span-1 md:col-span-2">
             <div class="flex items-center gap-2 mb-4">
                 <span class="material-symbols-outlined text-primary text-3xl">diamond</span>
@@ -136,25 +140,20 @@
             <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
                 Empowering your world through Technology, Finance, and Security.
             </p>
-            <!-- Social Media Icons -->
             <div class="flex gap-4 mt-6">
                 <a href="https://www.facebook.com/share/1FQyw79FcW/" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition-colors text-white">FB</a>
                 <a href="https://www.tiktok.com/@kingdomwealthenterprise?_r=1&_t=ZN-94HB315x1te" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-black border border-white/10 hover:border-pink-500 transition-colors text-white">TT</a>
                 <a href="https://www.linkedin.com/groups/15796049" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#0077B5] transition-colors text-white">IN</a>
             </div>
         </div>
-
-        <!-- Links -->
         <div>
             <h4 class="font-bold text-white mb-4">Company</h4>
             <ul class="space-y-2 text-sm text-gray-400">
-                <li><a href="code.html" class="hover:text-primary">Home</a></li>
+                <li><a href="index.html" class="hover:text-primary">Home</a></li>
                 <li><a href="about.html" class="hover:text-primary">About Us</a></li>
                 <li><a href="services.html" class="hover:text-primary">Services</a></li>
             </ul>
         </div>
-
-        <!-- Legal -->
         <div>
             <h4 class="font-bold text-white mb-4">Legal & Support</h4>
             <ul class="space-y-2 text-sm text-gray-400">
@@ -165,41 +164,64 @@
             </ul>
         </div>
     </div>
-
     <div class="border-t border-white/5 pt-8 text-center flex flex-col md:flex-row justify-between items-center px-6">
         <p class="text-xs text-gray-600">© 2026 Kingdom Wealth Limited.</p>
-        <button onclick="openAdminLogin()" class="text-[10px] text-red-900/50 hover:text-red-500 uppercase tracking-widest mt-2 md:mt-0">
-            Staff Access
+        <button onclick="openAdminLogin()" class="text-[10px] text-red-900/50 hover:text-red-500 uppercase tracking-widest mt-4 md:mt-0 font-bold px-3 py-1 border border-red-900/30 rounded">
+            Admin Access
         </button>
     </div>
 </footer>
 
-<!-- 1. ADMIN UPLOAD MODAL -->
+<!-- 1. ADMIN UPLOAD/EDIT MODAL -->
 <div id="adminModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-[#1a1a1a] p-8 rounded-3xl w-full max-w-lg border border-white/10 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto">
+    <div class="bg-[#1a1a1a] p-6 md:p-8 rounded-3xl w-full max-w-lg border border-white/10 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto">
         <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
-        <h3 class="text-2xl font-bold text-white mb-8">Add Product</h3>
-        <form onsubmit="handleUpload(event)" class="space-y-5">
-            <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-primary transition-colors relative group">
-                <input id="prodImages" type="file" accept="image/*" multiple required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+        
+        <h3 id="adminModalTitle" class="text-2xl font-bold text-white mb-6">Add Product</h3>
+        
+        <form id="uploadForm" onsubmit="handleUpload(event)" class="space-y-4">
+            <!-- Hidden Input to track if we are editing or creating -->
+            <input type="hidden" id="editingProductId" value="">
+
+            <div class="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-primary transition-colors relative group">
+                <!-- Removed 'required' so editing works without re-uploading -->
+                <input id="prodImages" type="file" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                 <span class="material-symbols-outlined text-4xl text-gray-500 group-hover:text-primary transition-colors">add_photo_alternate</span>
-                <p class="text-sm text-gray-400 mt-2">Click to select up to 6 images</p>
-                <p id="fileCount" class="text-xs text-primary mt-2 font-bold"></p>
+                <p class="text-sm text-gray-400 mt-2">Click to select images (Max 6)</p>
+                <p id="fileCount" class="text-xs text-primary mt-1 font-bold"></p>
             </div>
-            <input id="prodName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none" placeholder="Product Name">
+            
+            <div>
+                <label class="text-[10px] text-gray-500 uppercase tracking-widest ml-1 font-bold">Product Name</label>
+                <input id="prodName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3 mt-1 text-white focus:border-primary outline-none text-sm" placeholder="e.g. iPhone 15 Pro Max">
+            </div>
+
             <div class="grid grid-cols-2 gap-4">
-                <input id="prodPrice" type="number" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none" placeholder="Price (NGN)">
-                <select id="prodCategory" class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-gray-300 focus:border-primary outline-none">
-                    <option value="iPhone">iPhone</option>
-                    <option value="Samsung">Samsung</option>
-                    <option value="Laptop">Laptop</option>
-                    <option value="Tablet">Tablet</option>
-                    <option value="Accessory">Accessory</option>
-                </select>
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase tracking-widest ml-1 font-bold">Price (₦)</label>
+                    <input id="prodPrice" type="number" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3 mt-1 text-white focus:border-primary outline-none text-sm" placeholder="e.g. 50000">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase tracking-widest ml-1 font-bold">Category</label>
+                    <select id="prodCategory" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 mt-1 text-gray-300 focus:border-primary outline-none text-sm">
+                        <option value="iPhone">iPhone</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Accessory">Accessory</option>
+                        <option value="Gadget">Other Gadget</option>
+                    </select>
+                </div>
             </div>
-            <textarea id="prodDesc" rows="4" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-primary outline-none" placeholder="Detailed Description..."></textarea>
-            <button type="submit" class="w-full bg-primary text-black font-bold py-4 rounded-xl hover:bg-white transition-all shadow-lg shadow-primary/20">
-                <span id="uploadText">Upload Now</span>
+            
+            <div>
+                <label class="text-[10px] text-gray-500 uppercase tracking-widest ml-1 font-bold">Description</label>
+                <textarea id="prodDesc" rows="4" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3 mt-1 text-white focus:border-primary outline-none text-sm" placeholder="Detailed Description..."></textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-primary text-black font-bold py-3.5 rounded-xl hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2 mt-2">
+                <span id="uploadIcon" class="material-symbols-outlined text-lg">save</span>
+                <span id="uploadText">Save Product</span>
             </button>
         </form>
     </div>
@@ -207,29 +229,31 @@
 
 <!-- 2. PRODUCT DETAILS MODAL -->
 <div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md overflow-y-auto">
-    <div class="min-h-screen md:h-auto md:max-w-5xl md:mx-auto md:my-10 bg-card-bg md:rounded-3xl flex flex-col md:flex-row relative border border-white/10">
+    <div class="min-h-screen md:h-auto md:max-w-5xl md:mx-auto md:my-10 bg-card-bg md:rounded-3xl flex flex-col md:flex-row relative border border-white/10 shadow-2xl">
         <button onclick="closeDetailsModal()" class="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-red-600 transition-colors">
             <span class="material-symbols-outlined">close</span>
         </button>
+        <!-- Left: Gallery -->
         <div class="w-full md:w-1/2 bg-black flex flex-col">
-            <div class="h-[40vh] md:h-[500px] w-full flex items-center justify-center p-4">
+            <div class="h-[35vh] md:h-[500px] w-full flex items-center justify-center p-4 relative">
                 <img id="detailMainImg" src="" class="max-h-full max-w-full object-contain">
             </div>
-            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto no-scrollbar bg-[#050505] h-20 shrink-0"></div>
+            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto no-scrollbar bg-[#050505] h-24 shrink-0 border-t border-white/5"></div>
         </div>
+        <!-- Right: Info -->
         <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
-            <div class="mb-8">
-                <span id="detailCategory" class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-bold rounded-full uppercase tracking-wider text-gray-400"></span>
-                <h2 id="detailName" class="text-3xl font-black text-white mt-4 mb-2 leading-tight"></h2>
-                <p id="detailPrice" class="text-2xl font-bold text-primary mb-6"></p>
+            <div class="mb-auto">
+                <span id="detailCategory" class="px-3 py-1 bg-white/5 border border-white/10 text-[10px] font-bold rounded uppercase tracking-wider text-gray-300"></span>
+                <h2 id="detailName" class="text-2xl md:text-3xl font-black text-white mt-4 mb-2 leading-tight"></h2>
+                <p id="detailPrice" class="text-xl md:text-2xl font-bold text-primary mb-6"></p>
                 <div class="w-full h-px bg-white/10 mb-6"></div>
                 <p id="detailDesc" class="text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
             </div>
-            <div class="mt-auto grid grid-cols-2 gap-3 pt-6">
-                <button id="btnChat" class="py-4 rounded-xl border border-green-600 text-green-500 font-bold flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-all">
-                    <span class="material-symbols-outlined">chat</span> Enquire
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 pt-6 border-t border-white/5">
+                <button id="btnChat" class="py-3.5 rounded-xl border border-green-600 text-green-500 font-bold flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-all text-sm">
+                    <span class="material-symbols-outlined text-lg">chat</span> Enquire
                 </button>
-                <button id="btnBuy" class="py-4 rounded-xl bg-primary text-black font-bold flex items-center justify-center gap-2 hover:bg-white transition-all shadow-lg shadow-primary/20">
+                <button id="btnBuy" class="py-3.5 rounded-xl bg-primary text-black font-bold flex items-center justify-center gap-2 hover:bg-white transition-all shadow-lg shadow-primary/20 text-sm">
                     Buy Now
                 </button>
             </div>
@@ -239,16 +263,16 @@
 
 <!-- 3. PAYMENT MODAL -->
 <div id="purchaseModal" class="fixed inset-0 z-[120] hidden bg-black/90 flex items-center justify-center p-4">
-    <div class="bg-[#1a1a1a] p-8 rounded-3xl w-full max-w-md border border-white/10 shadow-2xl relative">
-        <button onclick="document.getElementById('purchaseModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-400"><span class="material-symbols-outlined">close</span></button>
-        <div class="text-center mb-8">
-            <h3 class="text-2xl font-bold text-white">Checkout</h3>
-            <p class="text-sm text-gray-500">Pay securely via Wallet or Card.</p>
+    <div class="bg-[#1a1a1a] p-6 rounded-3xl w-full max-w-md border border-white/10 shadow-2xl relative">
+        <button onclick="document.getElementById('purchaseModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400"><span class="material-symbols-outlined">close</span></button>
+        <div class="text-center mb-6 mt-2">
+            <h3 class="text-xl font-bold text-white">Checkout</h3>
+            <p class="text-xs text-gray-500 mt-1">Pay securely via Wallet or Card.</p>
         </div>
         <form onsubmit="handlePayment(event)" class="space-y-4">
-            <input id="custName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-primary" placeholder="Full Name">
-            <input id="custEmail" type="email" required class="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-primary" placeholder="Email Address">
-            <button type="submit" class="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition-transform">Proceed to Pay</button>
+            <input id="custName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Full Name">
+            <input id="custEmail" type="email" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Email Address">
+            <button type="submit" class="w-full bg-white text-black font-bold py-3.5 rounded-xl hover:scale-[1.02] transition-transform text-sm mt-2">Proceed to Pay</button>
         </form>
     </div>
 </div>
@@ -260,7 +284,7 @@
             <h3 id="infoTitle" class="text-xl font-bold text-white">Information</h3>
             <button onclick="document.getElementById('infoModal').classList.add('hidden')" class="text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
         </div>
-        <div id="infoContent" class="p-8 overflow-y-auto text-gray-300 text-sm leading-relaxed space-y-4"></div>
+        <div id="infoContent" class="p-6 md:p-8 overflow-y-auto text-gray-300 text-sm leading-relaxed space-y-4"></div>
     </div>
 </div>
 
@@ -271,13 +295,16 @@
     const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
     const PAYSTACK_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
 
-    let allProducts = [];
+    let allProducts =[];
     let currentProduct = null;
 
+    // 1. INIT
     window.onload = async function() {
         document.getElementById('prodImages').addEventListener('change', function(){
-            document.getElementById('fileCount').innerText = this.files.length + " files selected";
+            const count = this.files.length;
+            document.getElementById('fileCount').innerText = count > 0 ? count + " files selected" : "Leave empty to keep existing images";
         });
+
         try {
             const { data, error } = await _supabase.from('products').select('*').order('created_at', { ascending: false });
             document.getElementById('loading').classList.add('hidden');
@@ -291,50 +318,75 @@
         } catch(e) { console.error(e); }
     };
 
+    // 2. RENDER CARDS (Responsive Compact UI)
     function renderProducts(products) {
         const grid = document.getElementById('productGrid');
         grid.innerHTML = '';
+        
+        if(products.length === 0) {
+            document.getElementById('emptyState').classList.remove('hidden');
+            grid.classList.add('hidden');
+            return;
+        } else {
+            document.getElementById('emptyState').classList.add('hidden');
+            grid.classList.remove('hidden');
+        }
+
         products.forEach(prod => {
             const img = prod.image_url && prod.image_url.length > 0 ? prod.image_url[0] : '';
             const price = Number(prod.price).toLocaleString();
             
             const html = `
-                <div class="group bg-card-bg rounded-2xl p-4 border border-white/5 hover:border-primary/50 transition-all cursor-pointer fade-in" onclick="openDetailsModal('${prod.id}')">
-                    <div class="aspect-square bg-[#050505] rounded-xl overflow-hidden mb-4 relative">
+                <article class="group bg-card-bg rounded-2xl p-3 md:p-4 border border-white/5 hover:border-primary/50 transition-all cursor-pointer fade-in relative" onclick="openDetailsModal('${prod.id}')">
+                    
+                    <!-- ADMIN ACTIONS (Edit & Delete) -->
+                    <div class="absolute top-2 right-2 z-20 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onclick="openEditModal('${prod.id}'); event.stopPropagation();" title="Edit" class="bg-blue-600 text-white p-1.5 md:p-2 rounded-full shadow-lg hover:bg-blue-500"><span class="material-symbols-outlined text-[12px] md:text-sm">edit</span></button>
+                        <button onclick="deleteProduct('${prod.id}'); event.stopPropagation();" title="Delete" class="bg-red-600 text-white p-1.5 md:p-2 rounded-full shadow-lg hover:bg-red-500"><span class="material-symbols-outlined text-[12px] md:text-sm">delete</span></button>
+                    </div>
+
+                    <!-- IMAGE -->
+                    <div class="aspect-square bg-[#050505] rounded-xl overflow-hidden mb-3 relative">
                         <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-3 left-3 bg-black/60 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded uppercase">${prod.category}</div>
+                        <div class="absolute top-2 left-2 bg-black/70 backdrop-blur text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded uppercase">${prod.category}</div>
                     </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg line-clamp-1">${prod.name}</h3>
-                        <p class="text-primary font-bold">₦${price}</p>
-                        <p class="text-xs text-gray-500 mt-2 flex items-center gap-1"><span class="material-symbols-outlined text-sm">visibility</span> View Details</p>
+                    
+                    <!-- INFO -->
+                    <div class="flex flex-col flex-1">
+                        <h3 class="text-white font-bold text-sm md:text-base line-clamp-1 mb-1">${prod.name}</h3>
+                        <p class="text-primary font-bold text-sm md:text-lg">₦${price}</p>
                     </div>
-                    <button onclick="deleteProduct('${prod.id}'); event.stopPropagation();" class="mt-4 w-full py-2 bg-red-900/20 text-red-500 text-xs font-bold rounded hover:bg-red-600 hover:text-white transition-colors opacity-0 group-hover:opacity-100">Delete (Admin)</button>
-                </div>
+                </article>
             `;
             grid.innerHTML += html;
         });
     }
 
+    // 3. PRODUCT DETAILS MODAL
     function openDetailsModal(id) {
         currentProduct = allProducts.find(p => p.id === id);
         if(!currentProduct) return;
+        
         document.getElementById('detailName').innerText = currentProduct.name;
         document.getElementById('detailPrice').innerText = "₦" + Number(currentProduct.price).toLocaleString();
         document.getElementById('detailCategory').innerText = currentProduct.category;
         document.getElementById('detailDesc').innerText = currentProduct.description;
-        const images = currentProduct.image_url || [];
+        
+        const images = currentProduct.image_url ||[];
         const mainImg = document.getElementById('detailMainImg');
         const thumbs = document.getElementById('detailThumbnails');
+        
         if(images.length > 0) mainImg.src = images[0];
         thumbs.innerHTML = '';
+        
         images.forEach(src => {
             const t = document.createElement('img');
             t.src = src;
-            t.className = "h-full w-20 object-cover rounded-lg border border-white/20 cursor-pointer hover:border-primary transition-all";
+            t.className = "h-full w-16 md:w-20 object-cover rounded-lg border border-white/20 cursor-pointer hover:border-primary transition-all";
             t.onclick = () => mainImg.src = src;
             thumbs.appendChild(t);
         });
+
         document.getElementById('btnChat').onclick = () => contactWhatsapp(currentProduct.name, currentProduct.price);
         document.getElementById('btnBuy').onclick = () => document.getElementById('purchaseModal').classList.remove('hidden');
         document.getElementById('detailsModal').classList.remove('hidden');
@@ -342,68 +394,136 @@
 
     function closeDetailsModal() { document.getElementById('detailsModal').classList.add('hidden'); }
 
+    // 4. ADMIN ACTIONS (Upload & Edit)
+    function openAdminLogin() {
+        if(prompt("Admin Password:") === "KW9032473005") {
+            // Reset form for NEW upload
+            document.getElementById('uploadForm').reset();
+            document.getElementById('editingProductId').value = '';
+            document.getElementById('adminModalTitle').innerText = 'Add New Product';
+            document.getElementById('fileCount').innerText = '';
+            document.getElementById('adminModal').classList.remove('hidden');
+        } else {
+            alert("Access Denied.");
+        }
+    }
+
+    function openEditModal(id) {
+        if(prompt("Admin Password:") !== "KW9032473005") return alert("Access Denied.");
+        
+        const prod = allProducts.find(p => p.id === id);
+        if(!prod) return;
+
+        document.getElementById('editingProductId').value = prod.id;
+        document.getElementById('adminModalTitle').innerText = 'Edit Product';
+        document.getElementById('prodName').value = prod.name;
+        document.getElementById('prodPrice').value = prod.price;
+        document.getElementById('prodCategory').value = prod.category;
+        document.getElementById('prodDesc').value = prod.description;
+        document.getElementById('fileCount').innerText = "Leave empty to keep existing images";
+        
+        document.getElementById('adminModal').classList.remove('hidden');
+    }
+
     async function handleUpload(e) {
         e.preventDefault();
         const { data: { user } } = await _supabase.auth.getUser();
-        if(!user || user.email !== "dben61168@gmail.com") return alert("Unauthorized");
-        const btn = e.target.querySelector('button');
+        if(!user || user.email !== "dben61168@gmail.com") return alert("Security Alert: Unauthorized.");
+
+        const btn = document.getElementById('uploadIcon').parentElement;
         const txt = document.getElementById('uploadText');
-        txt.innerText = "Uploading...";
+        const icon = document.getElementById('uploadIcon');
+        txt.innerText = "Saving...";
+        icon.classList.add("animate-spin");
         btn.disabled = true;
+
+        const editId = document.getElementById('editingProductId').value;
         const name = document.getElementById('prodName').value;
         const price = document.getElementById('prodPrice').value;
-        const cat = document.getElementById('prodCategory').value;
+        const category = document.getElementById('prodCategory').value;
         const desc = document.getElementById('prodDesc').value;
         const files = document.getElementById('prodImages').files;
+
         try {
-            if(files.length === 0) throw new Error("Select images");
-            const urls = [];
-            for(let i=0; i<files.length; i++) {
-                const file = files[i];
-                const ext = file.name.split('.').pop();
-                const path = `${Date.now()}_${i}.${ext}`;
-                const { error } = await _supabase.storage.from('product-images').upload(path, file);
-                if(error) throw error;
-                const { data } = _supabase.storage.from('product-images').getPublicUrl(path);
-                urls.push(data.publicUrl);
+            let imageUrls =[];
+
+            // If user selected new images, upload them
+            if (files.length > 0) {
+                if(files.length > 6) throw new Error("Maximum 6 images allowed.");
+                for(let i=0; i<files.length; i++) {
+                    const file = files[i];
+                    const fileExt = file.name.split('.').pop();
+                    const cleanName = file.name.replace(/[^a-zA-Z0-9]/g, '-');
+                    const fileName = `${Date.now()}_${i}_${cleanName}.${fileExt}`;
+                    
+                    const { error: imgError } = await _supabase.storage.from('product-images').upload(fileName, file, { cacheControl: '3600', upsert: false });
+                    if(imgError) throw imgError;
+                    
+                    const { data: urlData } = _supabase.storage.from('product-images').getPublicUrl(fileName);
+                    imageUrls.push(urlData.publicUrl);
+                }
+            } else if (!editId) {
+                // If it's a NEW product, images are required
+                throw new Error("Please select at least one image.");
             }
-            const { error: dbError } = await _supabase.from('products').insert([{
-                name, price, category: cat, description: desc, image_url: urls
-            }]);
+
+            let dbError;
+
+            if (editId) {
+                // UPDATE existing product
+                const updateData = { name, price, category, description: desc };
+                if (imageUrls.length > 0) updateData.image_url = imageUrls; // Only overwrite images if new ones selected
+                
+                const res = await _supabase.from('products').update(updateData).eq('id', editId);
+                dbError = res.error;
+            } else {
+                // INSERT new product
+                const res = await _supabase.from('products').insert([{
+                    name, price, category, description: desc, image_url: imageUrls
+                }]);
+                dbError = res.error;
+            }
+
             if(dbError) throw dbError;
-            alert("Uploaded!"); location.reload();
-        } catch(err) { alert("Error: " + err.message); } 
-        finally { txt.innerText = "Upload Now"; btn.disabled = false; }
+            alert(editId ? "Product Updated Successfully!" : "Product Uploaded Successfully!");
+            location.reload(); 
+
+        } catch (err) {
+            alert("Action Failed: " + err.message);
+        } finally {
+            txt.innerText = "Save Product";
+            icon.classList.remove("animate-spin");
+            btn.disabled = false;
+        }
     }
 
-    function openAdminLogin() { if(prompt("Admin Password:") === "KW9032473005") document.getElementById('adminModal').classList.remove('hidden'); else alert("Wrong"); }
-    function contactWhatsapp(name, price) { window.open(`https://wa.me/2349032473005?text=Enquiry: ${name} (Price: ${price})`, '_blank'); }
-    function filterProducts(cat) {
-        document.querySelectorAll('.cat-btn').forEach(b => { b.classList.remove('bg-white', 'text-black'); b.classList.add('border-white/20', 'text-gray-300'); });
-        if(cat === 'All') renderProducts(allProducts);
-        else renderProducts(allProducts.filter(p => p.category === cat));
-    }
     async function deleteProduct(id) {
-        if(!confirm("Delete?")) return;
+        if(!confirm("Are you sure you want to permanently delete this product?")) return;
         if(prompt("Admin Password:") !== "KW9032473005") return alert("Denied");
         await _supabase.from('products').delete().eq('id', id);
         location.reload();
     }
-    async function handlePayment(e) {
-        e.preventDefault();
-        alert("Payment Gateway Initializing..."); 
-        const email = document.getElementById('custEmail').value;
-        const price = Number(currentProduct.price);
-        let handler = PaystackPop.setup({
-            key: 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616',
-            email: email, amount: price * 100, currency: 'NGN',
-            callback: function(r){ alert('Success! Ref: '+r.reference); closeDetailsModal(); document.getElementById('purchaseModal').classList.add('hidden'); },
-            onClose: function(){ alert('Cancelled'); }
+
+    // 5. UTILS & OTHERS
+    function filterProducts(cat) {
+        document.querySelectorAll('.cat-btn').forEach(b => { 
+            b.classList.remove('bg-white', 'text-black', 'border-transparent'); 
+            b.classList.add('border-white/20', 'text-gray-300', 'bg-transparent'); 
         });
-        handler.openIframe();
+        event.target.classList.add('bg-white', 'text-black', 'border-transparent');
+        event.target.classList.remove('border-white/20', 'text-gray-300', 'bg-transparent');
+        
+        if(cat === 'All') renderProducts(allProducts);
+        else renderProducts(allProducts.filter(p => p.category === cat));
     }
 
-    // INFO MODAL (Privacy, Shipping, Terms, Sitemap)
+    function contactWhatsapp(name, price) {
+        window.open(`https://wa.me/2349032473005?text=Hello Kingdom Wealth, is ${name} (₦${price}) available?`, '_blank');
+    }
+
+    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+
+    // Info Modals
     function openInfoModal(type) {
         const title = document.getElementById('infoTitle');
         const content = document.getElementById('infoContent');
@@ -411,17 +531,34 @@
 
         if(type === 'privacy') {
             title.innerText = "Privacy Policy";
-            content.innerHTML = `<p><strong>1. Data Collection:</strong> We collect minimal data (Name, Email) to process orders.</p><p><strong>2. Security:</strong> All data is encrypted via Supabase.</p><p><strong>3. Third Parties:</strong> We do not sell your data.</p>`;
+            content.innerHTML = `<p><strong>1. Data Collection:</strong> We collect minimal data to process orders.</p><p><strong>2. Security:</strong> All data is encrypted via Supabase.</p>`;
         } else if(type === 'terms') {
             title.innerText = "Terms & Conditions";
-            content.innerHTML = `<p><strong>1. Returns:</strong> Gadgets have a 7-day warranty for factory defects.</p><p><strong>2. Payments:</strong> All payments are securely processed by Paystack.</p><p><strong>3. Delivery:</strong> We are not responsible for delays caused by third-party logistics.</p>`;
+            content.innerHTML = `<p><strong>1. Returns:</strong> Gadgets have a 7-day warranty for factory defects.</p><p><strong>2. Payments:</strong> All payments are processed securely.</p>`;
         } else if(type === 'shipping') {
             title.innerText = "Shipping Policy";
-            content.innerHTML = `<p><strong>Lagos:</strong> 24-48 Hours Delivery.</p><p><strong>Nationwide:</strong> 3-5 Business Days.</p><p><strong>Fee:</strong> Shipping fees are calculated based on location and paid directly to the courier.</p>`;
+            content.innerHTML = `<p><strong>Lagos:</strong> 24-48 Hours Delivery.</p><p><strong>Nationwide:</strong> 3-5 Business Days.</p>`;
         } else if(type === 'sitemap') {
             title.innerText = "Sitemap";
-            content.innerHTML = `<ul class="space-y-2"><li><a href="code.html" class="text-primary hover:underline">Home</a></li><li><a href="store.html" class="text-primary hover:underline">Store</a></li><li><a href="services.html" class="text-primary hover:underline">Services</a></li><li><a href="about.html" class="text-primary hover:underline">About Us</a></li><li><a href="security.html" class="text-primary hover:underline">Security</a></li></ul>`;
+            content.innerHTML = `<ul class="space-y-2"><li><a href="code.html" class="text-primary hover:underline">Home</a></li><li><a href="digital-store.html" class="text-primary hover:underline">Digital Store</a></li><li><a href="services.html" class="text-primary hover:underline">Services</a></li></ul>`;
         }
+    }
+
+    // Payment Logic
+    async function handlePayment(e) {
+        e.preventDefault();
+        const email = document.getElementById('custEmail').value;
+        const name = document.getElementById('custName').value;
+        const price = Number(currentProduct.price);
+        
+        let handler = PaystackPop.setup({
+            key: PAYSTACK_KEY,
+            email: email, amount: price * 100, currency: 'NGN',
+            metadata: { custom_fields:[{ display_name: "Customer", value: name }, { display_name: "Product", value: currentProduct.name }] },
+            callback: function(r){ alert('Success! Ref: '+r.reference); closeDetailsModal(); document.getElementById('purchaseModal').classList.add('hidden'); },
+            onClose: function(){ alert('Cancelled'); }
+        });
+        handler.openIframe();
     }
 </script>
 </body>
