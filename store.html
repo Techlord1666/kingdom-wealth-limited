@@ -3,11 +3,30 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-    <title>Kingdom Store - Premium Gadgets</title>
+    <title>Kingdom Store - Premium Gadgets & Accessories</title>
     
+    <!-- SEO & OPEN GRAPH META TAGS (Makes link look beautiful when shared) -->
+    <meta name="description" content="Shop Premium Gadgets, iPhones, Laptops, and Accessories at Kingdom Store. Enjoy secure payments and fast delivery nationwide.">
+    <meta name="keywords" content="Kingdom Wealth Store, Buy iPhone Nigeria, Laptops for sale, Premium Gadgets, Buy Samsung Nigeria">
+    <meta name="author" content="Kingdom Wealth Limited">
+    <meta property="og:title" content="Kingdom Store | Premium Gadgets & Tech">
+    <meta property="og:description" content="Shop the latest iPhones, Samsungs, Laptops, and accessories. Fast delivery and secure payments.">
+    <meta property="og:image" content="https://kingdomwealthltd.com/favicon.png"> 
+    <meta property="og:url" content="https://kingdomwealthltd.com/store.html">
+    <meta property="og:type" content="website">
+
     <!-- FONTS & ICONS -->
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7467MXXY0C"></script>
+    <script>
+      window.dataLayer = window.dataLayer ||[];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7467MXXY0C');
+    </script>
     
     <!-- LIBRARIES -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,6 +56,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
     </style>
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
@@ -63,9 +83,17 @@
             <a href="dash.html" class="px-4 py-2 bg-white/10 rounded-full text-sm font-bold hover:bg-primary hover:text-black transition-colors">Dashboard</a>
         </div>
 
-        <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-white p-2">
-            <span class="material-symbols-outlined text-3xl">menu</span>
-        </button>
+        <div class="flex items-center gap-4">
+            <!-- CART BUTTON -->
+            <button onclick="openCartModal()" class="relative p-2 text-white hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-3xl">shopping_cart</span>
+                <span id="cartCountBadge" class="absolute top-0 right-0 bg-primary text-black text-[10px] font-bold size-5 rounded-full flex items-center justify-center">0</span>
+            </button>
+            <!-- Mobile Menu Toggle -->
+            <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-white p-2">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
+        </div>
     </div>
 
     <div id="mobileMenu" class="hidden bg-card-bg border-t border-white/10 p-4 flex flex-col gap-4 md:hidden">
@@ -98,13 +126,13 @@
 
 <!-- CATEGORY FILTER -->
 <div class="sticky top-20 z-40 bg-dark-bg/95 backdrop-blur-md border-b border-white/5 py-4">
-    <div class="max-w-[1440px] mx-auto px-4 overflow-x-auto no-scrollbar flex gap-3">
-        <button onclick="filterProducts('All')" class="cat-btn px-5 py-2 rounded-full bg-white text-black text-sm font-bold whitespace-nowrap active-cat">All Items</button>
-        <button onclick="filterProducts('iPhone')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">iPhone</button>
-        <button onclick="filterProducts('Samsung')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Samsung</button>
-        <button onclick="filterProducts('Laptop')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Laptops</button>
-        <button onclick="filterProducts('Tablet')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Tablets</button>
-        <button onclick="filterProducts('Accessory')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all">Accessories</button>
+    <div class="max-w-7xl mx-auto px-4 overflow-x-auto no-scrollbar flex gap-3">
+        <button onclick="filterProducts('All')" class="cat-btn px-5 py-2 rounded-full bg-white text-black text-sm font-bold whitespace-nowrap active-cat border border-transparent">All Items</button>
+        <button onclick="filterProducts('iPhone')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all bg-transparent">iPhone</button>
+        <button onclick="filterProducts('Samsung')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all bg-transparent">Samsung</button>
+        <button onclick="filterProducts('Laptop')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all bg-transparent">Laptops</button>
+        <button onclick="filterProducts('Tablet')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all bg-transparent">Tablets</button>
+        <button onclick="filterProducts('Accessory')" class="cat-btn px-5 py-2 rounded-full border border-white/20 text-gray-300 text-sm font-medium hover:border-primary hover:text-white whitespace-nowrap transition-all bg-transparent">Accessories</button>
     </div>
 </div>
 
@@ -123,7 +151,7 @@
         <p class="text-gray-500">Check back later for new drops.</p>
     </div>
 
-    <!-- GRID: 2 cols on mobile, 3 on tablet, 5 on laptop/desktop -->
+    <!-- 5 Cols on Desktop, 2 on Mobile -->
     <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 hidden">
         <!-- Products Injected Here -->
     </div>
@@ -137,13 +165,12 @@
                 <span class="material-symbols-outlined text-primary text-3xl">diamond</span>
                 <span class="text-xl font-bold">Kingdom Wealth</span>
             </div>
-            <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
-                Empowering your world through Technology, Finance, and Security.
-            </p>
+            <p class="text-gray-400 text-sm leading-relaxed max-w-sm">Empowering your world through Technology, Finance, and Security.</p>
+            <!-- Social Links -->
             <div class="flex gap-4 mt-6">
-                <a href="https://www.facebook.com/share/1FQyw79FcW/" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition-colors text-white">FB</a>
-                <a href="https://www.tiktok.com/@kingdomwealthenterprise?_r=1&_t=ZN-94HB315x1te" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-black border border-white/10 hover:border-pink-500 transition-colors text-white">TT</a>
-                <a href="https://www.linkedin.com/groups/15796049" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#0077B5] transition-colors text-white">IN</a>
+                <a href="https://www.facebook.com/share/1FQyw79FcW/" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#1877F2] transition-colors text-white font-bold text-xs">FB</a>
+                <a href="https://www.tiktok.com/@kingdomwealthenterprise?_r=1&_t=ZN-94HB315x1te" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-black border border-white/10 hover:border-pink-500 transition-colors text-white font-bold text-xs">TT</a>
+                <a href="https://www.linkedin.com/groups/15796049" target="_blank" class="size-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#0077B5] transition-colors text-white font-bold text-xs">IN</a>
             </div>
         </div>
         <div>
@@ -172,7 +199,105 @@
     </div>
 </footer>
 
-<!-- 1. ADMIN UPLOAD/EDIT MODAL -->
+<!-- 1. PRODUCT DETAILS MODAL (WITH ADD TO CART) -->
+<div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md overflow-y-auto">
+    <div class="min-h-screen md:h-auto md:max-w-5xl md:mx-auto md:my-10 bg-card-bg md:rounded-3xl flex flex-col md:flex-row relative border border-white/10 shadow-2xl">
+        <button onclick="closeDetailsModal()" class="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-red-600 transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <!-- Left: Gallery -->
+        <div class="w-full md:w-1/2 bg-black flex flex-col">
+            <div class="h-[35vh] md:h-[500px] w-full flex items-center justify-center p-4 relative">
+                <img id="detailMainImg" src="" class="max-h-full max-w-full object-contain">
+            </div>
+            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto no-scrollbar bg-[#050505] h-24 shrink-0 border-t border-white/5"></div>
+        </div>
+        <!-- Right: Info -->
+        <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
+            <div class="mb-auto">
+                <span id="detailCategory" class="px-3 py-1 bg-white/5 border border-white/10 text-[10px] font-bold rounded uppercase tracking-wider text-gray-300"></span>
+                <h2 id="detailName" class="text-2xl md:text-3xl font-black text-white mt-4 mb-2 leading-tight"></h2>
+                <p id="detailPrice" class="text-xl md:text-2xl font-bold text-primary mb-6"></p>
+                <div class="w-full h-px bg-white/10 mb-6"></div>
+                <p id="detailDesc" class="text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
+            </div>
+            
+            <!-- Quantity Selector & Cart -->
+            <div class="mt-8 pt-6 border-t border-white/5">
+                <div class="flex items-center gap-4 mb-4">
+                    <label class="text-sm text-gray-400 font-bold uppercase tracking-wider">Quantity:</label>
+                    <input type="number" id="detailQty" value="1" min="1" class="w-20 bg-black/50 border border-white/10 rounded-lg p-2 text-white outline-none focus:border-primary text-center font-bold">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button id="btnChat" class="py-3.5 rounded-xl border border-green-600 text-green-500 font-bold flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-all text-sm">
+                        <span class="material-symbols-outlined text-lg">chat</span> Enquire
+                    </button>
+                    <button id="btnAddCart" class="py-3.5 rounded-xl bg-primary text-black font-bold flex items-center justify-center gap-2 hover:bg-white transition-all shadow-lg shadow-primary/20 text-sm">
+                        <span class="material-symbols-outlined text-lg">add_shopping_cart</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. CART MODAL -->
+<div id="cartModal" class="fixed inset-0 z-[110] hidden bg-black/80 backdrop-blur-sm flex justify-end">
+    <div class="w-full max-w-md bg-[#111118] h-full shadow-2xl flex flex-col border-l border-white/10 animate-[slideInRight_0.3s_ease-out]">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-white flex items-center gap-2"><span class="material-symbols-outlined">shopping_cart</span> Your Cart</h2>
+            <button onclick="closeCartModal()" class="text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Cart items injected here -->
+        </div>
+
+        <div class="p-6 border-t border-white/10 bg-black/50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-gray-400 font-bold">Subtotal:</span>
+                <span id="cartSubtotal" class="text-2xl font-black text-primary">₦0</span>
+            </div>
+            <button onclick="openCheckoutModal()" class="w-full bg-primary text-black font-bold py-4 rounded-xl hover:bg-white transition-all shadow-lg shadow-primary/20">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 3. CHECKOUT MODAL (FULL DETAILS) -->
+<div id="checkoutModal" class="fixed inset-0 z-[120] hidden bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#1a1a1a] p-6 md:p-8 rounded-3xl w-full max-w-lg border border-white/10 shadow-2xl relative my-auto">
+        <button onclick="closeCheckoutModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+        
+        <div class="text-center mb-6">
+            <h3 class="text-2xl font-bold text-white">Checkout Details</h3>
+            <p class="text-sm text-gray-500 mt-1">Please provide details for delivery.</p>
+        </div>
+
+        <form onsubmit="handlePayment(event)" class="space-y-4">
+            <input id="chkName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Full Name">
+            <div class="grid grid-cols-2 gap-4">
+                <input id="chkEmail" type="email" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Email Address">
+                <input id="chkPhone" type="tel" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Phone Number">
+            </div>
+            <textarea id="chkDelivery" rows="2" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Full Delivery Address (Street, City, State)"></textarea>
+            <textarea id="chkBilling" rows="2" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Billing Address (If different, else copy delivery)"></textarea>
+            
+            <div class="mt-6 pt-4 border-t border-white/10 flex justify-between items-center mb-4">
+                <span class="text-gray-400 font-bold uppercase tracking-widest text-xs">Total to Pay:</span>
+                <span id="checkoutTotalDisplay" class="text-xl font-bold text-primary"></span>
+            </div>
+
+            <button type="submit" class="w-full bg-white text-black font-bold py-4 rounded-xl hover:scale-[1.02] transition-transform text-sm shadow-xl flex items-center justify-center gap-2">
+                <span id="payBtnText">Pay Securely Now</span>
+                <span class="material-symbols-outlined text-sm">lock</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- 4. ADMIN UPLOAD/EDIT MODAL -->
 <div id="adminModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-[#1a1a1a] p-6 md:p-8 rounded-3xl w-full max-w-lg border border-white/10 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto">
         <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
@@ -180,11 +305,9 @@
         <h3 id="adminModalTitle" class="text-2xl font-bold text-white mb-6">Add Product</h3>
         
         <form id="uploadForm" onsubmit="handleUpload(event)" class="space-y-4">
-            <!-- Hidden Input to track if we are editing or creating -->
             <input type="hidden" id="editingProductId" value="">
 
             <div class="border-2 border-dashed border-white/20 rounded-xl p-6 text-center hover:border-primary transition-colors relative group">
-                <!-- Removed 'required' so editing works without re-uploading -->
                 <input id="prodImages" type="file" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                 <span class="material-symbols-outlined text-4xl text-gray-500 group-hover:text-primary transition-colors">add_photo_alternate</span>
                 <p class="text-sm text-gray-400 mt-2">Click to select images (Max 6)</p>
@@ -227,57 +350,7 @@
     </div>
 </div>
 
-<!-- 2. PRODUCT DETAILS MODAL -->
-<div id="detailsModal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md overflow-y-auto">
-    <div class="min-h-screen md:h-auto md:max-w-5xl md:mx-auto md:my-10 bg-card-bg md:rounded-3xl flex flex-col md:flex-row relative border border-white/10 shadow-2xl">
-        <button onclick="closeDetailsModal()" class="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-red-600 transition-colors">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <!-- Left: Gallery -->
-        <div class="w-full md:w-1/2 bg-black flex flex-col">
-            <div class="h-[35vh] md:h-[500px] w-full flex items-center justify-center p-4 relative">
-                <img id="detailMainImg" src="" class="max-h-full max-w-full object-contain">
-            </div>
-            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto no-scrollbar bg-[#050505] h-24 shrink-0 border-t border-white/5"></div>
-        </div>
-        <!-- Right: Info -->
-        <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
-            <div class="mb-auto">
-                <span id="detailCategory" class="px-3 py-1 bg-white/5 border border-white/10 text-[10px] font-bold rounded uppercase tracking-wider text-gray-300"></span>
-                <h2 id="detailName" class="text-2xl md:text-3xl font-black text-white mt-4 mb-2 leading-tight"></h2>
-                <p id="detailPrice" class="text-xl md:text-2xl font-bold text-primary mb-6"></p>
-                <div class="w-full h-px bg-white/10 mb-6"></div>
-                <p id="detailDesc" class="text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
-            </div>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 pt-6 border-t border-white/5">
-                <button id="btnChat" class="py-3.5 rounded-xl border border-green-600 text-green-500 font-bold flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-all text-sm">
-                    <span class="material-symbols-outlined text-lg">chat</span> Enquire
-                </button>
-                <button id="btnBuy" class="py-3.5 rounded-xl bg-primary text-black font-bold flex items-center justify-center gap-2 hover:bg-white transition-all shadow-lg shadow-primary/20 text-sm">
-                    Buy Now
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 3. PAYMENT MODAL -->
-<div id="purchaseModal" class="fixed inset-0 z-[120] hidden bg-black/90 flex items-center justify-center p-4">
-    <div class="bg-[#1a1a1a] p-6 rounded-3xl w-full max-w-md border border-white/10 shadow-2xl relative">
-        <button onclick="document.getElementById('purchaseModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400"><span class="material-symbols-outlined">close</span></button>
-        <div class="text-center mb-6 mt-2">
-            <h3 class="text-xl font-bold text-white">Checkout</h3>
-            <p class="text-xs text-gray-500 mt-1">Pay securely via Wallet or Card.</p>
-        </div>
-        <form onsubmit="handlePayment(event)" class="space-y-4">
-            <input id="custName" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Full Name">
-            <input id="custEmail" type="email" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-white outline-none focus:border-primary text-sm" placeholder="Email Address">
-            <button type="submit" class="w-full bg-white text-black font-bold py-3.5 rounded-xl hover:scale-[1.02] transition-transform text-sm mt-2">Proceed to Pay</button>
-        </form>
-    </div>
-</div>
-
-<!-- 4. INFO MODAL (Policies, Sitemap) -->
+<!-- 5. INFO MODAL (Policies, Sitemap) -->
 <div id="infoModal" class="fixed inset-0 z-[150] hidden bg-black/95 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-[#111118] w-full max-w-2xl rounded-2xl border border-white/10 flex flex-col max-h-[80vh]">
         <div class="p-6 border-b border-white/10 flex justify-between items-center">
@@ -295,16 +368,26 @@
     const _supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
     const PAYSTACK_KEY = 'pk_live_15a8f0ba85a4b1385f86738cec4ffa4bb606f616'; 
 
-    let allProducts =[];
+    let allProducts = [];
     let currentProduct = null;
+    let cart =[];
 
-    // 1. INIT
+    // --- 1. INIT ---
     window.onload = async function() {
+        // Load cart
+        const savedCart = localStorage.getItem('kw_cart');
+        if(savedCart) {
+            cart = JSON.parse(savedCart);
+            updateCartBadge();
+        }
+
+        // File input listener
         document.getElementById('prodImages').addEventListener('change', function(){
             const count = this.files.length;
             document.getElementById('fileCount').innerText = count > 0 ? count + " files selected" : "Leave empty to keep existing images";
         });
 
+        // Load Database
         try {
             const { data, error } = await _supabase.from('products').select('*').order('created_at', { ascending: false });
             document.getElementById('loading').classList.add('hidden');
@@ -318,7 +401,7 @@
         } catch(e) { console.error(e); }
     };
 
-    // 2. RENDER CARDS (Responsive Compact UI)
+    // --- 2. RENDER GRID ---
     function renderProducts(products) {
         const grid = document.getElementById('productGrid');
         grid.innerHTML = '';
@@ -333,25 +416,22 @@
         }
 
         products.forEach(prod => {
-            const img = prod.image_url && prod.image_url.length > 0 ? prod.image_url[0] : '';
+            const img = prod.image_url && prod.image_url.length > 0 ? prod.image_url[0] : 'https://via.placeholder.com/300?text=No+Image';
             const price = Number(prod.price).toLocaleString();
             
             const html = `
                 <article class="group bg-card-bg rounded-2xl p-3 md:p-4 border border-white/5 hover:border-primary/50 transition-all cursor-pointer fade-in relative" onclick="openDetailsModal('${prod.id}')">
                     
-                    <!-- ADMIN ACTIONS (Edit & Delete) -->
+                    <!-- Admin Edit & Delete -->
                     <div class="absolute top-2 right-2 z-20 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onclick="openEditModal('${prod.id}'); event.stopPropagation();" title="Edit" class="bg-blue-600 text-white p-1.5 md:p-2 rounded-full shadow-lg hover:bg-blue-500"><span class="material-symbols-outlined text-[12px] md:text-sm">edit</span></button>
-                        <button onclick="deleteProduct('${prod.id}'); event.stopPropagation();" title="Delete" class="bg-red-600 text-white p-1.5 md:p-2 rounded-full shadow-lg hover:bg-red-500"><span class="material-symbols-outlined text-[12px] md:text-sm">delete</span></button>
+                        <button onclick="openEditModal('${prod.id}'); event.stopPropagation();" class="bg-blue-600 text-white p-1.5 md:p-2 rounded-full shadow-lg hover:bg-blue-500"><span class="material-symbols-outlined text-[12px] md:text-sm">edit</span></button>
+                        <button onclick="deleteProduct('${prod.id}'); event.stopPropagation();" class="bg-red-600 text-white p-1.5 md:p-2 rounded-full shadow-lg hover:bg-red-500"><span class="material-symbols-outlined text-[12px] md:text-sm">delete</span></button>
                     </div>
 
-                    <!-- IMAGE -->
                     <div class="aspect-square bg-[#050505] rounded-xl overflow-hidden mb-3 relative">
                         <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute top-2 left-2 bg-black/70 backdrop-blur text-white text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded uppercase">${prod.category}</div>
                     </div>
-                    
-                    <!-- INFO -->
                     <div class="flex flex-col flex-1">
                         <h3 class="text-white font-bold text-sm md:text-base line-clamp-1 mb-1">${prod.name}</h3>
                         <p class="text-primary font-bold text-sm md:text-lg">₦${price}</p>
@@ -362,7 +442,20 @@
         });
     }
 
-    // 3. PRODUCT DETAILS MODAL
+    // --- 3. FILTER ---
+    function filterProducts(cat) {
+        document.querySelectorAll('.cat-btn').forEach(b => { 
+            b.classList.remove('bg-white', 'text-black', 'border-transparent'); 
+            b.classList.add('border-white/20', 'text-gray-300', 'bg-transparent'); 
+        });
+        event.target.classList.add('bg-white', 'text-black', 'border-transparent');
+        event.target.classList.remove('border-white/20', 'text-gray-300', 'bg-transparent');
+        
+        if(cat === 'All') renderProducts(allProducts);
+        else renderProducts(allProducts.filter(p => p.category === cat));
+    }
+
+    // --- 4. DETAILS & CART ---
     function openDetailsModal(id) {
         currentProduct = allProducts.find(p => p.id === id);
         if(!currentProduct) return;
@@ -371,6 +464,7 @@
         document.getElementById('detailPrice').innerText = "₦" + Number(currentProduct.price).toLocaleString();
         document.getElementById('detailCategory').innerText = currentProduct.category;
         document.getElementById('detailDesc').innerText = currentProduct.description;
+        document.getElementById('detailQty').value = 1;
         
         const images = currentProduct.image_url ||[];
         const mainImg = document.getElementById('detailMainImg');
@@ -378,39 +472,163 @@
         
         if(images.length > 0) mainImg.src = images[0];
         thumbs.innerHTML = '';
-        
         images.forEach(src => {
-            const t = document.createElement('img');
-            t.src = src;
+            const t = document.createElement('img'); t.src = src;
             t.className = "h-full w-16 md:w-20 object-cover rounded-lg border border-white/20 cursor-pointer hover:border-primary transition-all";
             t.onclick = () => mainImg.src = src;
             thumbs.appendChild(t);
         });
 
-        document.getElementById('btnChat').onclick = () => contactWhatsapp(currentProduct.name, currentProduct.price);
-        document.getElementById('btnBuy').onclick = () => document.getElementById('purchaseModal').classList.remove('hidden');
+        document.getElementById('btnChat').onclick = () => {
+            window.open(`https://wa.me/2349032473005?text=Hello Kingdom Wealth, is ${currentProduct.name} available?`, '_blank');
+        };
+        
+        document.getElementById('btnAddCart').onclick = () => {
+            const qty = parseInt(document.getElementById('detailQty').value) || 1;
+            addToCart(currentProduct, qty);
+            closeDetailsModal();
+            openCartModal();
+        };
+
         document.getElementById('detailsModal').classList.remove('hidden');
     }
-
     function closeDetailsModal() { document.getElementById('detailsModal').classList.add('hidden'); }
 
-    // 4. ADMIN ACTIONS (Upload & Edit)
+    // --- 5. CART LOGIC ---
+    function addToCart(product, qty) {
+        const existing = cart.find(item => item.product.id === product.id);
+        if(existing) { existing.qty += qty; } else { cart.push({ product, qty }); }
+        localStorage.setItem('kw_cart', JSON.stringify(cart));
+        updateCartBadge();
+    }
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        localStorage.setItem('kw_cart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems();
+    }
+    function updateCartBadge() {
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        document.getElementById('cartCountBadge').innerText = count;
+    }
+    function openCartModal() {
+        renderCartItems();
+        document.getElementById('cartModal').classList.remove('hidden');
+    }
+    function closeCartModal() { document.getElementById('cartModal').classList.add('hidden'); }
+    function renderCartItems() {
+        const container = document.getElementById('cartItemsContainer');
+        let total = 0;
+        container.innerHTML = '';
+        if(cart.length === 0) {
+            container.innerHTML = '<p class="text-gray-500 text-center mt-10">Your cart is empty.</p>';
+            document.getElementById('cartSubtotal').innerText = '₦0';
+            return;
+        }
+        cart.forEach((item, index) => {
+            const itemTotal = item.product.price * item.qty;
+            total += itemTotal;
+            const img = item.product.image_url && item.product.image_url.length > 0 ? item.product.image_url[0] : '';
+            container.innerHTML += `
+                <div class="flex gap-4 items-center bg-black/30 p-3 rounded-xl border border-white/5">
+                    <img src="${img}" class="size-16 rounded-lg object-cover bg-black">
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-white line-clamp-1">${item.product.name}</h4>
+                        <p class="text-primary font-bold text-sm">₦${Number(item.product.price).toLocaleString()} <span class="text-gray-500 text-xs font-normal">x${item.qty}</span></p>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-400 p-2"><span class="material-symbols-outlined text-sm">delete</span></button>
+                </div>
+            `;
+        });
+        document.getElementById('cartSubtotal').innerText = `₦${total.toLocaleString()}`;
+    }
+
+    // --- 6. CHECKOUT & PAYSTACK ---
+    let checkoutTotalAmount = 0;
+    function openCheckoutModal() {
+        if(cart.length === 0) return alert("Cart is empty!");
+        checkoutTotalAmount = cart.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
+        document.getElementById('checkoutTotalDisplay').innerText = `₦${checkoutTotalAmount.toLocaleString()}`;
+        closeCartModal();
+        document.getElementById('checkoutModal').classList.remove('hidden');
+    }
+    function closeCheckoutModal() { document.getElementById('checkoutModal').classList.add('hidden'); }
+
+    function handlePayment(e) {
+        e.preventDefault();
+        
+        const btn = document.querySelector('#checkoutModal button[type="submit"]');
+        const txt = document.getElementById('payBtnText');
+        if(txt) txt.innerText = "Initializing...";
+        btn.disabled = true;
+
+        if (typeof PaystackPop === 'undefined') {
+            alert("Paystack failed to load. Check internet.");
+            btn.disabled = false;
+            return;
+        }
+
+        const name = document.getElementById('chkName').value;
+        const email = document.getElementById('chkEmail').value;
+        const phone = document.getElementById('chkPhone').value;
+        const delivery = document.getElementById('chkDelivery').value;
+        const billing = document.getElementById('chkBilling').value;
+
+        let handler = PaystackPop.setup({
+            key: PAYSTACK_KEY,
+            email: email, 
+            amount: checkoutTotalAmount * 100, // Kobo
+            currency: 'NGN',
+            callback: async function(response) {
+                const orderId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+                const trackId = 'TRK-' + Math.floor(100000 + Math.random() * 900000);
+
+                try {
+                    await _supabase.from('physical_orders').insert([{
+                        order_id: orderId, tracking_id: trackId, customer_name: name, customer_email: email,
+                        phone: phone, delivery_address: delivery, billing_address: billing,
+                        cart_items: cart, total_amount: checkoutTotalAmount, payment_reference: response.reference, status: 'Processing'
+                    }]);
+
+                    // CLEAR CART
+                    cart =[];
+                    localStorage.removeItem('kw_cart');
+                    updateCartBadge();
+
+                    // REDIRECT TO WHATSAPP
+                    const msg = `*NEW ORDER ALERT* 🚀\n\nOrder ID: ${orderId}\nTracking ID: ${trackId}\nName: ${name}\nTotal: ₦${checkoutTotalAmount.toLocaleString()}\n\nPayment successful! I am waiting for my delivery.`;
+                    const waUrl = `https://wa.me/2349032473005?text=${encodeURIComponent(msg)}`;
+                    
+                    alert(`Payment Successful!\n\nOrder ID: ${orderId}\nTracking ID: ${trackId}\n\nYou will now be redirected to WhatsApp to confirm delivery.`);
+                    closeCheckoutModal();
+                    window.location.href = waUrl; 
+                } catch (err) {
+                    console.error(err);
+                    alert("Payment successful but error saving order. Reference: " + response.reference);
+                }
+            },
+            onClose: function() { 
+                alert('Transaction cancelled.'); 
+                if(txt) txt.innerText = "Pay Securely Now";
+                btn.disabled = false;
+            }
+        });
+        handler.openIframe();
+    }
+
+    // --- 7. ADMIN FUNCTIONS ---
     function openAdminLogin() {
         if(prompt("Admin Password:") === "KW9032473005") {
-            // Reset form for NEW upload
             document.getElementById('uploadForm').reset();
             document.getElementById('editingProductId').value = '';
             document.getElementById('adminModalTitle').innerText = 'Add New Product';
             document.getElementById('fileCount').innerText = '';
             document.getElementById('adminModal').classList.remove('hidden');
-        } else {
-            alert("Access Denied.");
-        }
+        } else alert("Access Denied.");
     }
 
     function openEditModal(id) {
         if(prompt("Admin Password:") !== "KW9032473005") return alert("Access Denied.");
-        
         const prod = allProducts.find(p => p.id === id);
         if(!prod) return;
 
@@ -428,14 +646,13 @@
     async function handleUpload(e) {
         e.preventDefault();
         const { data: { user } } = await _supabase.auth.getUser();
-        if(!user || user.email !== "dben61168@gmail.com") return alert("Security Alert: Unauthorized.");
+        const MY_ADMIN = "dben61168@gmail.com"; 
+        if (!user || user.email !== MY_ADMIN) return alert("Unauthorized.");
 
         const btn = document.getElementById('uploadIcon').parentElement;
         const txt = document.getElementById('uploadText');
         const icon = document.getElementById('uploadIcon');
-        txt.innerText = "Saving...";
-        icon.classList.add("animate-spin");
-        btn.disabled = true;
+        txt.innerText = "Saving..."; icon.classList.add("animate-spin"); btn.disabled = true;
 
         const editId = document.getElementById('editingProductId').value;
         const name = document.getElementById('prodName').value;
@@ -446,84 +663,48 @@
 
         try {
             let imageUrls =[];
-
-            // If user selected new images, upload them
             if (files.length > 0) {
-                if(files.length > 6) throw new Error("Maximum 6 images allowed.");
+                if(files.length > 6) throw new Error("Max 6 images.");
                 for(let i=0; i<files.length; i++) {
                     const file = files[i];
-                    const fileExt = file.name.split('.').pop();
+                    const ext = file.name.split('.').pop();
                     const cleanName = file.name.replace(/[^a-zA-Z0-9]/g, '-');
-                    const fileName = `${Date.now()}_${i}_${cleanName}.${fileExt}`;
-                    
-                    const { error: imgError } = await _supabase.storage.from('product-images').upload(fileName, file, { cacheControl: '3600', upsert: false });
+                    const fileName = `${Date.now()}_${i}_${cleanName}.${ext}`;
+                    const { error: imgError } = await _supabase.storage.from('product-images').upload(fileName, file);
                     if(imgError) throw imgError;
-                    
-                    const { data: urlData } = _supabase.storage.from('product-images').getPublicUrl(fileName);
-                    imageUrls.push(urlData.publicUrl);
+                    const { data } = _supabase.storage.from('product-images').getPublicUrl(fileName);
+                    imageUrls.push(data.publicUrl);
                 }
-            } else if (!editId) {
-                // If it's a NEW product, images are required
-                throw new Error("Please select at least one image.");
-            }
+            } else if (!editId) { throw new Error("Select at least one image."); }
 
             let dbError;
-
             if (editId) {
-                // UPDATE existing product
                 const updateData = { name, price, category, description: desc };
-                if (imageUrls.length > 0) updateData.image_url = imageUrls; // Only overwrite images if new ones selected
-                
+                if (imageUrls.length > 0) updateData.image_url = imageUrls;
                 const res = await _supabase.from('products').update(updateData).eq('id', editId);
                 dbError = res.error;
             } else {
-                // INSERT new product
-                const res = await _supabase.from('products').insert([{
-                    name, price, category, description: desc, image_url: imageUrls
-                }]);
+                const res = await _supabase.from('products').insert([{ name, price, category, description: desc, image_url: imageUrls }]);
                 dbError = res.error;
             }
 
             if(dbError) throw dbError;
-            alert(editId ? "Product Updated Successfully!" : "Product Uploaded Successfully!");
+            alert(editId ? "Updated!" : "Uploaded!");
             location.reload(); 
-
-        } catch (err) {
-            alert("Action Failed: " + err.message);
-        } finally {
-            txt.innerText = "Save Product";
-            icon.classList.remove("animate-spin");
-            btn.disabled = false;
-        }
+        } catch (err) { alert("Failed: " + err.message); } 
+        finally { txt.innerText = "Save Product"; icon.classList.remove("animate-spin"); btn.disabled = false; }
     }
 
     async function deleteProduct(id) {
-        if(!confirm("Are you sure you want to permanently delete this product?")) return;
+        if(!confirm("Permanently delete?")) return;
         if(prompt("Admin Password:") !== "KW9032473005") return alert("Denied");
         await _supabase.from('products').delete().eq('id', id);
         location.reload();
     }
 
-    // 5. UTILS & OTHERS
-    function filterProducts(cat) {
-        document.querySelectorAll('.cat-btn').forEach(b => { 
-            b.classList.remove('bg-white', 'text-black', 'border-transparent'); 
-            b.classList.add('border-white/20', 'text-gray-300', 'bg-transparent'); 
-        });
-        event.target.classList.add('bg-white', 'text-black', 'border-transparent');
-        event.target.classList.remove('border-white/20', 'text-gray-300', 'bg-transparent');
-        
-        if(cat === 'All') renderProducts(allProducts);
-        else renderProducts(allProducts.filter(p => p.category === cat));
-    }
-
-    function contactWhatsapp(name, price) {
-        window.open(`https://wa.me/2349032473005?text=Hello Kingdom Wealth, is ${name} (₦${price}) available?`, '_blank');
-    }
-
+    // --- 8. MISC ---
     function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
 
-    // Info Modals
     function openInfoModal(type) {
         const title = document.getElementById('infoTitle');
         const content = document.getElementById('infoContent');
@@ -531,34 +712,17 @@
 
         if(type === 'privacy') {
             title.innerText = "Privacy Policy";
-            content.innerHTML = `<p><strong>1. Data Collection:</strong> We collect minimal data to process orders.</p><p><strong>2. Security:</strong> All data is encrypted via Supabase.</p>`;
+            content.innerHTML = `<p><strong>1. Data Collection:</strong> We collect info to process orders.</p><p><strong>2. Security:</strong> Encrypted via Supabase.</p>`;
         } else if(type === 'terms') {
             title.innerText = "Terms & Conditions";
-            content.innerHTML = `<p><strong>1. Returns:</strong> Gadgets have a 7-day warranty for factory defects.</p><p><strong>2. Payments:</strong> All payments are processed securely.</p>`;
+            content.innerHTML = `<p><strong>1. Returns:</strong> 7-day warranty for defects.</p><p><strong>2. Payments:</strong> Secured via Paystack.</p>`;
         } else if(type === 'shipping') {
             title.innerText = "Shipping Policy";
-            content.innerHTML = `<p><strong>Lagos:</strong> 24-48 Hours Delivery.</p><p><strong>Nationwide:</strong> 3-5 Business Days.</p>`;
+            content.innerHTML = `<p><strong>Lagos:</strong> 24-48 Hours.</p><p><strong>Nationwide:</strong> 3-5 Days.</p>`;
         } else if(type === 'sitemap') {
             title.innerText = "Sitemap";
-            content.innerHTML = `<ul class="space-y-2"><li><a href="code.html" class="text-primary hover:underline">Home</a></li><li><a href="digital-store.html" class="text-primary hover:underline">Digital Store</a></li><li><a href="services.html" class="text-primary hover:underline">Services</a></li></ul>`;
+            content.innerHTML = `<ul class="space-y-2"><li><a href="code.html" class="text-primary">Home</a></li><li><a href="digital-store.html" class="text-primary">Digital Store</a></li></ul>`;
         }
-    }
-
-    // Payment Logic
-    async function handlePayment(e) {
-        e.preventDefault();
-        const email = document.getElementById('custEmail').value;
-        const name = document.getElementById('custName').value;
-        const price = Number(currentProduct.price);
-        
-        let handler = PaystackPop.setup({
-            key: PAYSTACK_KEY,
-            email: email, amount: price * 100, currency: 'NGN',
-            metadata: { custom_fields:[{ display_name: "Customer", value: name }, { display_name: "Product", value: currentProduct.name }] },
-            callback: function(r){ alert('Success! Ref: '+r.reference); closeDetailsModal(); document.getElementById('purchaseModal').classList.add('hidden'); },
-            onClose: function(){ alert('Cancelled'); }
-        });
-        handler.openIframe();
     }
 </script>
 </body>
